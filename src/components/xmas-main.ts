@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+// eslint-disable-next-line import/extensions
 import { property, customElement } from 'lit/decorators.js';
 
 import './popup-image';
@@ -64,7 +65,6 @@ export class xmasMain extends LitElement {
   `;
 
   render() {
-    console.log(this._page);
     if (this._page === 'image')
       return html` <xmas-image
         .cardData=${this.cardData[this._side]}
