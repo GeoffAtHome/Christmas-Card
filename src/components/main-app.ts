@@ -103,7 +103,7 @@ export class MainApp extends connect(store)(LitElement) {
     // Anything that's related to rendering should be done in here.
     return html`
       <xmas-main
-        .cardData=${Card2023}
+        .xmasCard=${Card2023}
         ._page=${this._page}
         ._side=${this._side}
         ._index=${this._index}

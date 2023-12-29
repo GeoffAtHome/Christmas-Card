@@ -17,10 +17,11 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
   },
   "dependencies": {
+    "@lit/context": "^1.1.0",
     "@polymer/polymer": "^3.5.1",
     "@pwabuilder/pwainstall": "^1.6.7",
     "@pwabuilder/pwaupdate": "^0.2.1",
-    "lit": "^2.5.0",
+    "lit": "^3.0.0",
     "material-components-web": "^14.0.0",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.2.0",

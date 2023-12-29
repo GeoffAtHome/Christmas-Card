@@ -1,25 +1,22 @@
 import { LitElement, html, css } from 'lit';
+import { provide } from '@lit/context';
+
 // eslint-disable-next-line import/extensions
 import { property, customElement } from 'lit/decorators.js';
 
-import './popup-image';
-import './xmas-card';
-import './xmas-image';
-import { CardSide, XmasCardData } from './card-type';
+import { xmasCardContext, XmasCardData } from './carddata-context';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
-  @property({ type: Object })
-  private cardData!: XmasCardData;
-
   @property({ type: String })
   private _page = '';
 
-  @property({ type: String })
-  private _side: CardSide = 'front';
-
   @property({ type: Number })
   private _index = 0;
+
+  @provide({ context: xmasCardContext })
+  @property({ type: Object })
+  xmasCard!: XmasCardData;
 
   static styles = css`
     :host {
@@ -55,7 +52,7 @@ export class xmasMain extends LitElement {
     }
 
     .app-footer {
-      font-size: calc(12px + 0.5vmin);
+      font-size: calc(12px + 0.5v min);
       align-items: center;
     }
 
@@ -66,21 +63,16 @@ export class xmasMain extends LitElement {
 
   render() {
     if (this._page === 'image')
-      return html` <xmas-image
-        .cardData=${this.cardData[this._side]}
-        .index=${this._index}
-      ></xmas-image>`;
+      return html` <xmas-image .index=${this._index}></xmas-image>`;
 
     return html` <popup-image></popup-image>
       <xmas-card
-        .cardData=${this.cardData.front}
         side="front"
-        style="width: ${this.cardData.front.cardGrid.width}px"
+        style="width: ${this.xmasCard.front.cardGrid.width}px"
       ></xmas-card>
       <xmas-card
-        .cardData=${this.cardData.back}
         side="back"
-        style="width: ${this.cardData.back.cardGrid.width}px"
+        style="width: ${this.xmasCard.back.cardGrid.width}px"
       ></xmas-card>`;
   }
 }

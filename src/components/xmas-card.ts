@@ -9,42 +9,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css, TemplateResult } from 'lit';
+import { consume } from '@lit/context';
+
 // eslint-disable-next-line import/extensions
 import { customElement, property } from 'lit/decorators.js';
 import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardItem, CardData, CardSide } from './card-type';
+import { CardItem, CardSide } from './card-type';
+import { type XmasCardData, xmasCardContext } from './carddata-context';
 import { popupImage, popupMouseMove } from '../actions/app';
 import { store } from '../store';
 
+import './popup-image';
+
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
+  @consume({ context: xmasCardContext })
   @property({ type: Object })
-  private cardData!: CardData;
+  public xmasCardData!: XmasCardData;
 
   @property({ type: String })
   private side: CardSide = 'front';
 
   protected render() {
-    return html`
-      <p>${this.cardData.cardGrid.title}</p>
-      <map id="imageMap" name="imageMap">
-        ${this.cardData.cardData.map((item, index) =>
-          this.addArea(item, index)
-        )}
-      </map>
-      <div>
-        <img
-          src="src/images/${this.cardData.cardGrid.image}"
-          alt="${this.cardData.cardGrid.title}"
-          width="${this.cardData.cardGrid.width}"
-          height="${this.cardData.cardGrid.height}"
-          usemap="#imageMap"
-        />
-      </div>
-    `;
+    if (this.xmasCardData !== undefined)
+      return html`
+        <p>${this.xmasCardData[this.side].cardGrid.title}</p>
+        <map id="imageMap" name="imageMap">
+          ${this.xmasCardData[this.side].cardData.map((item, index) =>
+            this.addArea(item, index)
+          )}
+        </map>
+        <div>
+          <img
+            src="src/images/${this.xmasCardData[this.side].cardGrid.image}"
+            alt="${this.xmasCardData[this.side].cardGrid.title}"
+            width="${this.xmasCardData[this.side].cardGrid.width}"
+            height="${this.xmasCardData[this.side].cardGrid.height}"
+            usemap="#imageMap"
+          />
+        </div>
+      `;
+    return html``;
   }
 
   addArea(entry: CardItem, index: number): TemplateResult {
@@ -53,11 +61,13 @@ export class XmasCard extends connect(store)(LitElement) {
     let width = xPos + entry.width;
     let height = yPos + entry.height;
 
-    if (entry.posX < this.cardData.cardGrid.xGrid) {
+    if (entry.posX < this.xmasCardData[this.side].cardGrid.xGrid) {
       const factorX =
-        this.cardData.cardGrid.width / this.cardData.cardGrid.xGrid;
+        this.xmasCardData[this.side].cardGrid.width /
+        this.xmasCardData[this.side].cardGrid.xGrid;
       const factorY =
-        this.cardData.cardGrid.height / this.cardData.cardGrid.yGrid;
+        this.xmasCardData[this.side].cardGrid.height /
+        this.xmasCardData[this.side].cardGrid.yGrid;
       xPos = entry.posX * factorX;
       yPos = entry.posY * factorY;
       width = xPos + factorX * entry.width;
@@ -78,8 +88,10 @@ export class XmasCard extends connect(store)(LitElement) {
     const target = event.target as any;
     const index = Number(target.getAttribute('index'));
 
-    const currentImage = `src/images/${this.cardData.cardGrid.smallImagePrefix}${this.cardData.cardData[index].imageNumber}.png`;
-    const currentText = this.cardData.cardData[index].title;
+    const currentImage = `src/images/${
+      this.xmasCardData[this.side].cardGrid.smallImagePrefix
+    }${this.xmasCardData[this.side].cardData[index].imageNumber}.png`;
+    const currentText = this.xmasCardData[this.side].cardData[index].title;
 
     store.dispatch(popupImage(currentImage, currentText));
   }

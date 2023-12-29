@@ -9,34 +9,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html, css, LitElement } from 'lit';
+import { consume } from '@lit/context';
+
 // eslint-disable-next-line import/extensions
 import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardData } from './card-type';
+import { CardSide } from './card-type';
+import { xmasCardContext, XmasCardData } from './carddata-context';
 
 @customElement('xmas-image')
 export class XmasImage extends LitElement {
+  @consume({ context: xmasCardContext })
   @property({ type: Object })
-  private cardData!: CardData;
+  public xmasCardData!: XmasCardData;
+
+  @property({ type: String })
+  private side: CardSide = 'front';
 
   @property({ type: Number })
   private index = 0;
 
   protected render() {
-    if (this.index !== -1)
+    if (this.xmasCardData[this.side].cardData[this.index] !== undefined)
       return html`
-        <p>${this.cardData.cardData[this.index].title}</p>
+        <p>${this.xmasCardData[this.side].cardData[this.index].title}</p>
         <a href="#card">
           <img
-            src="src/images/${this.cardData.cardGrid.largeImagePrefix}${this
-              .cardData.cardData[this.index].imageNumber}.png"
-            alt="${this.cardData.cardData[this.index].title}"
+            src="src/images/${this.xmasCardData[this.side].cardGrid
+              .largeImagePrefix}${this.xmasCardData[this.side].cardData[
+              this.index
+            ].imageNumber}.png"
+            alt="${this.xmasCardData[this.side].cardData[this.index].title}"
           />
         </a>
       `;
-    return html``;
+    return html` <a href="#card"><p>Image not found</p></a>`;
   }
 
   static get styles() {
