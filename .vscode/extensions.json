@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "rvest.vs-code-prettier-eslint",
+    "mattpocock.ts-error-translator",
+    "streetsidesoftware.code-spell-checker",
+    "msjsdiag.debugger-for-edge",
+    "pushqrdx.inline-html",
+    "runem.lit-plugin",
+    "ms-edgedevtools.vscode-edge-devtools",
+    "christian-kohler.npm-intellisense",
+    "pwabuilder.pwa-studio",
+    "jcoc611.vsconnect"
+  ]
+}

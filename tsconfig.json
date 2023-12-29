@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "es2020",
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "strict": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "outDir": "out-tsc",
+    "rootDir": "./",
+    "types": ["mocha"]
+  },
+  "include": ["**/*.ts"]
+}
