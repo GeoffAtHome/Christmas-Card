@@ -15,10 +15,9 @@ import { customElement, property } from 'lit/decorators.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { CardData } from './card-type';
-import { PageViewElement } from './page-view-element';
 
 @customElement('xmas-image')
-export class XmasImage extends PageViewElement {
+export class XmasImage extends LitElement {
   @property({ type: Object })
   private cardData!: CardData;
 
@@ -26,14 +25,18 @@ export class XmasImage extends PageViewElement {
   private index = 0;
 
   protected render() {
-    return html`
-      <p>${this.cardData.cardData[this.index].title}</p>
-      <img
-        src="src/images/${this.cardData.cardGrid.largeImagePrefix}${this
-          .cardData.cardData[this.index].imageNumber}.png"
-        alt="${this.cardData.cardData[this.index].title}"
-      />
-    `;
+    if (this.index !== -1)
+      return html`
+        <p>${this.cardData.cardData[this.index].title}</p>
+        <a href="#card">
+          <img
+            src="src/images/${this.cardData.cardGrid.largeImagePrefix}${this
+              .cardData.cardData[this.index].imageNumber}.png"
+            alt="${this.cardData.cardData[this.index].title}"
+          />
+        </a>
+      `;
+    return html``;
   }
 
   static get styles() {
@@ -41,14 +44,10 @@ export class XmasImage extends PageViewElement {
       SharedStyles,
       css`
         :host {
-          display: none;
+          display: block;
           text-align: center;
           width: 100%;
           height: auto;
-        }
-
-        :host([active]) {
-          display: block;
         }
 
         p {

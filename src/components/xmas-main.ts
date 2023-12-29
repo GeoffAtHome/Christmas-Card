@@ -1,15 +1,24 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 
-import './main-app';
-import './user-login';
+import './popup-image';
+import './xmas-card';
+import './xmas-image';
+import { CardSide, XmasCardData } from './card-type';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
-  @property({ type: String }) title = 'My app';
+  @property({ type: Object })
+  private cardData!: XmasCardData;
 
-  @property({ type: Boolean })
-  private _loggedIn: boolean = false;
+  @property({ type: String })
+  private _page = '';
+
+  @property({ type: String })
+  private _side: CardSide = 'front';
+
+  @property({ type: Number })
+  private _index = 0;
 
   static styles = css`
     :host {
@@ -55,8 +64,23 @@ export class xmasMain extends LitElement {
   `;
 
   render() {
-    return this._loggedIn
-      ? html`<my-app></my-app>`
-      : html`<user-login></user-login>`;
+    console.log(this._page);
+    if (this._page === 'image')
+      return html` <xmas-image
+        .cardData=${this.cardData[this._side]}
+        .index=${this._index}
+      ></xmas-image>`;
+
+    return html` <popup-image></popup-image>
+      <xmas-card
+        .cardData=${this.cardData.front}
+        side="front"
+        style="width: ${this.cardData.front.cardGrid.width}px"
+      ></xmas-card>
+      <xmas-card
+        .cardData=${this.cardData.back}
+        side="back"
+        style="width: ${this.cardData.back.cardGrid.width}px"
+      ></xmas-card>`;
   }
 }

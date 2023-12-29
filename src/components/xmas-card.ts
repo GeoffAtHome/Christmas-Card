@@ -8,25 +8,24 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 // eslint-disable-next-line import/extensions
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardItem, CardData } from './card-type';
-import { PageViewElement } from './page-view-element';
+import { CardItem, CardData, CardSide } from './card-type';
 import { popupImage, popupMouseMove } from '../actions/app';
 import { store } from '../store';
 
 @customElement('xmas-card')
-export class XmasCard extends connect(store)(PageViewElement) {
+export class XmasCard extends connect(store)(LitElement) {
   @property({ type: Object })
   private cardData!: CardData;
 
   @property({ type: String })
-  private side: 'front' | 'back' = 'front';
+  private side: CardSide = 'front';
 
   protected render() {
     return html`
@@ -100,14 +99,10 @@ export class XmasCard extends connect(store)(PageViewElement) {
       SharedStyles,
       css`
         :host {
-          display: none;
+          display: block;
           text-align: center;
           width: 100%;
           height: auto;
-        }
-
-        :host([active]) {
-          display: inline;
         }
 
         p {

@@ -23,13 +23,13 @@ import { store, RootState } from '../store';
 
 // These are the actions needed by this element.
 import { navigate, updateOffline, updateDrawerState } from '../actions/app';
-import './popup-image';
 
 // These are the elements needed by this element.
 import { Card2023 } from './xmas-2023';
 
 import '@pwabuilder/pwainstall';
 import '@pwabuilder/pwaupdate';
+import './xmas-main';
 import './snack-bar';
 import { CardSide } from './card-type';
 
@@ -102,24 +102,12 @@ export class MainApp extends connect(store)(LitElement) {
   protected render() {
     // Anything that's related to rendering should be done in here.
     return html`
-      <popup-image></popup-image>
-      <xmas-image
-        ?active="${this._page === 'image'}"
-        .cardData=${Card2023[this._side]}
-        .index=${this._index}
-      ></xmas-image>
-      <xmas-card
-        ?active="${this._page === 'card'}"
-        .cardData=${Card2023.front}
-        side="front"
-        style="width: ${Card2023.front.cardGrid.width}px"
-      ></xmas-card>
-      <xmas-card
-        ?active="${this._page === 'card'}"
-        .cardData=${Card2023.back}
-        side="back"
-        style="width: ${Card2023.back.cardGrid.width}px"
-      ></xmas-card>
+      <xmas-main
+        .cardData=${Card2023}
+        ._page=${this._page}
+        ._side=${this._side}
+        ._index=${this._index}
+      ></xmas-main>
       <snack-bar ?active="${this._snackbarOpened}">
         ${this._message}.
       </snack-bar>
