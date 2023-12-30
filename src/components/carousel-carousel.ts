@@ -31,6 +31,10 @@ function getMaxElHeight(els: HTMLElement[]): number {
   return Math.max(0, ...els.map(el => el.getBoundingClientRect().height));
 }
 
+function getMaxElWidth(els: HTMLElement[]): number {
+  return Math.max(0, ...els.map(el => el.getBoundingClientRect().width));
+}
+
 function hideSlide(el: HTMLElement) {
   el.classList.add('slide-hidden');
 }
@@ -59,7 +63,6 @@ export class CarouselCarousel extends LitElement {
       display: flex;
       flex-direction: row;
       align-items: center;
-      min-width: 500px;
       text-align: center;
     }
 
@@ -88,6 +91,8 @@ export class CarouselCarousel extends LitElement {
 
   @state() private containerHeight = 0;
 
+  @state() private containerWidth = 0;
+
   @queryAssignedElements() private readonly slideElements!: HTMLElement[];
 
   /**
@@ -99,7 +104,8 @@ export class CarouselCarousel extends LitElement {
 
   override render() {
     const containerStyles = {
-      height: `${this.containerHeight}px`,
+      height: `100vh`, // `${this.containerHeight}px`,
+      width: `${this.containerWidth}px`,
     };
 
     return html`<slide-button
@@ -125,6 +131,8 @@ export class CarouselCarousel extends LitElement {
 
   override firstUpdated() {
     this.containerHeight = getMaxElHeight(this.slideElements);
+    this.containerWidth = getMaxElWidth(this.slideElements);
+
     this.initializeSlides();
   }
 

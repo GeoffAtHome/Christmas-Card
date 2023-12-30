@@ -5,6 +5,8 @@ import { provide } from '@lit/context';
 import { property, customElement } from 'lit/decorators.js';
 
 import { xmasCardContext, XmasCardData } from './carddata-context';
+import { store } from '../store';
+import { showSnackbar } from '../actions/app';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
@@ -63,7 +65,10 @@ export class xmasMain extends LitElement {
 
   render() {
     if (this._page === 'image')
-      return html` <xmas-image .index=${this._index}></xmas-image>`;
+      return html` <xmas-image
+        .index=${this._index}
+        @mousemove=${this.mouseMove}
+      ></xmas-image>`;
 
     return html` <popup-image></popup-image>
       <xmas-card
@@ -74,5 +79,10 @@ export class xmasMain extends LitElement {
         side="back"
         style="width: ${this.xmasCard.back.cardGrid.width}px"
       ></xmas-card>`;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  mouseMove() {
+    store.dispatch(showSnackbar());
   }
 }

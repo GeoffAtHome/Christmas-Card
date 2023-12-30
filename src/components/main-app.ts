@@ -30,7 +30,6 @@ import { Card2023 } from './xmas-2023';
 import '@pwabuilder/pwainstall';
 import '@pwabuilder/pwaupdate';
 import './xmas-main';
-import './snack-bar';
 import { CardSide } from './card-type';
 
 function _BackButtonClicked() {
@@ -50,12 +49,6 @@ export class MainApp extends connect(store)(LitElement) {
 
   @property({ type: String })
   private _side: CardSide = 'front';
-
-  @property({ type: Boolean })
-  private _snackbarOpened = false;
-
-  @property({ type: String })
-  private _message: string = '';
 
   private startX: number = 0;
 
@@ -108,9 +101,6 @@ export class MainApp extends connect(store)(LitElement) {
         ._side=${this._side}
         ._index=${this._index}
       ></xmas-main>
-      <snack-bar ?active="${this._snackbarOpened}">
-        ${this._message}.
-      </snack-bar>
       <pwa-install></pwa-install>
       <pwa-update offlineToastDuration="0" swpath="sw.js"></pwa-update>
     `;
@@ -138,8 +128,6 @@ export class MainApp extends connect(store)(LitElement) {
   stateChanged(state: RootState) {
     this._index = state.app!.index;
     this._side = state.app!.side;
-    this._message = state.app!.message;
-    this._snackbarOpened = state.app!.snackbarOpened;
     this._page = state.app!.page;
   }
 
