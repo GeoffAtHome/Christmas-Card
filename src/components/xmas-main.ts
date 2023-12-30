@@ -68,6 +68,7 @@ export class xmasMain extends LitElement {
       return html` <xmas-image
         .index=${this._index}
         @mousemove=${this.mouseMove}
+        @keypress=${this.keyPress}
       ></xmas-image>`;
 
     return html` <popup-image></popup-image>
@@ -82,7 +83,12 @@ export class xmasMain extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  mouseMove() {
+  mouseMove(_mouse: MouseEvent) {
     store.dispatch(showSnackbar());
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  keyPress(key: KeyboardEvent) {
+    console.log(key.key);
   }
 }

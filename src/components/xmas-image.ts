@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, LitElement, PropertyValueMap } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { connect } from 'pwa-helpers';
 import { consume } from '@lit/context';
 
@@ -17,7 +17,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardItem, CardSide } from './card-type';
+import { CardSide } from './card-type';
 import { xmasCardContext, XmasCardData } from './carddata-context';
 import './carousel-carousel';
 import './snack-bar';
@@ -26,7 +26,6 @@ import {
   BOOTSTRAP_CHEVRON_RIGHT,
 } from './carousel-constants';
 import { store, RootState } from '../store';
-import { PageViewElement } from './page-view-element';
 import { showSnackbar } from '../actions/app';
 
 @customElement('xmas-image')
@@ -77,31 +76,8 @@ export class XmasImage extends connect(store)(LitElement) {
     return html` <a href="#card"><p>Image not found</p></a>`;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  addItems(_item: CardItem, index: number) {
-    return html`
-      <a href="#card">
-        <img
-          src="src/images/${this.xmasCardData[this.side].cardGrid
-            .largeImagePrefix}${this.xmasCardData[this.side].cardData[index]
-            .imageNumber}.png"
-          alt="${this.xmasCardData[this.side].cardData[index].title}"
-          width="auto"
-          loading="eager"
-        />
-      </a>
-    `;
-  }
-
   stateChanged(state: RootState) {
     this._snackbarOpened = state.app!.snackbarOpened;
-  }
-
-  drawCarouselTemplate() {
-    const items = this.xmasCardData[this.side].cardData;
-    return html`<carousel-carousel>
-      ${items.map((item, index) => this.addItems(item, index))}
-    </carousel-carousel>`;
   }
 
   protected render() {
@@ -113,29 +89,19 @@ export class XmasImage extends connect(store)(LitElement) {
       SharedStyles,
       css`
         :host {
-          display: block;
-          text-align: center;
+          display: grid;
+          place-items: center;
           width: 100vw;
           height: 100vh;
+          max-height: 100%;
           max-width: 100%;
-          max-height: 100vh;
         }
 
         img {
-          max-width: 100%;
-          max-height: 100%;
+          max-width: 99vw;
+          max-height: 99vh;
         }
 
-        p {
-          position: fixed;
-          top: 90%;
-          left: 0;
-          right: 0;
-          padding: 12px;
-          background-color: var(--app-secondary-color);
-
-          text-align: center;
-        }
         #left-button {
           display: none;
           position: fixed;
