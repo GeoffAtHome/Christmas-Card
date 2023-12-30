@@ -4,12 +4,12 @@
   "display": "fullscreen",
   "name": "Christmas card",
   "short_name": "Christmas card",
-  "scope": "/",
+  "scope": "/Xmas",
   "lang": "en",
   "description": "Christmas card",
   "theme_color": "#3f51b5",
   "background_color": "#3f51b5",
-  "start_url": "https:/soord.org.uk/",
+  "start_url": "https:/soord.org.uk/Xmas",
   "icons": [
     {
       "src": "icons/71x71-icon.png",

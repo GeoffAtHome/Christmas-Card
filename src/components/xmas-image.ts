@@ -49,9 +49,17 @@ export class XmasImage extends connect(store)(LitElement) {
         <slide-button
           id="left-button"
           @click=${this.navigateToPrevSlide}
-          ?active="${this._snackbarOpened}"
+          ?active="${this._snackbarOpened && this.index !== 0}"
         >
           ${BOOTSTRAP_CHEVRON_LEFT}
+        </slide-button>
+        <slide-button
+          id="right-button"
+          @click=${this.navigateToNextSlide}
+          ?active="${this._snackbarOpened &&
+          this.index < this.xmasCardData[this.side].cardData.length - 1}"
+        >
+          ${BOOTSTRAP_CHEVRON_RIGHT}
         </slide-button>
         <a href="#card">
           <img
@@ -62,13 +70,6 @@ export class XmasImage extends connect(store)(LitElement) {
             alt="${this.xmasCardData[this.side].cardData[this.index].title}"
           />
         </a>
-        <slide-button
-          id="right-button"
-          @click=${this.navigateToNextSlide}
-          ?active="${this._snackbarOpened}"
-        >
-          ${BOOTSTRAP_CHEVRON_RIGHT}
-        </slide-button>
         <snack-bar ?active="${this._snackbarOpened}">
           ${this.xmasCardData[this.side].cardData[this.index].title}
         </snack-bar>
@@ -107,6 +108,11 @@ export class XmasImage extends connect(store)(LitElement) {
           position: fixed;
           top: 50%;
           left: 10%;
+          box-shadow: var(
+            --carousel-box-shadow,
+            #293198 0.2em 0.2em 0.4em,
+            #ceffff -0.1em -0.1em 0.2em
+          );
         }
 
         #right-button {
@@ -114,6 +120,11 @@ export class XmasImage extends connect(store)(LitElement) {
           position: fixed;
           top: 50%;
           right: 10%;
+          box-shadow: var(
+            --carousel-box-shadow,
+            #293198 0.2em 0.2em 0.4em,
+            #ceffff -0.1em -0.1em 0.2em
+          );
         }
 
         #right-button[active],

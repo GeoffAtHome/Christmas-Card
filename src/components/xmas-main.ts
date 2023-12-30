@@ -13,6 +13,9 @@ export class xmasMain extends LitElement {
   @property({ type: String })
   private _page = '';
 
+  @property({ type: String })
+  private _side = '';
+
   @property({ type: Number })
   private _index = 0;
 
@@ -66,7 +69,8 @@ export class xmasMain extends LitElement {
   render() {
     if (this._page === 'image')
       return html` <xmas-image
-        .index=${this._index}
+        .index=${Number(this._index)}
+        .side=${this._side}
         @mousemove=${this.mouseMove}
         @keypress=${this.keyPress}
       ></xmas-image>`;
