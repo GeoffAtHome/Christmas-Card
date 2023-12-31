@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { Reducer } from 'redux';
+
 import {
   UPDATE_PAGE,
   UPDATE_OFFLINE,
@@ -18,9 +19,12 @@ import {
   NOTIFY_MESSAGE,
   POPUP_IMAGE,
   POPUP_MOUSEMOVE,
+  FILE_LOAD_FULFILLED,
 } from '../actions/app';
 import { RootAction } from '../store';
-import { CardSide } from '../components/card-type';
+import { CardSide, XmasCardData } from '../components/card-type';
+
+import { Card2023 } from '../../2023/xmas-2023';
 
 export interface AppState {
   year: string;
@@ -36,10 +40,11 @@ export interface AppState {
   yPos: number;
   currentImage: string;
   currentTitle: string;
+  xmasCardData: XmasCardData;
 }
 
 const INITIAL_STATE: AppState = {
-  year: '',
+  year: '2022',
   page: '',
   offline: false,
   message: '',
@@ -52,6 +57,7 @@ const INITIAL_STATE: AppState = {
   yPos: 0,
   currentImage: '',
   currentTitle: '',
+  xmasCardData: Card2023,
 };
 
 // eslint-disable-next-line default-param-last
@@ -64,6 +70,16 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
         page: action.page,
         side: action.side,
         index: action.index,
+      };
+
+    case FILE_LOAD_FULFILLED:
+      if (!action.payload)
+        return {
+          ...state,
+        };
+      return {
+        ...state,
+        xmasCardData: action.payload,
       };
 
     case POPUP_IMAGE:

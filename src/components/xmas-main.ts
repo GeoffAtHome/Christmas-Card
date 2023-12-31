@@ -8,9 +8,6 @@ import { xmasCardContext, XmasCardData } from './carddata-context';
 import { store } from '../store';
 import { showSnackbar } from '../actions/app';
 
-// These are the elements needed by this element.
-import { Card2023 } from '../../2023/xmas-2023';
-
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
   @property({ type: String })
@@ -27,7 +24,7 @@ export class xmasMain extends LitElement {
 
   @provide({ context: xmasCardContext })
   @property({ type: Object })
-  xmasCard: XmasCardData = Card2023;
+  xmasCard!: XmasCardData;
 
   static styles = css`
     :host {

@@ -11,13 +11,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* eslint-disable import/extensions */
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '../store';
-import { CardSide } from '../components/card-type';
+import { createAsyncAction } from 'redux-promise-middleware-actions';
+import { RootState, store } from '../store';
+import { CardSide, XmasCardData } from '../components/card-type';
+import { readFile } from '../components/myUtils';
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const POPUP_IMAGE = 'POPUP_IMAGE';
 export const POPUP_MOUSEMOVE = 'POPUP_MOUSEMOVE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
+export const FILE_LOAD = 'FILE_LOAD';
+export const FILE_LOAD_FULFILLED = 'FILE_LOAD_FULFILLED';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
@@ -28,6 +32,15 @@ export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
   side: CardSide;
   index: number;
 }
+export interface AppActionFileLoad extends Action<'FILE_LOAD'> {
+  year: string;
+}
+
+export interface AppActionFileLoadFulfilled
+  extends Action<'FILE_LOAD_FULFILLED'> {
+  payload: XmasCardData;
+}
+
 export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
   offline: boolean;
 }
@@ -52,6 +65,8 @@ export interface AppActionNotifyMessages extends Action<'NOTIFY_MESSAGE'> {
 }
 export type AppAction =
   | AppActionUpdatePage
+  | AppActionFileLoad
+  | AppActionFileLoadFulfilled
   | AppActionPopupImage
   | AppActionPopupMouseMove
   | AppActionUpdateOffline
@@ -73,6 +88,20 @@ const updatePage: ActionCreator<AppActionUpdatePage> = (
   page,
   side,
   index,
+});
+
+let xmasData: XmasCardData;
+
+const fileLoadFulfilled: ActionCreator<
+  AppActionFileLoadFulfilled
+> = payload => ({ type: FILE_LOAD_FULFILLED, payload });
+
+export const fileLoad = createAsyncAction('FILE_LOAD', async year => {
+  xmasData = (await readFile(year)) as XmasCardData;
+  store.dispatch(fileLoadFulfilled(xmasData));
+  return {
+    year,
+  };
 });
 
 export const popupImage: ActionCreator<AppActionPopupImage> = (

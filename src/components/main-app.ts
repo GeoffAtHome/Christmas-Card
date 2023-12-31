@@ -22,15 +22,20 @@ import { installRouter } from 'pwa-helpers/router';
 import { store, RootState } from '../store';
 
 // These are the actions needed by this element.
-import { navigate, updateOffline, updateDrawerState } from '../actions/app';
+import {
+  navigate,
+  updateOffline,
+  updateDrawerState,
+  fileLoad,
+} from '../actions/app';
 
 // These are the elements needed by this element.
-import { Card2023 } from '../../2023/xmas-2023';
+// import { Card2023 } from '../../2023/xmas-2023';
 
 import '@pwabuilder/pwainstall';
 import '@pwabuilder/pwaupdate';
 import './xmas-main';
-import { CardSide } from './card-type';
+import { CardSide, XmasCardData } from './card-type';
 
 function _BackButtonClicked() {
   window.history.back();
@@ -42,10 +47,13 @@ export class MainApp extends connect(store)(LitElement) {
   private track: any;
 
   @property({ type: String })
-  private _page = '';
+  private _page = 'card';
 
   @property({ type: String })
   private _year = '2023';
+
+  @property({ type: Object })
+  private _xMasCardData!: XmasCardData;
 
   @property({ type: Number })
   private _index = 0;
@@ -99,7 +107,7 @@ export class MainApp extends connect(store)(LitElement) {
     // Anything that's related to rendering should be done in here.
     return html`
       <xmas-main
-        .xmasCard=${Card2023}
+        .xmasCard=${this._xMasCardData}
         ._year=${this._year}
         ._page=${this._page}
         ._side=${this._side}
@@ -133,7 +141,11 @@ export class MainApp extends connect(store)(LitElement) {
     this._index = state.app!.index;
     this._side = state.app!.side;
     this._page = state.app!.page;
-    this._year = state.app!.year;
+    if (this._year !== state.app!.year) {
+      this._year = state.app!.year;
+      store.dispatch(fileLoad(this._year));
+    }
+    this._xMasCardData = state.app!.xmasCardData;
   }
 
   handleStart(e: TouchEvent) {
