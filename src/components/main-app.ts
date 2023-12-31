@@ -25,7 +25,7 @@ import { store, RootState } from '../store';
 import { navigate, updateOffline, updateDrawerState } from '../actions/app';
 
 // These are the elements needed by this element.
-import { Card2023 } from './xmas-2023';
+import { Card2023 } from '../../2023/xmas-2023';
 
 import '@pwabuilder/pwainstall';
 import '@pwabuilder/pwaupdate';

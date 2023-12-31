@@ -45,6 +45,7 @@ export class SnackBar extends LitElement {
       @media (min-width: 320px) {
         :host {
           width: 800px;
+          max-width: 90vw;
           margin: auto;
         }
       }

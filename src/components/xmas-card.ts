@@ -44,7 +44,8 @@ export class XmasCard extends connect(store)(LitElement) {
         </map>
         <div>
           <img
-            src="src/images/${this.xmasCardData[this.side].cardGrid.image}"
+            src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
+              .cardGrid.image}"
             alt="${this.xmasCardData[this.side].cardGrid.title}"
             width="${this.xmasCardData[this.side].cardGrid.width}"
             height="${this.xmasCardData[this.side].cardGrid.height}"
@@ -88,7 +89,7 @@ export class XmasCard extends connect(store)(LitElement) {
     const target = event.target as any;
     const index = Number(target.getAttribute('index'));
 
-    const currentImage = `src/images/${
+    const currentImage = `${this.xmasCardData.images}/${
       this.xmasCardData[this.side].cardGrid.smallImagePrefix
     }${this.xmasCardData[this.side].cardData[index].imageNumber}.png`;
     const currentText = this.xmasCardData[this.side].cardData[index].title;

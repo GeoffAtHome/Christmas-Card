@@ -25,6 +25,8 @@ export interface CardData {
 }
 
 export interface XmasCardData {
+  year: string;
+  images: string;
   front: CardData;
   back: CardData;
 }

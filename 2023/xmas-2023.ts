@@ -8,9 +8,11 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { XmasCardData } from './card-type';
+import { XmasCardData } from '../src/components/card-type';
 
 export const Card2023: XmasCardData = {
+  year: '2023',
+  images: '2023/images',
   front: {
     cardGrid: {
       image: 'front.png',
