@@ -44,7 +44,7 @@ export interface AppState {
 }
 
 const INITIAL_STATE: AppState = {
-  year: '2022',
+  year: '2023',
   page: '',
   offline: false,
   message: '',
