@@ -35,6 +35,9 @@ export class XmasImage extends connect(store)(LitElement) {
   public xmasCardData!: XmasCardData;
 
   @property({ type: String })
+  private year = '';
+
+  @property({ type: String })
   private side: CardSide = 'front';
 
   @property({ type: Number })
@@ -61,7 +64,7 @@ export class XmasImage extends connect(store)(LitElement) {
         >
           ${BOOTSTRAP_CHEVRON_RIGHT}
         </slide-button>
-        <a href="#card">
+        <a href="#${this.year}#card">
           <img
             src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
               .cardGrid.largeImagePrefix}${this.xmasCardData[this.side]
@@ -73,7 +76,7 @@ export class XmasImage extends connect(store)(LitElement) {
           ${this.xmasCardData[this.side].cardData[this.index].title}
         </snack-bar>
       `;
-    return html` <a href="#card"><p>Image not found</p></a>`;
+    return html` <a href="#${this.year}#card"><p>Image not found</p></a>`;
   }
 
   stateChanged(state: RootState) {

@@ -44,6 +44,9 @@ export class MainApp extends connect(store)(LitElement) {
   @property({ type: String })
   private _page = '';
 
+  @property({ type: String })
+  private _year = '2023';
+
   @property({ type: Number })
   private _index = 0;
 
@@ -97,6 +100,7 @@ export class MainApp extends connect(store)(LitElement) {
     return html`
       <xmas-main
         .xmasCard=${Card2023}
+        ._year=${this._year}
         ._page=${this._page}
         ._side=${this._side}
         ._index=${this._index}
@@ -129,6 +133,7 @@ export class MainApp extends connect(store)(LitElement) {
     this._index = state.app!.index;
     this._side = state.app!.side;
     this._page = state.app!.page;
+    this._year = state.app!.year;
   }
 
   handleStart(e: TouchEvent) {

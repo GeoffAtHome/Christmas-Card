@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { provide } from '@lit/context';
 
 // eslint-disable-next-line import/extensions
@@ -8,8 +8,14 @@ import { xmasCardContext, XmasCardData } from './carddata-context';
 import { store } from '../store';
 import { showSnackbar } from '../actions/app';
 
+// These are the elements needed by this element.
+import { Card2023 } from '../../2023/xmas-2023';
+
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
+  @property({ type: String })
+  private _year = '';
+
   @property({ type: String })
   private _page = '';
 
@@ -21,7 +27,7 @@ export class xmasMain extends LitElement {
 
   @provide({ context: xmasCardContext })
   @property({ type: Object })
-  xmasCard!: XmasCardData;
+  xmasCard: XmasCardData = Card2023;
 
   static styles = css`
     :host {
@@ -69,6 +75,7 @@ export class xmasMain extends LitElement {
   render() {
     if (this._page === 'image')
       return html` <xmas-image
+        .year=${this._year}
         .index=${Number(this._index)}
         .side=${this._side}
         @mousemove=${this.mouseMove}

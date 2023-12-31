@@ -23,6 +23,7 @@ export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 export const NOTIFY_MESSAGE = 'NOTIFY_MESSAGE';
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
+  year: string;
   page: string;
   side: CardSide;
   index: number;
@@ -62,11 +63,13 @@ export type AppAction =
 type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>;
 
 const updatePage: ActionCreator<AppActionUpdatePage> = (
+  year: string,
   page: string,
   side: CardSide,
   index: number
 ) => ({
   type: UPDATE_PAGE,
+  year,
   page,
   side,
   index,
@@ -98,7 +101,7 @@ export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (
 });
 
 const loadPage: ActionCreator<ThunkResult> =
-  (page: string, side: string, index: number) => dispatch => {
+  (year: string, page: string, side: string, index: number) => dispatch => {
     switch (page) {
       case 'card':
         import('../components/xmas-card').then(() => {
@@ -117,21 +120,22 @@ const loadPage: ActionCreator<ThunkResult> =
         import('../components/my-view404');
     }
 
-    dispatch(updatePage(page, side, index));
+    dispatch(updatePage(year, page, side, index));
   };
 
 export const navigate: ActionCreator<ThunkResult> =
   (path: string) => dispatch => {
     // Extract the page name from path.
     const parts = path.split('#');
-    const page = parts.length === 1 ? 'card' : parts[1];
+    const year = parts.length === 1 ? '2023' : parts[1];
+    const page = parts.length === 1 ? 'card' : parts[2];
     const side: CardSide =
-      parts.length === 4 ? (parts[2] as CardSide) : 'front';
-    const index = parts.length === 4 ? parts[3] : -1;
+      parts.length === 5 ? (parts[3] as CardSide) : 'front';
+    const index = parts.length === 5 ? parts[4] : -1;
 
     // Any other info you might want to extract from the path (like page type),
     // you can do here
-    dispatch(loadPage(page, side, index));
+    dispatch(loadPage(year, page, side, index));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
     if (window.matchMedia('(max-width: 700px)').matches) {

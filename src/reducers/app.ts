@@ -23,6 +23,7 @@ import { RootAction } from '../store';
 import { CardSide } from '../components/card-type';
 
 export interface AppState {
+  year: string;
   page: string;
   offline: boolean;
   message: string;
@@ -38,6 +39,7 @@ export interface AppState {
 }
 
 const INITIAL_STATE: AppState = {
+  year: '',
   page: '',
   offline: false,
   message: '',
@@ -58,6 +60,7 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
     case UPDATE_PAGE:
       return {
         ...state,
+        year: action.year,
         page: action.page,
         side: action.side,
         index: action.index,

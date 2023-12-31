@@ -31,6 +31,9 @@ export class XmasCard extends connect(store)(LitElement) {
   public xmasCardData!: XmasCardData;
 
   @property({ type: String })
+  private year = '2023';
+
+  @property({ type: String })
   private side: CardSide = 'front';
 
   protected render() {
@@ -81,7 +84,7 @@ export class XmasCard extends connect(store)(LitElement) {
       @mouseleave=${this._HideImage}
       @mousemove=${this._moveMouse}
       coords="${xPos},${yPos},${width},${height}"
-      href="./#image#${this.side}#${index}"
+      href="#${this.year}#image#${this.side}#${index}"
     />`;
   }
 
