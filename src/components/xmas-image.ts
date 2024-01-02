@@ -46,6 +46,10 @@ export class XmasImage extends connect(store)(LitElement) {
   @property({ type: Boolean })
   private _snackbarOpened = false;
 
+  private startX: number = 0;
+
+  private startY: number = 0;
+
   mainTemplate() {
     if (this.xmasCardData[this.side].cardData[this.index] !== undefined)
       return html`
@@ -77,6 +81,11 @@ export class XmasImage extends connect(store)(LitElement) {
         </snack-bar>
       `;
     return html` <a href="#${this.year}#card"><p>Image not found</p></a>`;
+  }
+
+  protected firstUpdated() {
+    this.addEventListener('touchstart', this.handleStart, false);
+    this.addEventListener('touchend', this.handleEnd, false);
   }
 
   stateChanged(state: RootState) {
@@ -149,5 +158,22 @@ export class XmasImage extends connect(store)(LitElement) {
     // Animation driven by the `updated` lifecycle.
     if (this.index > 0) this.index -= 1;
     store.dispatch(showSnackbar());
+  }
+
+  handleStart(e: TouchEvent) {
+    this.startX = e.changedTouches[0].pageX;
+    this.startY = e.changedTouches[0].pageY;
+    store.dispatch(showSnackbar());
+    return true;
+  }
+
+  handleEnd(e: TouchEvent) {
+    const deltaX = e.changedTouches[0].pageX - this.startX;
+    const deltaY = Math.abs(e.changedTouches[0].pageY - this.startY);
+    if (deltaX > 100 && deltaY < 100) {
+      this.navigateToPrevSlide();
+    } else if (deltaX < -100 && deltaY < 100) {
+      this.navigateToNextSlide();
+    }
   }
 }
