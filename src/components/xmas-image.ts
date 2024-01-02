@@ -10,15 +10,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css, LitElement } from 'lit';
 import { connect } from 'pwa-helpers';
-import { consume } from '@lit/context';
 
 // eslint-disable-next-line import/extensions
 import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardSide } from './card-type';
-import { xmasCardContext, XmasCardData } from './carddata-context';
+import { CardSide, XmasCardData } from './card-type';
 import './carousel-carousel';
 import './snack-bar';
 import {
@@ -30,7 +28,6 @@ import { showSnackbar } from '../actions/app';
 
 @customElement('xmas-image')
 export class XmasImage extends connect(store)(LitElement) {
-  @consume({ context: xmasCardContext })
   @property({ type: Object })
   public xmasCardData!: XmasCardData;
 

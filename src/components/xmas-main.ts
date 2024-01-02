@@ -1,13 +1,11 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
-import { provide } from '@lit/context';
+import { LitElement, html, css } from 'lit';
 
 // eslint-disable-next-line import/extensions
 import { property, customElement } from 'lit/decorators.js';
 
-import { xmasCardContext, XmasCardData } from './carddata-context';
 import { store } from '../store';
 import { showSnackbar } from '../actions/app';
-import { CardSide } from './card-type';
+import { CardSide, XmasCardData } from './card-type';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
@@ -23,7 +21,6 @@ export class xmasMain extends LitElement {
   @property({ type: Number })
   private _index = 0;
 
-  @provide({ context: xmasCardContext })
   @property({ type: Object })
   xmasCard!: XmasCardData;
 
@@ -73,6 +70,7 @@ export class xmasMain extends LitElement {
   render() {
     if (this._page === 'image')
       return html` <xmas-image
+        .xmasCardData=${this.xmasCard}
         .year=${this._year}
         .index=${Number(this._index)}
         .side=${this._side}
@@ -83,6 +81,7 @@ export class xmasMain extends LitElement {
     if (this.xmasCard !== undefined)
       return html` <popup-image></popup-image>
         <xmas-card
+          .xmasCardData=${this.xmasCard}
           side=${this._side}
           .year=${this._year}
           style="width: ${this.xmasCard[this._side].cardGrid.width}px"

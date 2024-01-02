@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css, TemplateResult } from 'lit';
-import { consume } from '@lit/context';
 
 // eslint-disable-next-line import/extensions
 import { customElement, property } from 'lit/decorators.js';
@@ -17,8 +16,7 @@ import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardItem, CardSide } from './card-type';
-import { type XmasCardData, xmasCardContext } from './carddata-context';
+import { CardItem, CardSide, XmasCardData } from './card-type';
 import { popupImage, popupMouseMove } from '../actions/app';
 import { store } from '../store';
 
@@ -26,7 +24,6 @@ import './popup-image';
 
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
-  @consume({ context: xmasCardContext })
   @property({ type: Object })
   public xmasCardData!: XmasCardData;
 
@@ -40,8 +37,8 @@ export class XmasCard extends connect(store)(LitElement) {
     if (this.xmasCardData !== undefined)
       return html`
         <map id="imageMap" name="imageMap">
-          ${this.xmasCardData[this.side].cardData.map((item, index) =>
-            this.addArea(item, index)
+          ${this.xmasCardData![this.side].cardData.map(
+            (item: CardItem, index: number) => this.addArea(item, index)
           )}
         </map>
         <div>
