@@ -51,7 +51,10 @@ export class XmasImage extends connect(store)(LitElement) {
   private startY: number = 0;
 
   mainTemplate() {
-    if (this.xmasCardData[this.side].cardData[this.index] !== undefined)
+    if (
+      this.xmasCardData !== undefined &&
+      this.xmasCardData[this.side].cardData[this.index] !== undefined
+    )
       return html`
         <slide-button
           id="left-button"
@@ -64,20 +67,22 @@ export class XmasImage extends connect(store)(LitElement) {
           id="right-button"
           @click=${this.navigateToNextSlide}
           ?active="${this._snackbarOpened &&
-          this.index < this.xmasCardData[this.side].cardData.length - 1}"
+          this.index < this.xmasCardData![this.side].cardData.length - 1}"
         >
           ${BOOTSTRAP_CHEVRON_RIGHT}
         </slide-button>
         <a href="#${this.year}#card">
           <img
-            src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
-              .cardGrid.largeImagePrefix}${this.xmasCardData[this.side]
+            src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
+              .cardGrid.largeImagePrefix}${this.xmasCardData![this.side]
               .cardData[this.index].imageNumber}.png"
-            alt="${this.xmasCardData[this.side].cardData[this.index].title}"
+            alt="${this.xmasCardData![this.side].cardData[this.index].title}"
           />
         </a>
         <snack-bar ?active="${this._snackbarOpened}">
-          ${this.xmasCardData[this.side].cardData[this.index].title}
+          ${this.xmasCardData !== undefined
+            ? this.xmasCardData[this.side].cardData[this.index].title
+            : ''}
         </snack-bar>
       `;
     return html` <a href="#${this.year}#card"><p>Image not found</p></a>`;
@@ -147,11 +152,12 @@ export class XmasImage extends connect(store)(LitElement) {
   }
 
   navigateToNextSlide() {
-    // Animation driven by the `updated` lifecycle.
-    if (this.index + 1 < this.xmasCardData[this.side].cardData.length)
-      this.index += 1;
+    if (this.xmasCardData !== undefined) {
+      if (this.index + 1 < this.xmasCardData[this.side].cardData.length)
+        this.index += 1;
 
-    store.dispatch(showSnackbar());
+      store.dispatch(showSnackbar());
+    }
   }
 
   navigateToPrevSlide() {

@@ -24,8 +24,6 @@ import {
 import { RootAction } from '../store';
 import { CardSide, XmasCardData } from '../components/card-type';
 
-import { Card2023 } from '../../2023/xmas-2023';
-
 export interface AppState {
   year: string;
   page: string;
@@ -44,7 +42,7 @@ export interface AppState {
 }
 
 const INITIAL_STATE: AppState = {
-  year: '2023',
+  year: '',
   page: '',
   offline: false,
   message: '',
@@ -57,7 +55,7 @@ const INITIAL_STATE: AppState = {
   yPos: 0,
   currentImage: '',
   currentTitle: '',
-  xmasCardData: Card2023,
+  xmasCardData: undefined,
 };
 
 // eslint-disable-next-line default-param-last

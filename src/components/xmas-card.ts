@@ -39,7 +39,6 @@ export class XmasCard extends connect(store)(LitElement) {
   protected render() {
     if (this.xmasCardData !== undefined)
       return html`
-        <p>${this.xmasCardData[this.side].cardGrid.title}</p>
         <map id="imageMap" name="imageMap">
           ${this.xmasCardData[this.side].cardData.map((item, index) =>
             this.addArea(item, index)
@@ -65,13 +64,13 @@ export class XmasCard extends connect(store)(LitElement) {
     let width = xPos + entry.width;
     let height = yPos + entry.height;
 
-    if (entry.posX < this.xmasCardData[this.side].cardGrid.xGrid) {
+    if (entry.posX < this.xmasCardData![this.side].cardGrid.xGrid) {
       const factorX =
-        this.xmasCardData[this.side].cardGrid.width /
-        this.xmasCardData[this.side].cardGrid.xGrid;
+        this.xmasCardData![this.side].cardGrid.width /
+        this.xmasCardData![this.side].cardGrid.xGrid;
       const factorY =
-        this.xmasCardData[this.side].cardGrid.height /
-        this.xmasCardData[this.side].cardGrid.yGrid;
+        this.xmasCardData![this.side].cardGrid.height /
+        this.xmasCardData![this.side].cardGrid.yGrid;
       xPos = entry.posX * factorX;
       yPos = entry.posY * factorY;
       width = xPos + factorX * entry.width;
@@ -92,12 +91,14 @@ export class XmasCard extends connect(store)(LitElement) {
     const target = event.target as any;
     const index = Number(target.getAttribute('index'));
 
-    const currentImage = `${this.xmasCardData.images}/${
-      this.xmasCardData[this.side].cardGrid.smallImagePrefix
-    }${this.xmasCardData[this.side].cardData[index].imageNumber}.png`;
-    const currentText = this.xmasCardData[this.side].cardData[index].title;
+    if (this.xmasCardData !== undefined) {
+      const currentImage = `${this.xmasCardData.images}/${
+        this.xmasCardData[this.side].cardGrid.smallImagePrefix
+      }${this.xmasCardData[this.side].cardData[index].imageNumber}.png`;
+      const currentText = this.xmasCardData[this.side].cardData[index].title;
 
-    store.dispatch(popupImage(currentImage, currentText));
+      store.dispatch(popupImage(currentImage, currentText));
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

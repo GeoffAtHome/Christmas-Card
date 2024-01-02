@@ -7,6 +7,7 @@ import { property, customElement } from 'lit/decorators.js';
 import { xmasCardContext, XmasCardData } from './carddata-context';
 import { store } from '../store';
 import { showSnackbar } from '../actions/app';
+import { CardSide } from './card-type';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
@@ -17,7 +18,7 @@ export class xmasMain extends LitElement {
   private _page = '';
 
   @property({ type: String })
-  private _side = '';
+  private _side: CardSide = 'front';
 
   @property({ type: Number })
   private _index = 0;
@@ -79,15 +80,15 @@ export class xmasMain extends LitElement {
         @keypress=${this.keyPress}
       ></xmas-image>`;
 
-    return html` <popup-image></popup-image>
-      <xmas-card
-        side="front"
-        style="width: ${this.xmasCard.front.cardGrid.width}px"
-      ></xmas-card>
-      <xmas-card
-        side="back"
-        style="width: ${this.xmasCard.back.cardGrid.width}px"
-      ></xmas-card>`;
+    if (this.xmasCard !== undefined)
+      return html` <popup-image></popup-image>
+        <xmas-card
+          side=${this._side}
+          .year=${this._year}
+          style="width: ${this.xmasCard[this._side].cardGrid.width}px"
+        ></xmas-card>`;
+
+    return html``;
   }
 
   // eslint-disable-next-line class-methods-use-this

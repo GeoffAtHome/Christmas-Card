@@ -24,11 +24,13 @@ export interface CardData {
   cardData: Array<CardItem>;
 }
 
-export interface XmasCardData {
-  year: string;
-  images: string;
-  front: CardData;
-  back: CardData;
-}
+export type XmasCardData =
+  | {
+      year: string;
+      images: string;
+      front: CardData;
+      back: CardData;
+    }
+  | undefined;
 
 export type CardSide = 'front' | 'back';
