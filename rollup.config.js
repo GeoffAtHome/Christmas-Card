@@ -1,4 +1,5 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import copy from 'rollup-plugin-copy';
 import babel from '@rollup/plugin-babel';
 import html from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
@@ -79,6 +80,13 @@ export default {
       skipWaiting: true,
       clientsClaim: true,
       runtimeCaching: [{ urlPattern: 'polyfills/*.js', handler: 'CacheFirst' }],
+    }),
+    copy({
+      targets: [
+        { src: 'icons/**/*', dest: 'dist/icons' },
+        { src: 'manifest.json', dest: 'dist' },
+        { src: 'favicon.ico', dest: 'dist' },
+      ],
     }),
   ],
 };

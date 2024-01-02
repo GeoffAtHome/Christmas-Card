@@ -244,6 +244,8 @@ export class MainApp extends connect(store)(LitElement) {
     this._year = state.app!.year;
     this._xMasCardData = state.app!.xmasCardData;
     this._drawerOpened = state.app!.drawerOpened;
+    if (this._xMasCardData !== undefined)
+      document.title = this._xMasCardData[this._side].cardGrid.title;
   }
 
   handleStart(e: TouchEvent) {
