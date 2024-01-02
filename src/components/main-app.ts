@@ -81,6 +81,10 @@ export class MainApp extends connect(store)(LitElement) {
           --mdc-top-app-bar-width: calc(100% - var(--mdc-drawer-width));
         }
 
+        mwc-top-app-bar[active] {
+          display: none;
+        }
+
         .parent {
           display: grid;
           grid-template-rows: 1fr auto;
@@ -167,7 +171,7 @@ export class MainApp extends connect(store)(LitElement) {
         </div>
         <!-- Header -->
         <div slot="appContent">
-          <mwc-top-app-bar centerTitle>
+          <mwc-top-app-bar ?active="${this._page !== 'card'}" centerTitle>
             <div slot="title">
               ${this._xMasCardData !== undefined
                 ? this._xMasCardData[this._side].cardGrid.title
@@ -235,6 +239,7 @@ export class MainApp extends connect(store)(LitElement) {
     if (state.app!.year !== '' && this._year !== state.app!.year) {
       this._year = state.app!.year;
       store.dispatch(fileLoad(this._year));
+      store.dispatch(updateDrawerState(false));
     }
     this._year = state.app!.year;
     this._xMasCardData = state.app!.xmasCardData;

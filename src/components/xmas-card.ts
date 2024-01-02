@@ -113,14 +113,11 @@ export class XmasCard extends connect(store)(LitElement) {
       SharedStyles,
       css`
         :host {
-          display: block;
-          text-align: center;
+          display: grid;
+          place-items: center;
           width: 100%;
-          height: auto;
-        }
-
-        p {
-          text-align: center;
+          height: 90vh;
+          min-height: 90vh;
         }
       `,
     ];

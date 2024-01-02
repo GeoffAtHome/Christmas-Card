@@ -26,7 +26,8 @@ export class xmasMain extends LitElement {
 
   static styles = css`
     :host {
-      min-height: 100vh;
+      display: grid;
+      place-items: center;
       display: flex;
       flex-direction: column;
       align-items: center;
