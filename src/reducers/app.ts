@@ -20,6 +20,7 @@ import {
   POPUP_IMAGE,
   POPUP_MOUSEMOVE,
   FILE_LOAD_FULFILLED,
+  SWITCH_SIDE,
 } from '../actions/app';
 import { RootAction } from '../store';
 import { CardSide, XmasCardData } from '../components/card-type';
@@ -92,6 +93,12 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
         ...state,
         xPos: action.xPos,
         yPos: action.yPos,
+      };
+
+    case SWITCH_SIDE:
+      return {
+        ...state,
+        side: action.side,
       };
 
     case UPDATE_OFFLINE:

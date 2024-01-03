@@ -19,6 +19,7 @@ import { readFile } from '../components/myUtils';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const POPUP_IMAGE = 'POPUP_IMAGE';
 export const POPUP_MOUSEMOVE = 'POPUP_MOUSEMOVE';
+export const SWITCH_SIDE = 'SWITCH_SIDE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const FILE_LOAD = 'FILE_LOAD';
 export const FILE_LOAD_FULFILLED = 'FILE_LOAD_FULFILLED';
@@ -54,6 +55,10 @@ export interface AppActionPopupMouseMove extends Action<'POPUP_MOUSEMOVE'> {
   yPos: number;
 }
 
+export interface AppActionSwitchSide extends Action<'SWITCH_SIDE'> {
+  side: CardSide;
+}
+
 export interface AppActionUpdateDrawerState
   extends Action<'UPDATE_DRAWER_STATE'> {
   opened: boolean;
@@ -69,6 +74,7 @@ export type AppAction =
   | AppActionFileLoadFulfilled
   | AppActionPopupImage
   | AppActionPopupMouseMove
+  | AppActionSwitchSide
   | AppActionUpdateOffline
   | AppActionUpdateDrawerState
   | AppActionOpenSnackbar
@@ -120,6 +126,13 @@ export const popupMouseMove: ActionCreator<AppActionPopupMouseMove> = (
   type: POPUP_MOUSEMOVE,
   xPos,
   yPos,
+});
+
+export const switchSide: ActionCreator<AppActionSwitchSide> = (
+  side: CardSide
+) => ({
+  type: SWITCH_SIDE,
+  side,
 });
 
 export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (

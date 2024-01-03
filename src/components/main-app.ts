@@ -27,6 +27,7 @@ import {
   updateOffline,
   updateDrawerState,
   fileLoad,
+  switchSide,
 } from '../actions/app';
 
 // These are the elements needed by this element.
@@ -267,8 +268,9 @@ export class MainApp extends connect(store)(LitElement) {
   }
 
   private _SidesButtonClicked() {
-    if (this._side === 'front') this._side = 'back';
-    else this._side = 'front';
+    let side: CardSide = 'front';
+    if (this._side === 'front') side = 'back';
+    store.dispatch(switchSide(side));
   }
 
   private _menuButtonClicked() {

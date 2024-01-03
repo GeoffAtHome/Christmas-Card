@@ -82,7 +82,7 @@ export class XmasImage extends connect(store)(LitElement) {
             : ''}
         </snack-bar>
       `;
-    return html` <a href="#${this.year}#card"><p>Image not found</p></a>`;
+    return html` <a href="#${this.year}#card"><p>Image Loading....</p></a>`;
   }
 
   protected firstUpdated() {
