@@ -103,8 +103,9 @@ export class XmasImage extends connect(store)(LitElement) {
       SharedStyles,
       css`
         :host {
-          display: grid;
-          place-items: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           width: 100vw;
           height: 100vh;
           max-height: 100%;

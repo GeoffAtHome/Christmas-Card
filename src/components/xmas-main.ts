@@ -85,7 +85,6 @@ export class xmasMain extends LitElement {
           .xmasCardData=${this.xmasCard}
           side=${this._side}
           .year=${this._year}
-          style="width: ${this.xmasCard[this._side].cardGrid.width}px"
         ></xmas-card>`;
 
     return html``;

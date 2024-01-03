@@ -41,16 +41,12 @@ export class XmasCard extends connect(store)(LitElement) {
             (item: CardItem, index: number) => this.addArea(item, index)
           )}
         </map>
-        <div>
-          <img
-            src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
-              .cardGrid.image}"
-            alt="${this.xmasCardData[this.side].cardGrid.title}"
-            width="${this.xmasCardData[this.side].cardGrid.width}"
-            height="${this.xmasCardData[this.side].cardGrid.height}"
-            usemap="#imageMap"
-          />
-        </div>
+        <img
+          src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
+            .cardGrid.image}"
+          alt="${this.xmasCardData[this.side].cardGrid.title}"
+          usemap="#imageMap"
+        />
       `;
     return html``;
   }
@@ -113,11 +109,18 @@ export class XmasCard extends connect(store)(LitElement) {
       SharedStyles,
       css`
         :host {
-          display: grid;
-          place-items: center;
-          width: 100%;
-          height: 90vh;
-          min-height: 90vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100vw;
+          height: calc(100vh - 64px);
+          max-height: calc(100vh - 64px);
+          max-width: 100%;
+        }
+
+        img {
+          max-width: 99vw;
+          max-height: calc(100vh - 64px);
         }
       `,
     ];
