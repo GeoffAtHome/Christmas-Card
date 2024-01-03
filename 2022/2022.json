@@ -3,237 +3,237 @@
   "images": "2022/images",
   "front": {
     "cardGrid": {
-      "image": "L-0.png",
-      "title": "Christmas Card 2022",
-      "largeImagePrefix": "l-",
-      "smallImagePrefix": "s-",
-      "width": 1024,
-      "height": 682,
-      "xGrid": 6,
-      "yGrid": 4
+      "i": "L-0.png",
+      "t": "Christmas Card 2022",
+      "l": "l-",
+      "s": "s-",
+      "w": 1024,
+      "h": 682,
+      "x": 6,
+      "y": 4
     },
     "cardData": [
       {
-        "imageNumber": "20",
-        "posX": 690,
-        "posY": 480,
-        "width": 50,
-        "height": 30,
-        "title": "Christmas message 2022"
+        "i": "20",
+        "x": 690,
+        "y": 480,
+        "w": 50,
+        "h": 30,
+        "t": "Christmas message 2022"
       },
       {
-        "imageNumber": "1",
-        "posX": 0,
-        "posY": 0,
-        "width": 2,
-        "height": 1,
-        "title": "All aboard the express train - Beatrice, Malachi, Alison, Izora, Dakota and Aurora - Another park in Berlin"
+        "i": "1",
+        "x": 0,
+        "y": 0,
+        "w": 2,
+        "h": 1,
+        "t": "All aboard the express train - Beatrice, Malachi, Alison, Izora, Dakota and Aurora - Another park in Berlin"
       },
       {
-        "imageNumber": "2",
-        "posX": 2,
-        "posY": 0,
-        "width": 1,
-        "height": 1,
-        "title": "It's my birthday - Clas - Lisburn, Northern Irerland"
+        "i": "2",
+        "x": 2,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "t": "It's my birthday - Clas - Lisburn, Northern Irerland"
       },
       {
-        "imageNumber": "3",
-        "posX": 3,
-        "posY": 0,
-        "width": 1,
-        "height": 1,
-        "title": "First Holy Communion - Geoff and Stás - Holy Cross, Harlow"
+        "i": "3",
+        "x": 3,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "t": "First Holy Communion - Geoff and Stás - Holy Cross, Harlow"
       },
       {
-        "imageNumber": "4",
-        "posX": 4,
-        "posY": 0,
-        "width": 1,
-        "height": 1,
-        "title": "Best dad ever - Dad - Saville, Orkney"
+        "i": "4",
+        "x": 4,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "t": "Best dad ever - Dad - Saville, Orkney"
       },
       {
-        "imageNumber": "5",
-        "posX": 5,
-        "posY": 0,
-        "width": 1,
-        "height": 1,
-        "title": "Sunset canoeing - Geoff - Vässarö, Sweden"
+        "i": "5",
+        "x": 5,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "t": "Sunset canoeing - Geoff - Vässarö, Sweden"
       },
       {
-        "imageNumber": "6",
-        "posX": 0,
-        "posY": 1,
-        "width": 1,
-        "height": 1,
-        "title": "Circus bike skills - Aurora, Malachi and Dakota - Tempelhof, Berlin"
+        "i": "6",
+        "x": 0,
+        "y": 1,
+        "w": 1,
+        "h": 1,
+        "t": "Circus bike skills - Aurora, Malachi and Dakota - Tempelhof, Berlin"
       },
       {
-        "imageNumber": "7",
-        "posX": 1,
-        "posY": 1,
-        "width": 1,
-        "height": 1,
-        "title": "All together now - Izora, Aurora and Dakota - Another park in Berlin"
+        "i": "7",
+        "x": 1,
+        "y": 1,
+        "w": 1,
+        "h": 1,
+        "t": "All together now - Izora, Aurora and Dakota - Another park in Berlin"
       },
       {
-        "imageNumber": "8",
-        "posX": 2,
-        "posY": 1,
-        "width": 2,
-        "height": 1,
-        "title": "On the snake swing - Dakota, Aurora and Izora - Another park in Berlin"
+        "i": "8",
+        "x": 2,
+        "y": 1,
+        "w": 2,
+        "h": 1,
+        "t": "On the snake swing - Dakota, Aurora and Izora - Another park in Berlin"
       },
       {
-        "imageNumber": "9",
-        "posX": 4,
-        "posY": 1,
-        "width": 1,
-        "height": 1,
-        "title": "Rolling around for fun - Aurora and Izora - Tempelhof, Berlin"
+        "i": "9",
+        "x": 4,
+        "y": 1,
+        "w": 1,
+        "h": 1,
+        "t": "Rolling around for fun - Aurora and Izora - Tempelhof, Berlin"
       },
       {
-        "imageNumber": "10",
-        "posX": 5,
-        "posY": 1,
-        "width": 1,
-        "height": 1,
-        "title": "In the cairn - Geoff and Alison - Quoyness Chambered Cairn, Sanday, Orkney"
+        "i": "10",
+        "x": 5,
+        "y": 1,
+        "w": 1,
+        "h": 1,
+        "t": "In the cairn - Geoff and Alison - Quoyness Chambered Cairn, Sanday, Orkney"
       },
       {
-        "imageNumber": "11",
-        "posX": 0,
-        "posY": 2,
-        "width": 1,
-        "height": 1,
-        "title": "The big wheel - Ava and Emily, Izora and Richard - Parkend, Forest of Dean"
+        "i": "11",
+        "x": 0,
+        "y": 2,
+        "w": 1,
+        "h": 1,
+        "t": "The big wheel - Ava and Emily, Izora and Richard - Parkend, Forest of Dean"
       },
       {
-        "imageNumber": "12",
-        "posX": 1,
-        "posY": 2,
-        "width": 2,
-        "height": 1,
-        "title": "Visiting family - Alistair, Sarah and Alison - Fokestone Harbour Arm"
+        "i": "12",
+        "x": 1,
+        "y": 2,
+        "w": 2,
+        "h": 1,
+        "t": "Visiting family - Alistair, Sarah and Alison - Fokestone Harbour Arm"
       },
       {
-        "imageNumber": "13",
-        "posX": 3,
-        "posY": 2,
-        "width": 2,
-        "height": 1,
-        "title": "Sunset swim - Oxfordshire Scouts in Sweden - Vässarö"
+        "i": "13",
+        "x": 3,
+        "y": 2,
+        "w": 2,
+        "h": 1,
+        "t": "Sunset swim - Oxfordshire Scouts in Sweden - Vässarö"
       },
       {
-        "imageNumber": "14",
-        "posX": 5,
-        "posY": 2,
-        "width": 1,
-        "height": 1,
-        "title": "Nothing like a fresh pizza in the open - Alison, Izora, Emily and Ava - Cardiff, Wales"
+        "i": "14",
+        "x": 5,
+        "y": 2,
+        "w": 1,
+        "h": 1,
+        "t": "Nothing like a fresh pizza in the open - Alison, Izora, Emily and Ava - Cardiff, Wales"
       },
       {
-        "imageNumber": "15",
-        "posX": 0,
-        "posY": 3,
-        "width": 1,
-        "height": 1,
-        "title": "The big wheel - Ava and Emily - Parkend, Forest of Dean"
+        "i": "15",
+        "x": 0,
+        "y": 3,
+        "w": 1,
+        "h": 1,
+        "t": "The big wheel - Ava and Emily - Parkend, Forest of Dean"
       },
       {
-        "imageNumber": "16",
-        "posX": 1,
-        "posY": 3,
-        "width": 1,
-        "height": 1,
-        "title": "Practising to join the circus - Izora, Alison, Aurora and Malachi - Tempelhof, Berlin"
+        "i": "16",
+        "x": 1,
+        "y": 3,
+        "w": 1,
+        "h": 1,
+        "t": "Practising to join the circus - Izora, Alison, Aurora and Malachi - Tempelhof, Berlin"
       },
       {
-        "imageNumber": "17",
-        "posX": 2,
-        "posY": 3,
-        "width": 1,
-        "height": 1,
-        "title": "Cycling by the lake - Aurora, Dakota and Beatrice - Berlin"
+        "i": "17",
+        "x": 2,
+        "y": 3,
+        "w": 1,
+        "h": 1,
+        "t": "Cycling by the lake - Aurora, Dakota and Beatrice - Berlin"
       },
       {
-        "imageNumber": "18",
-        "posX": 3,
-        "posY": 3,
-        "width": 1,
-        "height": 1,
-        "title": "Volcano view - Alison - Portici, Naples"
+        "i": "18",
+        "x": 3,
+        "y": 3,
+        "w": 1,
+        "h": 1,
+        "t": "Volcano view - Alison - Portici, Naples"
       },
       {
-        "imageNumber": "19",
-        "posX": 4,
-        "posY": 3,
-        "width": 2,
-        "height": 1,
-        "title": "Cycling around Lisbon - Carla, Richard, Geoff and Alison - Arco da Rua Augusta, Lisbon"
+        "i": "19",
+        "x": 4,
+        "y": 3,
+        "w": 2,
+        "h": 1,
+        "t": "Cycling around Lisbon - Carla, Richard, Geoff and Alison - Arco da Rua Augusta, Lisbon"
       }
     ]
   },
   "back": {
     "cardGrid": {
-      "image": "BL-0.png",
-      "title": "Christmas Card 2023 back",
-      "largeImagePrefix": "bl-",
-      "smallImagePrefix": "bs-",
-      "width": 1024,
-      "height": 682,
-      "xGrid": 6,
-      "yGrid": 4
+      "i": "BL-0.png",
+      "t": "Christmas Card 2023 back",
+      "l": "bl-",
+      "s": "bs-",
+      "w": 1024,
+      "h": 682,
+      "x": 6,
+      "y": 4
     },
     "cardData": [
       {
-        "imageNumber": "1",
-        "posX": 0,
-        "posY": 0,
-        "width": 2,
-        "height": 2,
-        "title": "What a beautiful boy - Dakota - Deutsches Technikmuseum, Berlin"
+        "i": "1",
+        "x": 0,
+        "y": 0,
+        "w": 2,
+        "h": 2,
+        "t": "What a beautiful boy - Dakota - Deutsches Technikmuseum, Berlin"
       },
       {
-        "imageNumber": "3",
-        "posX": 4,
-        "posY": 0,
-        "width": 2,
-        "height": 2,
-        "title": "What a cute girl - Aurora - Deutsches Technikmuseum, Berlin"
+        "i": "3",
+        "x": 4,
+        "y": 0,
+        "w": 2,
+        "h": 2,
+        "t": "What a cute girl - Aurora - Deutsches Technikmuseum, Berlin"
       },
       {
-        "imageNumber": "2",
-        "posX": 2,
-        "posY": 0,
-        "width": 2,
-        "height": 2,
-        "title": "Estufa Fria Botanic gardens - Alison and Geoff - Lisbon"
+        "i": "2",
+        "x": 2,
+        "y": 0,
+        "w": 2,
+        "h": 2,
+        "t": "Estufa Fria Botanic gardens - Alison and Geoff - Lisbon"
       },
       {
-        "imageNumber": "4",
-        "posX": 0,
-        "posY": 2,
-        "width": 2,
-        "height": 2,
-        "title": "I love ice cream - Izora - Berlin"
+        "i": "4",
+        "x": 0,
+        "y": 2,
+        "w": 2,
+        "h": 2,
+        "t": "I love ice cream - Izora - Berlin"
       },
       {
-        "imageNumber": "5",
-        "posX": 2,
-        "posY": 2,
-        "width": 2,
-        "height": 2,
-        "title": "Balcony view looking out to Pequeno - Alison and Geoff - Lisbon"
+        "i": "5",
+        "x": 2,
+        "y": 2,
+        "w": 2,
+        "h": 2,
+        "t": "Balcony view looking out to Pequeno - Alison and Geoff - Lisbon"
       },
       {
-        "imageNumber": "6",
-        "posX": 4,
-        "posY": 2,
-        "width": 2,
-        "height": 2,
-        "title": "Lovely new hat - Ava - Barry, Wales"
+        "i": "6",
+        "x": 4,
+        "y": 2,
+        "w": 2,
+        "h": 2,
+        "t": "Lovely new hat - Ava - Barry, Wales"
       }
     ]
   }

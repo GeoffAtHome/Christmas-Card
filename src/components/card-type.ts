@@ -1,22 +1,22 @@
 // left => pos_x, top => pos_y, right => width, bottom => height
 export interface CardItem {
-  imageNumber: string;
-  posX: number;
-  posY: number;
-  width: number;
-  height: number;
-  title: string;
+  i: string; // imageNumber
+  x: number; // posX
+  y: number; // posY
+  w: number; // width
+  h: number; // height
+  t: string; // title
 }
 
 export interface CardGrid {
-  image: string;
-  title: string;
-  largeImagePrefix: string;
-  smallImagePrefix: string;
-  width: number;
-  height: number;
-  xGrid: number;
-  yGrid: number;
+  i: string; // image
+  t: string; // title
+  l: string; // largeImagePrefix
+  s: string; // smallImagePrefix
+  w: number; // width
+  h: number; // height
+  x: number; // xGrid
+  y: number; // yGrid
 }
 
 export interface CardData {

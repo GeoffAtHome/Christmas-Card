@@ -43,8 +43,8 @@ export class XmasCard extends connect(store)(LitElement) {
         </map>
         <img
           src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
-            .cardGrid.image}"
-          alt="${this.xmasCardData[this.side].cardGrid.title}"
+            .cardGrid.i}"
+          alt="${this.xmasCardData[this.side].cardGrid.t}"
           usemap="#imageMap"
         />
       `;
@@ -52,22 +52,22 @@ export class XmasCard extends connect(store)(LitElement) {
   }
 
   addArea(entry: CardItem, index: number): TemplateResult {
-    let xPos = entry.posX;
-    let yPos = entry.posY;
-    let width = xPos + entry.width;
-    let height = yPos + entry.height;
+    let xPos = entry.x;
+    let yPos = entry.y;
+    let width = xPos + entry.w;
+    let height = yPos + entry.h;
 
-    if (entry.posX < this.xmasCardData![this.side].cardGrid.xGrid) {
+    if (entry.x < this.xmasCardData![this.side].cardGrid.x) {
       const factorX =
-        this.xmasCardData![this.side].cardGrid.width /
-        this.xmasCardData![this.side].cardGrid.xGrid;
+        this.xmasCardData![this.side].cardGrid.w /
+        this.xmasCardData![this.side].cardGrid.x;
       const factorY =
-        this.xmasCardData![this.side].cardGrid.height /
-        this.xmasCardData![this.side].cardGrid.yGrid;
-      xPos = entry.posX * factorX;
-      yPos = entry.posY * factorY;
-      width = xPos + factorX * entry.width;
-      height = yPos + factorY * entry.height;
+        this.xmasCardData![this.side].cardGrid.h /
+        this.xmasCardData![this.side].cardGrid.y;
+      xPos = entry.x * factorX;
+      yPos = entry.y * factorY;
+      width = xPos + factorX * entry.w;
+      height = yPos + factorY * entry.h;
     }
     return html`<area
       shape="rect"
@@ -86,9 +86,9 @@ export class XmasCard extends connect(store)(LitElement) {
 
     if (this.xmasCardData !== undefined) {
       const currentImage = `${this.xmasCardData.images}/${
-        this.xmasCardData[this.side].cardGrid.smallImagePrefix
-      }${this.xmasCardData[this.side].cardData[index].imageNumber}.png`;
-      const currentText = this.xmasCardData[this.side].cardData[index].title;
+        this.xmasCardData[this.side].cardGrid.s
+      }${this.xmasCardData[this.side].cardData[index].i}.png`;
+      const currentText = this.xmasCardData[this.side].cardData[index].t;
 
       store.dispatch(popupImage(currentImage, currentText));
     }
@@ -115,6 +115,7 @@ export class XmasCard extends connect(store)(LitElement) {
           width: 100vw;
           height: calc(100vh - 64px);
           max-height: calc(100vh - 64px);
+          min-height: calc(100vh - 64px);
           max-width: 100%;
         }
 

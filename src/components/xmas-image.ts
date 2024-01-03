@@ -71,14 +71,14 @@ export class XmasImage extends connect(store)(LitElement) {
         <a href="#${this.year}#card">
           <img
             src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-              .cardGrid.largeImagePrefix}${this.xmasCardData![this.side]
-              .cardData[this.index].imageNumber}.png"
-            alt="${this.xmasCardData![this.side].cardData[this.index].title}"
+              .cardGrid.l}${this.xmasCardData![this.side].cardData[this.index]
+              .i}.png"
+            alt="${this.xmasCardData![this.side].cardData[this.index].t}"
           />
         </a>
         <snack-bar ?active="${this._snackbarOpened}">
           ${this.xmasCardData !== undefined
-            ? this.xmasCardData[this.side].cardData[this.index].title
+            ? this.xmasCardData[this.side].cardData[this.index].t
             : ''}
         </snack-bar>
       `;

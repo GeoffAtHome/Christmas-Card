@@ -174,7 +174,7 @@ export class MainApp extends connect(store)(LitElement) {
           <mwc-top-app-bar ?active="${this._page !== 'card'}" centerTitle>
             <div slot="title">
               ${this._xMasCardData !== undefined
-                ? this._xMasCardData[this._side].cardGrid.title
+                ? this._xMasCardData[this._side].cardGrid.t
                 : 'Loading...'}
             </div>
             <mwc-button
@@ -197,7 +197,7 @@ export class MainApp extends connect(store)(LitElement) {
           <div>
             <main id="track" role="main">
               <xmas-main
-                .xmasCard=${this._xMasCardData}
+                .xmasCardData=${this._xMasCardData}
                 ._year=${this._year}
                 ._page=${this._page}
                 ._side=${this._side}
@@ -245,7 +245,7 @@ export class MainApp extends connect(store)(LitElement) {
     this._xMasCardData = state.app!.xmasCardData;
     this._drawerOpened = state.app!.drawerOpened;
     if (this._xMasCardData !== undefined)
-      document.title = this._xMasCardData[this._side].cardGrid.title;
+      document.title = this._xMasCardData[this._side].cardGrid.t;
   }
 
   handleStart(e: TouchEvent) {

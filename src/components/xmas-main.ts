@@ -22,7 +22,7 @@ export class xmasMain extends LitElement {
   private _index = 0;
 
   @property({ type: Object })
-  xmasCard!: XmasCardData;
+  xmasCardData: XmasCardData;
 
   static styles = css`
     :host {
@@ -35,6 +35,7 @@ export class xmasMain extends LitElement {
       font-size: calc(10px + 2vmin);
       color: #1a2b42;
       max-width: 960px;
+      min-height: calc(100vh - 64px);
       margin: 0 auto;
       text-align: center;
       background-color: var(--hg-mirror-background-color);
@@ -71,7 +72,7 @@ export class xmasMain extends LitElement {
   render() {
     if (this._page === 'image')
       return html` <xmas-image
-        .xmasCardData=${this.xmasCard}
+        .xmasCardData=${this.xmasCardData}
         .year=${this._year}
         .index=${Number(this._index)}
         .side=${this._side}
@@ -79,10 +80,10 @@ export class xmasMain extends LitElement {
         @keypress=${this.keyPress}
       ></xmas-image>`;
 
-    if (this.xmasCard !== undefined)
+    if (this.xmasCardData !== undefined)
       return html` <popup-image></popup-image>
         <xmas-card
-          .xmasCardData=${this.xmasCard}
+          .xmasCardData=${this.xmasCardData}
           side=${this._side}
           .year=${this._year}
         ></xmas-card>`;
