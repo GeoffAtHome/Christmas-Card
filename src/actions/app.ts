@@ -169,11 +169,10 @@ export const navigate: ActionCreator<ThunkResult> =
   (path: string) => dispatch => {
     // Extract the page name from path.
     const parts = path.split('#');
-    const year = parts.length === 1 ? '2023' : parts[1];
-    const page = parts.length === 1 ? 'card' : parts[2];
-    const side: CardSide =
-      parts.length === 5 ? (parts[3] as CardSide) : 'front';
-    const index = parts.length === 5 ? parts[4] : -1;
+    const year = parts.length <= 1 ? '2023' : parts[1];
+    const page = parts.length <= 2 ? 'card' : parts[2];
+    const side: CardSide = parts.length <= 3 ? 'front' : (parts[3] as CardSide);
+    const index = parts.length <= 4 ? -1 : parts[4];
 
     // Any other info you might want to extract from the path (like page type),
     // you can do here

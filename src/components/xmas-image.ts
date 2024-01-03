@@ -68,7 +68,7 @@ export class XmasImage extends connect(store)(LitElement) {
         >
           ${BOOTSTRAP_CHEVRON_RIGHT}
         </slide-button>
-        <a href="#${this.year}#card">
+        <a href="#${this.year}#card#${this.side}">
           <img
             src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
               .cardGrid.l}${this.xmasCardData![this.side].cardData[this.index]
