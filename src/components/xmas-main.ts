@@ -91,12 +91,12 @@ export class xmasMain extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  mouseMove(_mouse: MouseEvent) {
+  private mouseMove(_mouse: MouseEvent) {
     store.dispatch(showSnackbar());
   }
 
   // eslint-disable-next-line class-methods-use-this
-  keyPress(key: KeyboardEvent) {
+  private keyPress(key: KeyboardEvent) {
     console.log(key.key);
   }
 }

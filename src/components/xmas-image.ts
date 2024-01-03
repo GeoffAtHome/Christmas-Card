@@ -149,7 +149,7 @@ export class XmasImage extends connect(store)(LitElement) {
     ];
   }
 
-  navigateToNextSlide() {
+  private navigateToNextSlide() {
     if (this.xmasCardData !== undefined) {
       if (this.index + 1 < this.xmasCardData[this.side].cardData.length)
         this.index += 1;
@@ -158,20 +158,20 @@ export class XmasImage extends connect(store)(LitElement) {
     }
   }
 
-  navigateToPrevSlide() {
+  private navigateToPrevSlide() {
     // Animation driven by the `updated` lifecycle.
     if (this.index > 0) this.index -= 1;
     store.dispatch(showSnackbar());
   }
 
-  handleStart(e: TouchEvent) {
+  private handleStart(e: TouchEvent) {
     this.startX = e.changedTouches[0].pageX;
     this.startY = e.changedTouches[0].pageY;
     store.dispatch(showSnackbar());
     return true;
   }
 
-  handleEnd(e: TouchEvent) {
+  private handleEnd(e: TouchEvent) {
     const deltaX = e.changedTouches[0].pageX - this.startX;
     const deltaY = Math.abs(e.changedTouches[0].pageY - this.startY);
     if (deltaX > 100 && deltaY < 100) {
@@ -179,5 +179,6 @@ export class XmasImage extends connect(store)(LitElement) {
     } else if (deltaX < -100 && deltaY < 100) {
       this.navigateToNextSlide();
     }
+    return true;
   }
 }

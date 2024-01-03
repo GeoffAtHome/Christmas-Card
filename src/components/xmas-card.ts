@@ -95,12 +95,12 @@ export class XmasCard extends connect(store)(LitElement) {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  _moveMouse(event: MouseEvent) {
+  private _moveMouse(event: MouseEvent) {
     store.dispatch(popupMouseMove(event.pageX, event.pageY));
   }
 
   // eslint-disable-next-line class-methods-use-this
-  _HideImage(_event: MouseEvent) {
+  private _HideImage(_event: MouseEvent) {
     store.dispatch(popupImage('', ''));
   }
 

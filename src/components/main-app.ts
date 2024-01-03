@@ -228,8 +228,8 @@ export class MainApp extends connect(store)(LitElement) {
     installMediaQueryWatcher(`(min-width: 460px)`, () =>
       store.dispatch(updateDrawerState(false))
     );
-    // this.track.addEventListener('touchstart', this.handleStart, false);
-    // this.track.addEventListener('touchend', this.handleEnd, false);
+    this.addEventListener('touchstart', this.handleStart, false);
+    this.addEventListener('touchend', this.handleEnd, false);
   }
 
   stateChanged(state: RootState) {
@@ -259,13 +259,14 @@ export class MainApp extends connect(store)(LitElement) {
     const deltaX = e.changedTouches[0].pageX - this.startX;
     const deltaY = Math.abs(e.changedTouches[0].pageY - this.startY);
     if (deltaX > 100 && deltaY < 100) {
-      window.history.back();
+      this._SidesButtonClicked();
     } else if (deltaX < -100 && deltaY < 100) {
-      window.history.forward();
+      this._SidesButtonClicked();
     }
+    return true;
   }
 
-  _SidesButtonClicked() {
+  private _SidesButtonClicked() {
     if (this._side === 'front') this._side = 'back';
     else this._side = 'front';
   }
