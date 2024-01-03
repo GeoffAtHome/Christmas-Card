@@ -21,6 +21,7 @@ import {
   POPUP_MOUSEMOVE,
   FILE_LOAD_FULFILLED,
   SWITCH_SIDE,
+  UPDATE_INDEX,
 } from '../actions/app';
 import { RootAction } from '../store';
 import { CardSide, XmasCardData } from '../components/card-type';
@@ -99,6 +100,12 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         side: action.side,
+      };
+
+    case UPDATE_INDEX:
+      return {
+        ...state,
+        index: action.index,
       };
 
     case UPDATE_OFFLINE:

@@ -61,9 +61,6 @@ export class MainApp extends connect(store)(LitElement) {
   @property({ type: Object })
   private _xMasCardData!: XmasCardData; //  | undefined;
 
-  @property({ type: Number })
-  private _index = 0;
-
   @property({ type: String })
   private _side: CardSide = 'front';
 
@@ -165,10 +162,7 @@ export class MainApp extends connect(store)(LitElement) {
       <mwc-drawer hasHeader type="dismissible" .open="${this._drawerOpened}">
         <span slot="title">Menu</span>
         <div>
-          <nav class="toolbar-list">
-            <a ?selected="${this._year === '2023'}" href="/#2023#card">2023</a>
-            <a ?selected="${this._year === '2022'}" href="/#2022#card">2022</a>
-          </nav>
+          <nav class="toolbar-list">${this.getYears()}</nav>
         </div>
         <!-- Header -->
         <div slot="appContent">
@@ -199,10 +193,7 @@ export class MainApp extends connect(store)(LitElement) {
             <main id="track" role="main">
               <xmas-main
                 .xmasCardData=${this._xMasCardData}
-                ._year=${this._year}
                 ._page=${this._page}
-                ._side=${this._side}
-                ._index=${this._index}
               ></xmas-main>
             </main>
           </div>
@@ -234,7 +225,6 @@ export class MainApp extends connect(store)(LitElement) {
   }
 
   stateChanged(state: RootState) {
-    this._index = state.app!.index;
     this._side = state.app!.side;
     this._page = state.app!.page;
     if (state.app!.year !== '' && this._year !== state.app!.year) {
@@ -288,5 +278,16 @@ export class MainApp extends connect(store)(LitElement) {
       >`;
 
     return html``;
+  }
+
+  private getYears() {
+    const years = [2023, 2022];
+
+    return years.map(
+      year =>
+        html`<a ?selected="${Number(this._year) === year}" href="/#${year}#card"
+          >${year}</a
+        >`
+    );
   }
 }

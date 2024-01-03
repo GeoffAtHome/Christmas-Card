@@ -24,7 +24,7 @@ import {
   BOOTSTRAP_CHEVRON_RIGHT,
 } from './carousel-constants';
 import { store, RootState } from '../store';
-import { showSnackbar } from '../actions/app';
+import { showSnackbar, updateIndex } from '../actions/app';
 
 @customElement('xmas-image')
 export class XmasImage extends connect(store)(LitElement) {
@@ -37,11 +37,11 @@ export class XmasImage extends connect(store)(LitElement) {
   @property({ type: String })
   private side: CardSide = 'front';
 
-  @property({ type: Number })
-  private index = 0;
-
   @property({ type: Boolean })
   private _snackbarOpened = false;
+
+  @property({ type: Number })
+  private index = 0;
 
   private startX: number = 0;
 
@@ -91,6 +91,10 @@ export class XmasImage extends connect(store)(LitElement) {
   }
 
   stateChanged(state: RootState) {
+    this.index = state.app!.index;
+    this.xmasCardData = state.app!.xmasCardData;
+    this.year = state.app!.year;
+    this.side = state.app!.side;
     this._snackbarOpened = state.app!.snackbarOpened;
   }
 
@@ -152,15 +156,14 @@ export class XmasImage extends connect(store)(LitElement) {
   private navigateToNextSlide() {
     if (this.xmasCardData !== undefined) {
       if (this.index + 1 < this.xmasCardData[this.side].cardData.length)
-        this.index += 1;
-
+        store.dispatch(updateIndex(this.index + 1));
       store.dispatch(showSnackbar());
     }
   }
 
   private navigateToPrevSlide() {
     // Animation driven by the `updated` lifecycle.
-    if (this.index > 0) this.index -= 1;
+    if (this.index > 0) store.dispatch(updateIndex(this.index - 1));
     store.dispatch(showSnackbar());
   }
 
@@ -174,11 +177,10 @@ export class XmasImage extends connect(store)(LitElement) {
   private handleEnd(e: TouchEvent) {
     const deltaX = e.changedTouches[0].pageX - this.startX;
     const deltaY = Math.abs(e.changedTouches[0].pageY - this.startY);
-    if (deltaX > 100 && deltaY < 100) {
-      this.navigateToPrevSlide();
-    } else if (deltaX < -100 && deltaY < 100) {
-      this.navigateToNextSlide();
-    }
+
+    if (deltaX > 100 && deltaY < 100) this.navigateToPrevSlide();
+    else if (deltaX < -100 && deltaY < 100) this.navigateToNextSlide();
+
     return true;
   }
 }

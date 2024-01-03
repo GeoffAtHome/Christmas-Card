@@ -20,6 +20,7 @@ export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const POPUP_IMAGE = 'POPUP_IMAGE';
 export const POPUP_MOUSEMOVE = 'POPUP_MOUSEMOVE';
 export const SWITCH_SIDE = 'SWITCH_SIDE';
+export const UPDATE_INDEX = 'UPDATE_INDEX';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const FILE_LOAD = 'FILE_LOAD';
 export const FILE_LOAD_FULFILLED = 'FILE_LOAD_FULFILLED';
@@ -59,6 +60,10 @@ export interface AppActionSwitchSide extends Action<'SWITCH_SIDE'> {
   side: CardSide;
 }
 
+export interface AppActionUpdateIndex extends Action<'UPDATE_INDEX'> {
+  index: number;
+}
+
 export interface AppActionUpdateDrawerState
   extends Action<'UPDATE_DRAWER_STATE'> {
   opened: boolean;
@@ -75,6 +80,7 @@ export type AppAction =
   | AppActionPopupImage
   | AppActionPopupMouseMove
   | AppActionSwitchSide
+  | AppActionUpdateIndex
   | AppActionUpdateOffline
   | AppActionUpdateDrawerState
   | AppActionOpenSnackbar
@@ -135,6 +141,13 @@ export const switchSide: ActionCreator<AppActionSwitchSide> = (
   side,
 });
 
+export const updateIndex: ActionCreator<AppActionUpdateIndex> = (
+  index: number
+) => ({
+  type: UPDATE_INDEX,
+  index,
+});
+
 export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (
   opened: boolean
 ) => ({
@@ -172,7 +185,7 @@ export const navigate: ActionCreator<ThunkResult> =
     const year = parts.length <= 1 ? '2023' : parts[1];
     const page = parts.length <= 2 ? 'card' : parts[2];
     const side: CardSide = parts.length <= 3 ? 'front' : (parts[3] as CardSide);
-    const index = parts.length <= 4 ? -1 : parts[4];
+    const index = parts.length <= 4 ? -1 : Number(parts[4]);
 
     // Any other info you might want to extract from the path (like page type),
     // you can do here

@@ -10,16 +10,7 @@ import { CardSide, XmasCardData } from './card-type';
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
   @property({ type: String })
-  private _year = '';
-
-  @property({ type: String })
   private _page = '';
-
-  @property({ type: String })
-  private _side: CardSide = 'front';
-
-  @property({ type: Number })
-  private _index = 0;
 
   @property({ type: Object })
   xmasCardData: XmasCardData;
@@ -72,21 +63,13 @@ export class xmasMain extends LitElement {
   render() {
     if (this._page === 'image')
       return html` <xmas-image
-        .xmasCardData=${this.xmasCardData}
-        .year=${this._year}
-        .index=${Number(this._index)}
-        .side=${this._side}
         @mousemove=${this.mouseMove}
         @keypress=${this.keyPress}
       ></xmas-image>`;
 
     if (this.xmasCardData !== undefined)
       return html` <popup-image></popup-image>
-        <xmas-card
-          .xmasCardData=${this.xmasCardData}
-          side=${this._side}
-          .year=${this._year}
-        ></xmas-card>`;
+        <xmas-card></xmas-card>`;
 
     return html``;
   }

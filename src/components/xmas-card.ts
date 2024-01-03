@@ -18,7 +18,7 @@ import { connect } from 'pwa-helpers';
 import { SharedStyles } from './shared-styles';
 import { CardItem, CardSide, XmasCardData } from './card-type';
 import { popupImage, popupMouseMove } from '../actions/app';
-import { store } from '../store';
+import { RootState, store } from '../store';
 
 import './popup-image';
 
@@ -78,6 +78,12 @@ export class XmasCard extends connect(store)(LitElement) {
       coords="${xPos},${yPos},${width},${height}"
       href="#${this.year}#image#${this.side}#${index}"
     />`;
+  }
+
+  stateChanged(state: RootState) {
+    this.xmasCardData = state.app!.xmasCardData;
+    this.year = state.app!.year;
+    this.side = state.app!.side;
   }
 
   _ShowImage(event: MouseEvent) {
