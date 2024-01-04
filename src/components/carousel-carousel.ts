@@ -8,7 +8,6 @@ import { LitElement, html, css, PropertyValues } from 'lit';
 import {
   customElement,
   property,
-  state,
   queryAssignedElements,
   // eslint-disable-next-line import/extensions
 } from 'lit/decorators.js';
@@ -26,14 +25,8 @@ import {
 } from './carousel-constants';
 
 import './carousel-button';
-
-function getMaxElHeight(els: HTMLElement[]): number {
-  return Math.max(0, ...els.map(el => el.getBoundingClientRect().height));
-}
-
-function getMaxElWidth(els: HTMLElement[]): number {
-  return Math.max(0, ...els.map(el => el.getBoundingClientRect().width));
-}
+import { store } from '../store';
+import { updateIndex, showSnackbar } from '../actions/app';
 
 function hideSlide(el: HTMLElement) {
   el.classList.add('slide-hidden');
@@ -42,7 +35,7 @@ function hideSlide(el: HTMLElement) {
 function showSlide(el: HTMLElement) {
   el.classList.remove('slide-hidden');
 }
-function wrapIndex(idx: number, max: number): number {
+export function wrapIndex(idx: number, max: number): number {
   return ((idx % max) + max) % max;
 }
 
@@ -67,31 +60,17 @@ export class CarouselCarousel extends LitElement {
     }
 
     #container {
-      border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
-      margin: 0 18px;
-
-      padding: 1em;
       overflow: hidden;
       position: relative;
-
-      box-shadow: var(
-        --carousel-box-shadow,
-        #293198 0.2em 0.2em 0.4em,
-        #ceffff -0.1em -0.1em 0.2em
-      );
     }
   `;
 
   // Assume this is always a valid slide index.
   @property({ type: Number }) slideIndex = 0;
-
-  @state() private containerHeight = 0;
-
-  @state() private containerWidth = 0;
 
   @queryAssignedElements() private readonly slideElements!: HTMLElement[];
 
@@ -104,8 +83,8 @@ export class CarouselCarousel extends LitElement {
 
   override render() {
     const containerStyles = {
-      height: `100vh`, // `${this.containerHeight}px`,
-      width: `${this.containerWidth}px`,
+      height: `100vh`,
+      width: `90vw`,
     };
 
     return html`<slide-button
@@ -130,9 +109,6 @@ export class CarouselCarousel extends LitElement {
   }
 
   override firstUpdated() {
-    this.containerHeight = getMaxElHeight(this.slideElements);
-    this.containerWidth = getMaxElWidth(this.slideElements);
-
     this.initializeSlides();
   }
 
@@ -159,12 +135,14 @@ export class CarouselCarousel extends LitElement {
 
   navigateToNextSlide() {
     // Animation driven by the `updated` lifecycle.
-    this.slideIndex += 1;
+    store.dispatch(updateIndex(this.slideIndex + 1));
+    store.dispatch(showSnackbar());
   }
 
   navigateToPrevSlide() {
     // Animation driven by the `updated` lifecycle.
-    this.slideIndex -= 1;
+    store.dispatch(updateIndex(this.slideIndex - 1));
+    store.dispatch(showSnackbar());
   }
 
   private async navigateWithAnimation(

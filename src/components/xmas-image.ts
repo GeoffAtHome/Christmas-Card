@@ -17,14 +17,9 @@ import { customElement, property } from 'lit/decorators.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { CardSide, XmasCardData } from './card-type';
-import './carousel-carousel';
+import { wrapIndex } from './carousel-carousel';
 import './snack-bar';
-import {
-  BOOTSTRAP_CHEVRON_LEFT,
-  BOOTSTRAP_CHEVRON_RIGHT,
-} from './carousel-constants';
 import { store, RootState } from '../store';
-import { showSnackbar, updateIndex } from '../actions/app';
 
 @customElement('xmas-image')
 export class XmasImage extends connect(store)(LitElement) {
@@ -43,58 +38,46 @@ export class XmasImage extends connect(store)(LitElement) {
   @property({ type: Number })
   private index = 0;
 
-  private startX: number = 0;
-
-  private startY: number = 0;
-
   mainTemplate() {
-    if (
-      this.xmasCardData !== undefined &&
-      this.xmasCardData[this.side].cardData[this.index] !== undefined
-    )
-      return html`
-        <slide-button
-          id="left-button"
-          @click=${this.navigateToPrevSlide}
-          ?active="${this._snackbarOpened && this.index !== 0}"
-        >
-          ${BOOTSTRAP_CHEVRON_LEFT}
-        </slide-button>
-        <slide-button
-          id="right-button"
-          @click=${this.navigateToNextSlide}
-          ?active="${this._snackbarOpened &&
-          this.index < this.xmasCardData![this.side].cardData.length - 1}"
-        >
-          ${BOOTSTRAP_CHEVRON_RIGHT}
-        </slide-button>
-        <a href="#${this.year}#card#${this.side}">
-          <img
-            src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-              .cardGrid.l}${this.xmasCardData![this.side].cardData[this.index]
-              .i}.png"
-            alt="${this.xmasCardData![this.side].cardData[this.index].t}"
-          />
-        </a>
-        <snack-bar ?active="${this._snackbarOpened}">
-          ${this.xmasCardData !== undefined
-            ? this.xmasCardData[this.side].cardData[this.index].t
-            : ''}
-        </snack-bar>
-      `;
-    return html` <a href="#${this.year}#card"><p>Image Loading....</p></a>`;
+    return html`
+      <carousel-carousel .slideIndex=${this.index}
+        >${this.images()}</carousel-carousel
+      >
+
+      <snack-bar ?active="${this._snackbarOpened}">
+        ${this.xmasCardData !== undefined
+          ? this.xmasCardData[this.side].cardData[this.index].t
+          : ''}
+      </snack-bar>
+    `;
   }
 
-  protected firstUpdated() {
-    this.addEventListener('touchstart', this.handleStart, false);
-    this.addEventListener('touchend', this.handleEnd, false);
+  private images() {
+    const imageList = this.xmasCardData![this.side].cardData;
+    return imageList.map(
+      image => html`
+        <section>
+          <a href="#${this.year}#card#${this.side}">
+            <img
+              src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
+                .cardGrid.l}${image.i}.png"
+              alt="${this.xmasCardData![this.side].cardData[this.index].t}"
+              loading="lazy"
+            />
+          </a>
+        </section>
+      `
+    );
   }
 
   stateChanged(state: RootState) {
-    this.index = state.app!.index;
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
+    this.index = wrapIndex(
+      state.app!.index,
+      this.xmasCardData![this.side].cardData.length
+    );
     this._snackbarOpened = state.app!.snackbarOpened;
   }
 
@@ -151,36 +134,5 @@ export class XmasImage extends connect(store)(LitElement) {
         }
       `,
     ];
-  }
-
-  private navigateToNextSlide() {
-    if (this.xmasCardData !== undefined) {
-      if (this.index + 1 < this.xmasCardData[this.side].cardData.length)
-        store.dispatch(updateIndex(this.index + 1));
-      store.dispatch(showSnackbar());
-    }
-  }
-
-  private navigateToPrevSlide() {
-    // Animation driven by the `updated` lifecycle.
-    if (this.index > 0) store.dispatch(updateIndex(this.index - 1));
-    store.dispatch(showSnackbar());
-  }
-
-  private handleStart(e: TouchEvent) {
-    this.startX = e.changedTouches[0].pageX;
-    this.startY = e.changedTouches[0].pageY;
-    store.dispatch(showSnackbar());
-    return true;
-  }
-
-  private handleEnd(e: TouchEvent) {
-    const deltaX = e.changedTouches[0].pageX - this.startX;
-    const deltaY = Math.abs(e.changedTouches[0].pageY - this.startY);
-
-    if (deltaX > 100 && deltaY < 100) this.navigateToPrevSlide();
-    else if (deltaX < -100 && deltaY < 100) this.navigateToNextSlide();
-
-    return true;
   }
 }
