@@ -1,0 +1,28 @@
+{
+  "name": "card-year-builder",
+  "version": "1.0.1",
+  "description": "Build the necessary files for a year",
+  "main": "lambda/index.js",
+  "scripts": {
+    "clean": "rimraf lambda",
+    "compile": "tsc --build tsconfig.json --pretty",
+    "build-final": "cpy package.json lambda && cd lambda/ && npm install --production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "npx nodemon"
+  },
+  "author": "Geoff Soord",
+  "license": "Apache License",
+  "dependencies": {
+    "axios": "^1.6.3",
+    "fetch": "^1.1.0",
+    "fs": "^0.0.1-security",
+    "i18next": "^23.7.15"
+  },
+  "devDependencies": {
+    "@types/i18next-sprintf-postprocessor": "^0.2.3",
+    "cpy-cli": "^5.0.0",
+    "nodemon": "^3.0.2",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  }
+}

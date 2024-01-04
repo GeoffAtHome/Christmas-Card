@@ -7,12 +7,14 @@
 ## npm
 /node_modules/
 /npm-debug.log
+/tool/node_modules/
 
 ## testing
 /coverage/
 
 ## temp folders
 /.tmp/
+/tool/lambda/
 
 # build
 /_site/
