@@ -8,18 +8,23 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement, PropertyValueMap } from 'lit';
 import { connect } from 'pwa-helpers';
+import { register } from 'swiper/element/bundle';
 
 // eslint-disable-next-line import/extensions
 import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
+import { SwiperStyles } from './swiper-styles';
+
 import { CardSide, XmasCardData } from './card-type';
-import { wrapIndex } from './carousel-carousel';
-import './snack-bar';
 import { store, RootState } from '../store';
+
+function wrapIndex(idx: number, max: number): number {
+  return ((idx % max) + max) % max;
+}
 
 @customElement('xmas-image')
 export class XmasImage extends connect(store)(LitElement) {
@@ -32,23 +37,32 @@ export class XmasImage extends connect(store)(LitElement) {
   @property({ type: String })
   private side: CardSide = 'front';
 
-  @property({ type: Boolean })
-  private _snackbarOpened = false;
-
   @property({ type: Number })
   private index = 0;
 
+  protected firstUpdated(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    // register Swiper custom elements
+    register();
+  }
+
   mainTemplate() {
     return html`
-      <carousel-carousel .slideIndex=${this.index}
-        >${this.images()}</carousel-carousel
-      >
-
-      <snack-bar ?active="${this._snackbarOpened}">
-        ${this.xmasCardData !== undefined
-          ? this.xmasCardData[this.side].cardData[this.index].t
-          : ''}
-      </snack-bar>
+      <a href="#${this.year}#card#${this.side}">
+        <swiper-container
+          .initialSlide=${this.index}
+          slides-per-view="auto"
+          centered-slides="true"
+          effect="cube"
+          navigation="{true}"
+          pagination-clickable="true"
+          pagination-type="bullets"
+          speed="1200"
+        >
+          ${this.images()}
+        </swiper-container>
+      </a>
     `;
   }
 
@@ -56,16 +70,17 @@ export class XmasImage extends connect(store)(LitElement) {
     const imageList = this.xmasCardData![this.side].cardData;
     return imageList.map(
       image => html`
-        <section>
-          <a href="#${this.year}#card#${this.side}">
+        <swiper-slide
+          ><div>
             <img
               src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
                 .cardGrid.l}${image.i}.png"
-              alt="${this.xmasCardData![this.side].cardData[this.index].t}"
+              alt="${image.t}"
               loading="lazy"
             />
-          </a>
-        </section>
+            <p>${image.t}</p>
+          </div>
+        </swiper-slide>
       `
     );
   }
@@ -78,7 +93,6 @@ export class XmasImage extends connect(store)(LitElement) {
       state.app!.index,
       this.xmasCardData![this.side].cardData.length
     );
-    this._snackbarOpened = state.app!.snackbarOpened;
   }
 
   protected render() {
@@ -88,6 +102,7 @@ export class XmasImage extends connect(store)(LitElement) {
   static get styles() {
     return [
       SharedStyles,
+      SwiperStyles,
       css`
         :host {
           display: flex;
@@ -99,38 +114,37 @@ export class XmasImage extends connect(store)(LitElement) {
           max-width: 100%;
         }
 
-        img {
-          max-width: 99vw;
-          max-height: 99vh;
+        swiper-container {
+          width: 99vw;
+          height: 99vh;
+          text-align: center;
+          color: blue;
         }
 
-        #left-button {
-          display: none;
-          position: fixed;
+        swiper-slide img {
+          width: auto;
+          height: auto;
+          max-width: 100%;
+          max-height: 100%;
+          -ms-transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          position: absolute;
+          left: 50%;
           top: 50%;
-          left: 10%;
-          box-shadow: var(
-            --carousel-box-shadow,
-            #293198 0.2em 0.2em 0.4em,
-            #ceffff -0.1em -0.1em 0.2em
-          );
         }
 
-        #right-button {
-          display: none;
-          position: fixed;
-          top: 50%;
-          right: 10%;
-          box-shadow: var(
-            --carousel-box-shadow,
-            #293198 0.2em 0.2em 0.4em,
-            #ceffff -0.1em -0.1em 0.2em
-          );
-        }
-
-        #right-button[active],
-        #left-button[active] {
-          display: block;
+        p {
+          position: absolute;
+          text-align: center;
+          bottom: 0px;
+          transform: translate(-50%, 0%);
+          left: 50%;
+          width: 500px;
+          color: white;
+          background-color: gray;
+          opacity: 0.6;
         }
       `,
     ];
