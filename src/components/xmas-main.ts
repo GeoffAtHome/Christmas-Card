@@ -4,13 +4,13 @@ import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 
 import { store } from '../store';
-import { showSnackbar } from '../actions/app';
-import { CardSide, XmasCardData } from './card-type';
+import { popupImage, showSnackbar } from '../actions/app';
+import { CardSide, Pages, XmasCardData } from './card-type';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
   @property({ type: String })
-  private _page = '';
+  private _page: Pages = 'card';
 
   @property({ type: Object })
   xmasCardData: XmasCardData;
@@ -61,26 +61,19 @@ export class xmasMain extends LitElement {
   `;
 
   render() {
-    if (this._page === 'image')
-      return html` <xmas-image
-        @mousemove=${this.mouseMove}
-        @keypress=${this.keyPress}
-      ></xmas-image>`;
+    switch (this._page) {
+      case 'image':
+        store.dispatch(popupImage('', ''));
+        return html` <xmas-image></xmas-image>`;
 
-    if (this.xmasCardData !== undefined)
-      return html` <popup-image></popup-image>
-        <xmas-card></xmas-card>`;
+      case 'large':
+        return html`<popup-image></popup-image>
+          <xmas-large-image></xmas-large-image>`;
 
-    return html``;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private mouseMove(_mouse: MouseEvent) {
-    store.dispatch(showSnackbar());
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private keyPress(key: KeyboardEvent) {
-    console.log(key.key);
+      default:
+        break;
+    }
+    return html` <popup-image></popup-image>
+      <xmas-card></xmas-card>`;
   }
 }
