@@ -17,7 +17,6 @@ import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { SwiperStyles } from './swiper-styles';
 
 import { CardSide, XmasCardData } from './card-type';
 import { store, RootState } from '../store';
@@ -49,20 +48,19 @@ export class XmasImage extends connect(store)(LitElement) {
 
   mainTemplate() {
     return html`
-      <a href="#${this.year}#card#${this.side}">
-        <swiper-container
-          .initialSlide=${this.index}
-          slides-per-view="auto"
-          centered-slides="true"
-          effect="cube"
-          navigation="{true}"
-          pagination-clickable="true"
-          pagination-type="bullets"
-          speed="1200"
-        >
-          ${this.images()}
-        </swiper-container>
-      </a>
+      <swiper-container
+        .initialSlide=${this.index}
+        slides-per-view="auto"
+        centered-slides
+        effect="cube"
+        navigation
+        pagination
+        pagination-clickable
+        pagination-type="bullets"
+        speed="1200"
+      >
+        ${this.images()}
+      </swiper-container>
     `;
   }
 
@@ -70,8 +68,8 @@ export class XmasImage extends connect(store)(LitElement) {
     const imageList = this.xmasCardData![this.side].cardData;
     return imageList.map(
       image => html`
-        <swiper-slide
-          ><div>
+        <swiper-slide>
+          <a href="#${this.year}#card#${this.side}">
             <img
               src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
                 .cardGrid.l}${image.i}.png"
@@ -79,7 +77,7 @@ export class XmasImage extends connect(store)(LitElement) {
               loading="lazy"
             />
             <p>${image.t}</p>
-          </div>
+          </a>
         </swiper-slide>
       `
     );
@@ -102,7 +100,6 @@ export class XmasImage extends connect(store)(LitElement) {
   static get styles() {
     return [
       SharedStyles,
-      SwiperStyles,
       css`
         :host {
           display: flex;
