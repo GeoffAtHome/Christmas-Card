@@ -24,11 +24,11 @@ import {
   UPDATE_INDEX,
 } from '../actions/app';
 import { RootAction } from '../store';
-import { CardSide, XmasCardData } from '../components/card-type';
+import { CardSide, Pages, XmasCardData } from '../components/card-type';
 
 export interface AppState {
   year: string;
-  page: string;
+  page: Pages;
   offline: boolean;
   message: string;
   drawerOpened: boolean;
@@ -45,7 +45,7 @@ export interface AppState {
 
 const INITIAL_STATE: AppState = {
   year: '',
-  page: '',
+  page: 'card',
   offline: false,
   message: '',
   drawerOpened: false,

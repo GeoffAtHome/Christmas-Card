@@ -53,9 +53,11 @@ export class XmasImage extends connect(store)(LitElement) {
         slides-per-view="auto"
         centered-slides
         effect="cube"
+        keyboard
         navigation
         pagination
         pagination-clickable
+        loop
         pagination-type="bullets"
         speed="1200"
       >
@@ -67,9 +69,9 @@ export class XmasImage extends connect(store)(LitElement) {
   private images() {
     const imageList = this.xmasCardData![this.side].cardData;
     return imageList.map(
-      image => html`
+      (image, index) => html`
         <swiper-slide>
-          <a href="#${this.year}#card#${this.side}">
+          <a href="#${this.year}#large#${this.side}#${index}">
             <img
               src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
                 .cardGrid.l}${image.i}.png"
@@ -109,6 +111,7 @@ export class XmasImage extends connect(store)(LitElement) {
           height: 100vh;
           max-height: 100%;
           max-width: 100%;
+          overflow: hidden;
         }
 
         swiper-container {
@@ -136,12 +139,13 @@ export class XmasImage extends connect(store)(LitElement) {
           position: absolute;
           text-align: center;
           bottom: 0px;
-          transform: translate(-50%, 0%);
+          transform: translate(-50%, -50%);
           left: 50%;
           width: 500px;
           color: white;
           background-color: gray;
           opacity: 0.6;
+          max-width: 60vh;
         }
       `,
     ];

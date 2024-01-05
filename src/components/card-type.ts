@@ -34,3 +34,4 @@ export type XmasCardData =
   | undefined;
 
 export type CardSide = 'front' | 'back';
+export type Pages = 'card' | 'image' | 'large' | 'view404';

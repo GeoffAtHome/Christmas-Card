@@ -37,7 +37,7 @@ import '@material/mwc-button';
 import '@pwabuilder/pwainstall';
 import '@pwabuilder/pwaupdate';
 import './xmas-main';
-import { CardSide, XmasCardData } from './card-type';
+import { CardSide, Pages, XmasCardData } from './card-type';
 import { arrowBackIcon, menuIcon, plusIcon } from './my-icons';
 
 function _BackButtonClicked() {
@@ -53,7 +53,7 @@ export class MainApp extends connect(store)(LitElement) {
   private _drawerOpened = false;
 
   @property({ type: String })
-  private _page = 'card';
+  private _page: Pages = 'card';
 
   @property({ type: String })
   private _year = '';
@@ -258,9 +258,11 @@ export class MainApp extends connect(store)(LitElement) {
   }
 
   private _SidesButtonClicked() {
-    let side: CardSide = 'front';
-    if (this._side === 'front') side = 'back';
-    store.dispatch(switchSide(side));
+    if (this._page === 'card') {
+      let side: CardSide = 'front';
+      if (this._side === 'front') side = 'back';
+      store.dispatch(switchSide(side));
+    }
   }
 
   private _menuButtonClicked() {

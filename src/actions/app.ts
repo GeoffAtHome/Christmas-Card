@@ -13,7 +13,7 @@ import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { createAsyncAction } from 'redux-promise-middleware-actions';
 import { RootState, store } from '../store';
-import { CardSide, XmasCardData } from '../components/card-type';
+import { CardSide, Pages, XmasCardData } from '../components/card-type';
 import { readFile } from '../components/myUtils';
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
@@ -30,7 +30,7 @@ export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 export const NOTIFY_MESSAGE = 'NOTIFY_MESSAGE';
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
   year: string;
-  page: string;
+  page: Pages;
   side: CardSide;
   index: number;
 }
@@ -91,7 +91,7 @@ type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>;
 
 const updatePage: ActionCreator<AppActionUpdatePage> = (
   year: string,
-  page: string,
+  page: Pages,
   side: CardSide,
   index: number
 ) => ({
@@ -156,7 +156,7 @@ export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (
 });
 
 const loadPage: ActionCreator<ThunkResult> =
-  (year: string, page: string, side: string, index: number) => dispatch => {
+  (year: string, page: Pages, side: string, index: number) => dispatch => {
     switch (page) {
       case 'card':
         import('../components/xmas-card').then(() => {
@@ -167,6 +167,10 @@ const loadPage: ActionCreator<ThunkResult> =
 
       case 'image':
         import('../components/xmas-image');
+        break;
+
+      case 'large':
+        import('../components/xmas-large-image');
         break;
 
       default:
@@ -180,10 +184,9 @@ const loadPage: ActionCreator<ThunkResult> =
 
 export const navigate: ActionCreator<ThunkResult> =
   (path: string) => dispatch => {
-    // Extract the page name from path.
     const parts = path.split('#');
     const year = parts.length <= 1 ? '2023' : parts[1];
-    const page = parts.length <= 2 ? 'card' : parts[2];
+    const page: Pages = parts.length <= 2 ? 'card' : (parts[2] as Pages);
     const side: CardSide = parts.length <= 3 ? 'front' : (parts[3] as CardSide);
     const index = parts.length <= 4 ? -1 : Number(parts[4]);
 
