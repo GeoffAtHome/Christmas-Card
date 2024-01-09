@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, LitElement, PropertyValueMap } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { connect } from 'pwa-helpers';
 
 // eslint-disable-next-line import/extensions
@@ -16,11 +16,10 @@ import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { PageViewElement } from './page-view-element';
 import { RootState, store } from '../store';
 
 @customElement('popup-image')
-export class PopupImage extends connect(store)(PageViewElement) {
+export class PopupImage extends connect(store)(LitElement) {
   @property({ type: String })
   private image = '';
 
@@ -46,14 +45,25 @@ export class PopupImage extends connect(store)(PageViewElement) {
   }
 
   stateChanged(state: RootState) {
-    this.style.top = `${Math.max(
-      100,
-      state.app!.yPos - this.clientHeight * 0.5
+    const { height } = this.getBoundingClientRect();
+    const wh = window.innerHeight - 5;
+    const ww = window.innerWidth;
+
+    this.style.top = `${Math.min(
+      Math.max(100, state.app!.yPos - this.clientHeight * 0.5),
+      wh - height
     )}px`;
-    this.style.left = `${state.app!.xPos + 5}px`;
+
+    if (state.app!.xPos < ww / 2) {
+      this.style.left = `${state.app!.xPos + 5}px`;
+      this.style.right = '';
+    } else {
+      this.style.left = '';
+      this.style.right = `${ww - state.app!.xPos + 5}px`;
+    }
+
     this.image = state.app!.currentImage;
     this.text = state.app!.currentTitle;
-    this.active = this.image !== '';
     this.style.display = this.image === '' ? 'none' : 'block';
   }
 

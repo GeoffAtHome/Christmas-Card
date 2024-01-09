@@ -67,7 +67,7 @@ export class xmasMain extends LitElement {
         return html` <xmas-image></xmas-image>`;
 
       case 'large':
-        return html`<popup-image></popup-image>
+        return html`<popup-image inert role="tooltip"></popup-image>
           <xmas-large-image></xmas-large-image>`;
 
       default:

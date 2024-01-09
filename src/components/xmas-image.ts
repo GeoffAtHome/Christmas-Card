@@ -73,8 +73,10 @@ export class XmasImage extends connect(store)(LitElement) {
         <swiper-slide>
           <a href="#${this.year}#large#${this.side}#${index}">
             <img
-              src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-                .cardGrid.l}${image.i}.png"
+              src="
+                ${this.xmasCardData!.images}/${this.xmasCardData![this.side]
+                .cardGrid.l}${image.i}.png
+              "
               alt="${image.t}"
               loading="lazy"
             />
