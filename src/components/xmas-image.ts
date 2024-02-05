@@ -102,7 +102,7 @@ export class XmasImage extends connect(store)(LitElement) {
   }
 
   imageLoaded(e: any /* HTMLImageElement */) {
-    console.log('Image Loaded');
+    // eslint-disable-next-line class-methods-use-this
     const large = e.target.getAttribute('large');
     if (large !== '') {
       e.target.src = large;

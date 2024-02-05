@@ -9,11 +9,10 @@ const backPrefix = 'B-';
 const sizesFile = 'sizes.txt';
 
 async function saveTheData(filename: string, text: string) {
-  console.log('save the data');
   await fs.writeFile(`./${filename}`, text, err => {
-    console.log('writing');
     if (err) {
-      console.log(`Error writing file: ${err}`);
+      // eslint-disable-next-line no-console
+      console.error(`Error writing file: ${err}`);
     }
   });
 }
@@ -25,11 +24,11 @@ async function createTheScript() {
   let text = `del ${sizesFile}\n`;
   front.cardData.forEach(card => {
     const sourceImage = `../${year}/originals/${frontPrefix}${card.i}.jpg`;
-    const lsize = '1024x1024';
-    const ssize = '320x320';
-    // text = `${text}magick ${sourceImage} -resize ${lsize} ../${year}/ximages/${front.cardGrid.l}${card.i}.webp\n`;
-    // text = `${text}magick ${sourceImage} -resize ${ssize} ../${year}/ximages/${front.cardGrid.s}${card.i}.webp\n`;
-    // text = `${text}magick ${sourceImage} -resize 400@ ../${year}/ximages/fp-${card.i}.webp\n`;
+    const lSize = '1024x1024';
+    const sSize = '320x320';
+    text = `${text}magick ${sourceImage} -resize ${lSize} ../${year}/ximages/${front.cardGrid.l}${card.i}.webp\n`;
+    text = `${text}magick ${sourceImage} -resize ${sSize} ../${year}/ximages/${front.cardGrid.s}${card.i}.webp\n`;
+    text = `${text}magick ${sourceImage} -resize 400@ ../${year}/ximages/fp-${card.i}.webp\n`;
     text = `${text}magick identify -format "${back.cardGrid.s}${card.i}.webp: %%wx%%h" ../${year}/ximages/${front.cardGrid.l}${card.i}.webp >>${sizesFile}\n`;
     text = `${text}echo: >>${sizesFile}\n`;
     text = `${text}magick identify -format "${back.cardGrid.s}${card.i}.webp: %%wx%%h" ../${year}/ximages/${front.cardGrid.s}${card.i}.webp >>${sizesFile}\n`;
@@ -37,11 +36,11 @@ async function createTheScript() {
   });
 
   back.cardData.forEach(card => {
-    const lsize = '1024x1024';
-    const ssize = '320x320';
-    // text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize ${lsize} ../${year}/ximages/${back.cardGrid.l}${card.i}.webp\n`;
-    // text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize ${ssize} ../${year}/ximages/${back.cardGrid.s}${card.i}.webp\n`;
-    // text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize 400@ ../${year}/ximages/bp-${card.i}.webp\n`;
+    const lSize = '1024x1024';
+    const sSize = '320x320';
+    text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize ${lSize} ../${year}/ximages/${back.cardGrid.l}${card.i}.webp\n`;
+    text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize ${sSize} ../${year}/ximages/${back.cardGrid.s}${card.i}.webp\n`;
+    text = `${text}magick ../${year}/originals/${backPrefix}${card.i}.jpg -resize 400@ ../${year}/ximages/bp-${card.i}.webp\n`;
     text = `${text}magick identify -format "${back.cardGrid.s}${card.i}.webp: %%wx%%h" ../${year}/ximages/${back.cardGrid.l}${card.i}.webp >>${sizesFile}\n`;
     text = `${text}echo: >>${sizesFile}\n`;
     text = `${text}magick identify -format "${back.cardGrid.s}${card.i}.webp: %%wx%%h" ../${year}/ximages/${back.cardGrid.s}${card.i}.webp >>${sizesFile}\n`;
@@ -57,7 +56,6 @@ async function doTheWork() {
 }
 
 function main() {
-  console.log('Start:');
   doTheWork();
 }
 
