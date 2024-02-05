@@ -7,16 +7,17 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
 import { XmasCardData } from '../src/components/card-type';
 
+export const year = '2023';
+
 export const Card2023: XmasCardData = {
-  year: '2023',
-  images: '2023/images',
+  year: `${year}`,
+  images: `${year}/images`,
   front: {
     cardGrid: {
       i: 'front.png',
-      t: 'Christmas Card 2023',
+      t: `Christmas Card ${year}`,
       l: 'l-',
       s: 's-',
       w: 1024,
@@ -32,7 +33,7 @@ export const Card2023: XmasCardData = {
         y: 80,
         w: 60,
         h: 30,
-        t: 'Christmas message 2023',
+        t: `Christmas message ${year}`,
       },
       {
         i: '1',
@@ -176,7 +177,7 @@ export const Card2023: XmasCardData = {
   back: {
     cardGrid: {
       i: 'back.png',
-      t: 'Christmas Card 2023 back',
+      t: `Christmas Card ${year} back`,
       l: 'bl-',
       s: 'bs-',
       w: 1024,

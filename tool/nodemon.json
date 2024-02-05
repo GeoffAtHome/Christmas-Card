@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "tsc --build tsconfig.json --pretty"
+  "exec": "tsc --build tsconfig.json --pretty && node outDir/tool/src/index.js"
 }

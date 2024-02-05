@@ -46,6 +46,7 @@ export class XmasCard extends connect(store)(LitElement) {
             .cardGrid.i}"
           alt="${this.xmasCardData[this.side].cardGrid.t}"
           usemap="#imageMap"
+          @load=${this.imageLoaded}
         />
       `;
     return html``;
@@ -131,5 +132,9 @@ export class XmasCard extends connect(store)(LitElement) {
         }
       `,
     ];
+  }
+
+  imageLoaded() {
+    console.log('Image Loaded');
   }
 }

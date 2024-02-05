@@ -10,7 +10,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "lambda/",
+    "outDir": "outDir/",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "allowSyntheticDefaultImports": true

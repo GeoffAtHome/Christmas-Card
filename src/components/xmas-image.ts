@@ -75,10 +75,14 @@ export class XmasImage extends connect(store)(LitElement) {
             <img
               src="
                 ${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-                .cardGrid.l}${image.i}.png
+                .cardGrid.s}${image.i}.png
               "
+              large="${this.xmasCardData!.images}/${this.xmasCardData![
+                this.side
+              ].cardGrid.l}${image.i}.png"
               alt="${image.t}"
               loading="lazy"
+              @load=${this.imageLoaded}
             />
             <p>${image.t}</p>
           </a>
@@ -95,6 +99,15 @@ export class XmasImage extends connect(store)(LitElement) {
       state.app!.index,
       this.xmasCardData![this.side].cardData.length
     );
+  }
+
+  imageLoaded(e: any /* HTMLImageElement */) {
+    console.log('Image Loaded');
+    const large = e.target.getAttribute('large');
+    if (large !== '') {
+      e.target.src = large;
+      e.target.setAttribute('large', '');
+    }
   }
 
   protected render() {
