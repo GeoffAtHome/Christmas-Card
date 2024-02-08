@@ -1,11 +1,14 @@
 // left => pos_x, top => pos_y, right => width, bottom => height
 export interface CardItem {
-  i: string; // imageNumber
+  i: number; // imageNumber
   x: number; // posX
   y: number; // posY
   w: number; // width
   h: number; // height
   t: string; // title
+  d: string; // Base64 encoded Image
+  m: number; // Large height
+  n: number; // Large width
 }
 
 export interface CardGrid {
@@ -17,6 +20,9 @@ export interface CardGrid {
   h: number; // height
   x: number; // xGrid
   y: number; // yGrid
+  d: string; // Base64 encoded Image
+  m: number; // Large height
+  n: number; // Large width
 }
 
 export interface CardData {
@@ -26,7 +32,7 @@ export interface CardData {
 
 export type XmasCardData =
   | {
-      year: string;
+      year: number;
       images: string;
       front: CardData;
       back: CardData;

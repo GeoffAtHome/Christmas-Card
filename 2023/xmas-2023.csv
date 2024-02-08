@@ -1,5 +1,5 @@
-ImageName,Title,Width,Height,X,Y,Prefixs
-2023,,,,,,
+ImageName,Title,Width,Height,X,Y,Prefixes
+Year,2023,,,,,
 front.png,Christmas Card 2023,1024,730,5,5,O-
 back.png,Christmas Card 2023 back,1024,730,3,3,B-
 ,,,,,,
@@ -31,3 +31,4 @@ Back,,,,,,
 2,Looking gorgeous - Aurora - Berlin,1,1,0,0,
 5,"We are family - Geoff, Mum, Alison, Dad and Rosie - Saville, Sanday",1,1,1,2,
 1,I'm so happy - Dakota - Berlin,1,1,2,0,
+
