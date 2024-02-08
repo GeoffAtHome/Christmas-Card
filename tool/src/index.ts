@@ -2,6 +2,7 @@
 // magick identify -format "%wx%h"  ../2023/originals/O-15.jpg
 
 import fs from 'fs';
+import Papa from 'papaparse';
 import { Card2023, year } from '../../2023/xmas-2023';
 
 const frontPrefix = 'O-';
@@ -55,8 +56,18 @@ async function doTheWork() {
   await createTheScript();
 }
 
+function readCSV(filename: string) {
+  const data = Papa.parse(filename, {
+    header: true,
+    dynamicTyping: true,
+  });
+  console.log(JSON.stringify(data));
+  return data;
+}
+
 function main() {
-  doTheWork();
+  readCSV('../../2023/2023.json');
+  // doTheWork();
 }
 
 main();

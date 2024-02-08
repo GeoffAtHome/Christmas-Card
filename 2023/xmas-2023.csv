@@ -1,10 +1,9 @@
+ImageName,Title,Width,Height,X,Y,Prefixs
 2023,,,,,,
-ImageName,Title,Width,Height,X divisions,Y divisions,Prefixs
 front.png,Christmas Card 2023,1024,730,5,5,O-
 back.png,Christmas Card 2023 back,1024,730,3,3,B-
 ,,,,,,
 Front,,,,,,
-Image,Title,Width,Height,pos X,pos  Y,
 20,Christmas message 2023,60,30,490,80,
 1,Wild camping in Scotland on route to the Orkneys - Alison,1,2,2,0,
 12,"Camping friends - Izora, Marion and Nigel - Forest of Dean",1,1,2,2,
