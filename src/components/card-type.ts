@@ -41,3 +41,7 @@ export type XmasCardData =
 
 export type CardSide = 'front' | 'back';
 export type Pages = 'card' | 'image' | 'large' | 'view404';
+
+export const destLarge = `l`;
+export const destSmall = `s`;
+export const destVerySmall = `m`;

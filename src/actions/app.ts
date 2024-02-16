@@ -48,6 +48,9 @@ export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
 }
 export interface AppActionPopupImage extends Action<'POPUP_IMAGE'> {
   image: string;
+  data: string;
+  width: number;
+  height: number;
   title: string;
 }
 
@@ -118,10 +121,16 @@ export const fileLoad = createAsyncAction('FILE_LOAD', async year => {
 
 export const popupImage: ActionCreator<AppActionPopupImage> = (
   image: string,
+  data: string,
+  width: number,
+  height: number,
   title: string
 ) => ({
   type: POPUP_IMAGE,
   image,
+  data,
+  width,
+  height,
   title,
 });
 

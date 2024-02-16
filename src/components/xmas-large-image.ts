@@ -16,7 +16,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardSide, XmasCardData } from './card-type';
+import { CardSide, XmasCardData, destLarge } from './card-type';
 import './snack-bar';
 import { store, RootState } from '../store';
 
@@ -49,9 +49,8 @@ export class XmasLargeImage extends connect(store)(LitElement) {
     return html`
       <a href="#${this.year}#card#${this.side}">
         <img
-          src="${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-            .cardGrid.l}${this.xmasCardData![this.side].cardData[this.index]
-            .i}.png"
+          src="${this.xmasCardData!.images}/${this.side}/${destLarge}/${this
+            .xmasCardData![this.side].cardData[this.index].i}.webp"
           alt="${this.xmasCardData![this.side].cardData[this.index].t}"
         />
       </a>

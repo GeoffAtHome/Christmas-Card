@@ -24,6 +24,15 @@ export class PopupImage extends connect(store)(LitElement) {
   private image = '';
 
   @property({ type: String })
+  private data = '';
+
+  @property({ type: Number })
+  width = 0;
+
+  @property({ type: Number })
+  height = 0;
+
+  @property({ type: String })
   private text = '';
 
   @property({ type: Number })
@@ -35,16 +44,27 @@ export class PopupImage extends connect(store)(LitElement) {
   protected render() {
     return html`
       <img
-        src="${this.image}"
+        class="c"
+        style="display:block; width:${this.width}px;height:${this.height}px;"
+        large="${this.image}"
+        src="data:image/webp;base64,${this.data}"
         alt="${this.text}"
         width="280px"
         loading="eager"
+        @load=${this.imageLoaded}
       />
       <p>${this.text}</p>
     `;
   }
 
   stateChanged(state: RootState) {
+    this.image = state.app!.currentImage;
+    this.data = state.app!.currentImageData;
+    this.width = state.app!.currentImageWidth * 0.27;
+    this.height = state.app!.currentImageHeight * 0.27;
+    this.text = state.app!.currentTitle;
+    this.style.display = this.image === '' ? 'none' : 'block';
+
     const { height } = this.getBoundingClientRect();
     const wh = window.innerHeight - 5;
     const ww = window.innerWidth;
@@ -61,10 +81,6 @@ export class PopupImage extends connect(store)(LitElement) {
       this.style.left = '';
       this.style.right = `${ww - state.app!.xPos + 5}px`;
     }
-
-    this.image = state.app!.currentImage;
-    this.text = state.app!.currentTitle;
-    this.style.display = this.image === '' ? 'none' : 'block';
   }
 
   static get styles() {
@@ -80,7 +96,23 @@ export class PopupImage extends connect(store)(LitElement) {
           font-size: 12px;
           background-color: white;
         }
+
+        .c {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 50%;
+        }
       `,
     ];
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  imageLoaded(e: any /* HTMLImageElement */) {
+    const large = e.target.getAttribute('large');
+    if (large !== '') {
+      e.target.src = large;
+      e.target.setAttribute('large', '');
+    }
   }
 }

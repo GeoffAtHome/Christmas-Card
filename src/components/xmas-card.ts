@@ -16,7 +16,13 @@ import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
-import { CardItem, CardSide, XmasCardData } from './card-type';
+import {
+  CardItem,
+  CardSide,
+  XmasCardData,
+  destLarge,
+  destSmall,
+} from './card-type';
 import { popupImage, popupMouseMove } from '../actions/app';
 import { RootState, store } from '../store';
 
@@ -33,6 +39,8 @@ export class XmasCard extends connect(store)(LitElement) {
   @property({ type: String })
   private side: CardSide = 'front';
 
+  // src="data:image/webp;base64,${this.xmasCardData[this.side].cardGrid.d}"
+  // src="${this.xmasCardData.images}/${this.xmasCardData[this.side].cardGrid.i}"
   protected render() {
     if (this.xmasCardData !== undefined)
       return html`
@@ -42,8 +50,11 @@ export class XmasCard extends connect(store)(LitElement) {
           )}
         </map>
         <img
-          src="${this.xmasCardData.images}/${this.xmasCardData[this.side]
-            .cardGrid.i}"
+          style="display:block; width:${this.xmasCardData[this.side].cardGrid
+            .m}px;height:${this.xmasCardData[this.side].cardGrid.n}px;"
+          large="${this.xmasCardData.images}/${this.side}/${destLarge}.webp"
+          src="data:image/webp;base64,${this.xmasCardData[this.side].cardGrid
+            .d}"
           alt="${this.xmasCardData[this.side].cardGrid.t}"
           usemap="#imageMap"
           @load=${this.imageLoaded}
@@ -93,11 +104,22 @@ export class XmasCard extends connect(store)(LitElement) {
 
     if (this.xmasCardData !== undefined) {
       const currentImage = `${this.xmasCardData.images}/${
-        this.xmasCardData[this.side].cardGrid.s
-      }${this.xmasCardData[this.side].cardData[index].i}.png`;
+        this.side
+      }/${destSmall}/${this.xmasCardData[this.side].cardData[index].i}.webp`;
+      const currentImageData = this.xmasCardData[this.side].cardData[index].d;
+      const currentImageWidth = this.xmasCardData[this.side].cardData[index].m;
+      const currentImageHeight = this.xmasCardData[this.side].cardData[index].n;
       const currentText = this.xmasCardData[this.side].cardData[index].t;
 
-      store.dispatch(popupImage(currentImage, currentText));
+      store.dispatch(
+        popupImage(
+          currentImage,
+          currentImageData,
+          currentImageWidth,
+          currentImageHeight,
+          currentText
+        )
+      );
     }
   }
 
@@ -108,7 +130,7 @@ export class XmasCard extends connect(store)(LitElement) {
 
   // eslint-disable-next-line class-methods-use-this
   private _HideImage(_event: MouseEvent) {
-    store.dispatch(popupImage('', ''));
+    store.dispatch(popupImage('', '', '', 0, 0));
   }
 
   static get styles() {

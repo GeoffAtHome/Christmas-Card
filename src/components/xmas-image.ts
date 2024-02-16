@@ -18,7 +18,7 @@ import { customElement, property } from 'lit/decorators.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 
-import { CardSide, XmasCardData } from './card-type';
+import { CardSide, XmasCardData, destLarge } from './card-type';
 import { store, RootState } from '../store';
 
 function wrapIndex(idx: number, max: number): number {
@@ -66,6 +66,24 @@ export class XmasImage extends connect(store)(LitElement) {
     `;
   }
 
+  //  <img
+  //  style="display:block; width:${this.xmasCardData!.images}/${this
+  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
+  //    index
+  //  ].w}px ;height:${this.xmasCardData!.images}/${this
+  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
+  //    index
+  //  ].h}px;"
+  //  src="data:image/webp;base64,${this.xmasCardData!.images}/${this
+  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
+  //    index
+  //  ].d}"
+  //  large="${this.xmasCardData!.images}/${this
+  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
+  //    index
+  //  ].i}.webp"
+  //
+
   private images() {
     const imageList = this.xmasCardData![this.side].cardData;
     return imageList.map(
@@ -73,13 +91,15 @@ export class XmasImage extends connect(store)(LitElement) {
         <swiper-slide>
           <a href="#${this.year}#large#${this.side}#${index}">
             <img
-              src="
-                ${this.xmasCardData!.images}/${this.xmasCardData![this.side]
-                .cardGrid.s}${image.i}.png
-              "
-              large="${this.xmasCardData!.images}/${this.xmasCardData![
-                this.side
-              ].cardGrid.l}${image.i}.png"
+              style="display:block; width:${this.xmasCardData![this.side]
+                .cardData[index].m}px ;height:${this.xmasCardData![this.side]
+                .cardData[index].n}px;"
+              src="data:image/webp;base64,${this.xmasCardData![this.side]
+                .cardData[index].d}"
+              large="${this.xmasCardData!.images}/${this
+                .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
+                index
+              ].i}.webp"
               alt="${image.t}"
               loading="lazy"
               @load=${this.imageLoaded}

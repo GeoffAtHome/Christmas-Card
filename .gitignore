@@ -15,13 +15,14 @@
 ## temp folders
 /.tmp/
 /tool/outDir/
-/2023/ximages/
+/2023/images/
 /2023/originals/
 
 ## temp files
 /tool/script.cmd
 /tool/sizes.txt
 /tool/file.json
+/tool/test.json
 
 # build
 /_site/

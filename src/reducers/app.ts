@@ -39,6 +39,9 @@ export interface AppState {
   xPos: number;
   yPos: number;
   currentImage: string;
+  currentImageData: string;
+  currentImageWidth: number;
+  currentImageHeight: number;
   currentTitle: string;
   xmasCardData: XmasCardData;
 }
@@ -56,6 +59,9 @@ const INITIAL_STATE: AppState = {
   xPos: 0,
   yPos: 0,
   currentImage: '',
+  currentImageData: '',
+  currentImageWidth: 0,
+  currentImageHeight: 0,
   currentTitle: '',
   xmasCardData: undefined,
 };
@@ -86,6 +92,9 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentImage: action.image,
+        currentImageData: action.data,
+        currentImageWidth: action.width,
+        currentImageHeight: action.height,
         currentTitle: action.title,
       };
 
