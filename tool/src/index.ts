@@ -3,6 +3,8 @@
 
 import fs, { PathLike } from 'fs';
 import {
+  CardItem,
+  CardSide,
   XmasCardData,
   destLarge,
   destSmall,
@@ -47,6 +49,7 @@ async function createDirectories() {
 }
 
 function processImage(
+  side: CardSide,
   tagImage: string,
   sourceImage: string,
   destImageL: string,
@@ -56,9 +59,37 @@ function processImage(
   let text = `magick ${sourceImage} -resize ${lSize} ${destImageL}\n`;
   text += `magick ${sourceImage} -resize ${sSize} ${destImageS}\n`;
   text += `magick ${sourceImage} -resize ${wSize} ${destImageW}\n`;
-  text += `magick identify -format "${tagImage},%%w,%%h" ${destImageL} >>${sizesFile}\n`;
+  text += `magick identify -format "${side},${tagImage},%%w,%%h" ${destImageL} >>${sizesFile}\n`;
   text += `echo: >>${sizesFile}\n`;
 
+  return text;
+}
+
+function writeImage(
+  card: CardItem,
+  index: number,
+  side: CardSide,
+  sidePrefix: string,
+  dirRoot: string
+) {
+  let text = '';
+  const sourceImage = fs.existsSync(
+    `../${year}/originals/${sidePrefix}${card.i}.jpg`
+  )
+    ? `../${year}/originals/${sidePrefix}${card.i}.jpg`
+    : `../${year}/originals/${sidePrefix}${card.i}.png`;
+
+  const destImageL = `${dirRoot}/${destLarge}/${index}.webp`;
+  const destImageS = `${dirRoot}/${destSmall}/${index}.webp`;
+  const destImageW = `${dirRoot}/${destVerySmall}/${index}.webp`;
+  text += processImage(
+    side,
+    index.toString(),
+    sourceImage,
+    destImageL,
+    destImageS,
+    destImageW
+  );
   return text;
 }
 
@@ -69,50 +100,18 @@ async function createTheScript(data: XmasCardData) {
   let text = `del ${sizesFile}\n`;
   // Write header
   text += `echo tag,width,height>>${sizesFile}\n`;
-  front.cardData.forEach(card => {
-    const sourceImage = fs.existsSync(
-      `../${year}/originals/${frontPrefix}${card.i}.jpg`
-    )
-      ? `../${year}/originals/${frontPrefix}${card.i}.jpg`
-      : `../${year}/originals/${frontPrefix}${card.i}.png`;
-
-    const tagImage = `${card.i}`;
-    const destImageL = `${destDirFront}/${destLarge}/${card.i}.webp`;
-    const destImageS = `${destDirFront}/${destSmall}/${card.i}.webp`;
-    const destImageW = `${destDirFront}/${destVerySmall}/${card.i}.webp`;
-    text += processImage(
-      tagImage,
-      sourceImage,
-      destImageL,
-      destImageS,
-      destImageW
-    );
+  front.cardData.forEach((card, index) => {
+    text += writeImage(card, index, 'front', frontPrefix, destDirFront);
   });
 
-  back.cardData.forEach(card => {
-    const sourceImage = fs.existsSync(
-      `../${year}/originals/${backPrefix}${card.i}.jpg`
-    )
-      ? `../${year}/originals/${backPrefix}${card.i}.jpg`
-      : `../${year}/originals/${backPrefix}${card.i}.png`;
-
-    const tagImage = `b-${card.i}`;
-    const destImageL = `${destDirBack}/${destLarge}/${card.i}.webp`;
-    const destImageS = `${destDirBack}/${destSmall}/${card.i}.webp`;
-    const destImageW = `${destDirBack}/${destVerySmall}/${card.i}.webp`;
-
-    text += processImage(
-      tagImage,
-      sourceImage,
-      destImageL,
-      destImageS,
-      destImageW
-    );
+  back.cardData.forEach((card, index) => {
+    text += writeImage(card, index, 'back', backPrefix, destDirBack);
   });
 
   // Front
   text += processImage(
-    front.cardGrid.i,
+    'front',
+    'l',
     `../${year}/originals/${front.cardGrid.i}`,
     `${destDirFront}/${destLarge}.webp`,
     `${destDirFront}/${destSmall}.webp`,
@@ -120,7 +119,8 @@ async function createTheScript(data: XmasCardData) {
   );
   // Back
   text += processImage(
-    back.cardGrid.i,
+    'back',
+    'l',
     `../${year}/originals/${back.cardGrid.i}`,
     `${destDirBack}/${destLarge}.webp`,
     `${destDirBack}/${destSmall}.webp`,
@@ -135,7 +135,7 @@ async function doTheWork() {
   await saveTheData('file.json', JSON.stringify(cardData));
   await createDirectories();
   await createTheScript(cardData);
-  await processSizes(destDirFront, destDirBack);
+  // await processSizes(destDirFront, destDirBack);
 }
 
 function main() {

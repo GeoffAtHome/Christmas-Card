@@ -97,9 +97,7 @@ export class XmasImage extends connect(store)(LitElement) {
               src="data:image/webp;base64,${this.xmasCardData![this.side]
                 .cardData[index].d}"
               large="${this.xmasCardData!.images}/${this
-                .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
-                index
-              ].i}.webp"
+                .side}/${destLarge}/${index}.webp"
               alt="${image.t}"
               loading="lazy"
               @load=${this.imageLoaded}

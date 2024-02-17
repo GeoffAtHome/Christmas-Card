@@ -43,14 +43,14 @@ export async function processSizes(distDirFront: string, distDirBack: string) {
   front.cardGrid.m = size[0].width;
   front.cardGrid.n = size[0].height;
   front.cardGrid.d = await base64EncodeImage(
-    `/${distDirFront}${destLarge}.webp`
+    `${distDirFront}/${destLarge}.webp`
   );
 
   // Back Image
   size = sizes.filter(s => s.tag === back.cardGrid.i);
   back.cardGrid.m = size[0].width;
   back.cardGrid.n = size[0].height;
-  back.cardGrid.d = await base64EncodeImage(`/${distDirBack}${destLarge}.webp`);
+  back.cardGrid.d = await base64EncodeImage(`${distDirBack}/${destLarge}.webp`);
 
   for (const item of front.cardData) {
     const itemTag = `l-${item.i}`;
@@ -59,7 +59,7 @@ export async function processSizes(distDirFront: string, distDirBack: string) {
     item.n = size[0].height;
     // eslint-disable-next-line no-await-in-loop
     item.d = await base64EncodeImage(
-      `/${distDirFront}${destLarge}/${item.i}.webp`
+      `${distDirFront}${destLarge}/${item.i}.webp`
     );
   }
   for (const item of back.cardData) {
@@ -69,7 +69,7 @@ export async function processSizes(distDirFront: string, distDirBack: string) {
     item.n = size[0].height;
     // eslint-disable-next-line no-await-in-loop
     item.d = await base64EncodeImage(
-      `/${distDirBack}${destLarge}/${item.i}.webp`
+      `${distDirBack}${destLarge}/${item.i}.webp`
     );
   }
 

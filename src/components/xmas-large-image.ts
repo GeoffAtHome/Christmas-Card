@@ -50,7 +50,7 @@ export class XmasLargeImage extends connect(store)(LitElement) {
       <a href="#${this.year}#card#${this.side}">
         <img
           src="${this.xmasCardData!.images}/${this.side}/${destLarge}/${this
-            .xmasCardData![this.side].cardData[this.index].i}.webp"
+            .index}.webp"
           alt="${this.xmasCardData![this.side].cardData[this.index].t}"
         />
       </a>

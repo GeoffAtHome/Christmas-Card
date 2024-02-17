@@ -103,9 +103,7 @@ export class XmasCard extends connect(store)(LitElement) {
     const index = Number(target.getAttribute('index'));
 
     if (this.xmasCardData !== undefined) {
-      const currentImage = `${this.xmasCardData.images}/${
-        this.side
-      }/${destSmall}/${this.xmasCardData[this.side].cardData[index].i}.webp`;
+      const currentImage = `${this.xmasCardData.images}/${this.side}/${destSmall}/${index}.webp`;
       const currentImageData = this.xmasCardData[this.side].cardData[index].d;
       const currentImageWidth = this.xmasCardData[this.side].cardData[index].m;
       const currentImageHeight = this.xmasCardData[this.side].cardData[index].n;
