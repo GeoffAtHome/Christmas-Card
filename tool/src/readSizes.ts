@@ -41,8 +41,13 @@ async function readSizes(filename: string) {
   return sizes;
 }
 
-export async function processSizes(distDirFront: string, distDirBack: string) {
-  const sizes = await readSizes('sizes.txt');
+export async function processSizes(
+  year: string,
+  sizesFile: string,
+  distDirFront: string,
+  distDirBack: string
+) {
+  const sizes = await readSizes(`../tool/${sizesFile}`);
 
   for (const size of sizes) {
     if (size.side !== null) {
@@ -84,5 +89,5 @@ export async function processSizes(distDirFront: string, distDirBack: string) {
     }
   }
 
-  saveTheData('test.json', JSON.stringify(cardData));
+  saveTheData(`../${year}/${year}.json`, JSON.stringify(cardData));
 }

@@ -14,13 +14,13 @@ import { readCSV } from './readCSV';
 import { saveTheData } from './saveTheData';
 import { processSizes } from './readSizes';
 
+const year = '2023';
 const frontPrefix = 'O-';
 const backPrefix = 'B-';
 const sizesFile = 'sizes.txt';
 const lSize = '1024x1024';
 const sSize = '320x320';
 const wSize = '80@';
-const year = '2023';
 const destDirRoot = `../${year}/images`;
 const destDirFront = `${destDirRoot}/front`;
 const destDirBack = `${destDirRoot}/back`;
@@ -131,11 +131,10 @@ async function createTheScript(data: XmasCardData) {
 }
 
 async function doTheWork() {
-  const cardData = await readCSV('D:/demos/Christmas-Card/2023/xmas-2023.csv');
-  await saveTheData('file.json', JSON.stringify(cardData));
+  const cardData = await readCSV(`../${year}/xmas-${year}.csv`);
   await createDirectories();
   await createTheScript(cardData);
-  await processSizes(destDirFront, destDirBack);
+  await processSizes(year, sizesFile, destDirFront, destDirBack);
 }
 
 function main() {
