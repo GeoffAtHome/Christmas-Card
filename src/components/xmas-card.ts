@@ -27,6 +27,7 @@ import { popupImage, popupMouseMove } from '../actions/app';
 import { RootState, store } from '../store';
 
 import './popup-image';
+import { imageLoaded } from './data-image';
 
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
@@ -57,7 +58,7 @@ export class XmasCard extends connect(store)(LitElement) {
             .d}"
           alt="${this.xmasCardData[this.side].cardGrid.t}"
           usemap="#imageMap"
-          @load=${this.imageLoaded}
+          @load=${imageLoaded}
         />
       `;
     return html``;
@@ -152,14 +153,5 @@ export class XmasCard extends connect(store)(LitElement) {
         }
       `,
     ];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  imageLoaded(e: any /* HTMLImageElement */) {
-    const large = e.target.getAttribute('large');
-    if (large !== '') {
-      e.target.src = large;
-      e.target.setAttribute('large', '');
-    }
   }
 }

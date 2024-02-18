@@ -3,9 +3,15 @@ import Papa from 'papaparse';
 import { Buffer } from 'buffer';
 import { saveTheData } from './saveTheData';
 import { cardData } from './cardData';
-import { destLarge } from '../../src/components/card-type';
+import {
+  CardData,
+  CardSide,
+  destLarge,
+  destVerySmall,
+} from '../../src/components/card-type';
 
 interface CsvSizeData {
+  side: CardSide;
   tag: string;
   width: number;
   height: number;
@@ -38,39 +44,44 @@ async function readSizes(filename: string) {
 export async function processSizes(distDirFront: string, distDirBack: string) {
   const sizes = await readSizes('sizes.txt');
 
-  // Front Image
-  let size = sizes.filter(s => s.tag === front.cardGrid.i);
-  front.cardGrid.m = size[0].width;
-  front.cardGrid.n = size[0].height;
-  front.cardGrid.d = await base64EncodeImage(
-    `${distDirFront}/${destLarge}.webp`
-  );
-
-  // Back Image
-  size = sizes.filter(s => s.tag === back.cardGrid.i);
-  back.cardGrid.m = size[0].width;
-  back.cardGrid.n = size[0].height;
-  back.cardGrid.d = await base64EncodeImage(`${distDirBack}/${destLarge}.webp`);
-
-  for (const item of front.cardData) {
-    const itemTag = `l-${item.i}`;
-    size = sizes.filter(s => s.tag === itemTag);
-    item.m = size[0].width;
-    item.n = size[0].height;
-    // eslint-disable-next-line no-await-in-loop
-    item.d = await base64EncodeImage(
-      `${distDirFront}${destLarge}/${item.i}.webp`
-    );
-  }
-  for (const item of back.cardData) {
-    const itemTag = `l-${item.i}`;
-    size = sizes.filter(s => s.tag === itemTag);
-    item.m = size[0].width;
-    item.n = size[0].height;
-    // eslint-disable-next-line no-await-in-loop
-    item.d = await base64EncodeImage(
-      `${distDirBack}${destLarge}/${item.i}.webp`
-    );
+  for (const size of sizes) {
+    if (size.side !== null) {
+      const index = Number(size.tag);
+      if (Number.isNaN(index)) {
+        // Front or back
+        // Front Image
+        if (size.side === 'front') {
+          front.cardGrid.m = size.width;
+          front.cardGrid.n = size.height;
+          // eslint-disable-next-line no-await-in-loop
+          front.cardGrid.d = await base64EncodeImage(
+            `${distDirFront}/${size.tag}.webp`
+          );
+        } else {
+          // Back Image
+          back.cardGrid.m = size.width;
+          back.cardGrid.n = size.height;
+          // eslint-disable-next-line no-await-in-loop
+          back.cardGrid.d = await base64EncodeImage(
+            `${distDirBack}/${size.tag}.webp`
+          );
+        }
+      } else if (size.side === 'front') {
+        front.cardData[index].m = size.width;
+        front.cardData[index].n = size.height;
+        // eslint-disable-next-line no-await-in-loop
+        front.cardData[index].d = await base64EncodeImage(
+          `${distDirFront}/${destVerySmall}/${index}.webp`
+        );
+      } else {
+        back.cardData[index].m = size.width;
+        back.cardData[index].n = size.height;
+        // eslint-disable-next-line no-await-in-loop
+        back.cardData[index].d = await base64EncodeImage(
+          `${distDirBack}/${destVerySmall}/${index}.webp`
+        );
+      }
+    }
   }
 
   saveTheData('test.json', JSON.stringify(cardData));

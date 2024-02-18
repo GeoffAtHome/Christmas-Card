@@ -17,6 +17,7 @@ import { customElement, property } from 'lit/decorators.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { RootState, store } from '../store';
+import { imageLoaded } from './data-image';
 
 @customElement('popup-image')
 export class PopupImage extends connect(store)(LitElement) {
@@ -51,7 +52,7 @@ export class PopupImage extends connect(store)(LitElement) {
         alt="${this.text}"
         width="280px"
         loading="eager"
-        @load=${this.imageLoaded}
+        @load=${imageLoaded}
       />
       <p>${this.text}</p>
     `;
@@ -105,14 +106,5 @@ export class PopupImage extends connect(store)(LitElement) {
         }
       `,
     ];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  imageLoaded(e: any /* HTMLImageElement */) {
-    const large = e.target.getAttribute('large');
-    if (large !== '') {
-      e.target.src = large;
-      e.target.setAttribute('large', '');
-    }
   }
 }

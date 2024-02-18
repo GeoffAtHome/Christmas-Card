@@ -21,6 +21,8 @@ import { SharedStyles } from './shared-styles';
 import { CardSide, XmasCardData, destLarge } from './card-type';
 import { store, RootState } from '../store';
 
+import { imageLoaded } from './data-image';
+
 function wrapIndex(idx: number, max: number): number {
   return ((idx % max) + max) % max;
 }
@@ -66,24 +68,6 @@ export class XmasImage extends connect(store)(LitElement) {
     `;
   }
 
-  //  <img
-  //  style="display:block; width:${this.xmasCardData!.images}/${this
-  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
-  //    index
-  //  ].w}px ;height:${this.xmasCardData!.images}/${this
-  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
-  //    index
-  //  ].h}px;"
-  //  src="data:image/webp;base64,${this.xmasCardData!.images}/${this
-  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
-  //    index
-  //  ].d}"
-  //  large="${this.xmasCardData!.images}/${this
-  //    .side}/${destLarge}/${this.xmasCardData![this.side].cardData[
-  //    index
-  //  ].i}.webp"
-  //
-
   private images() {
     const imageList = this.xmasCardData![this.side].cardData;
     return imageList.map(
@@ -100,7 +84,7 @@ export class XmasImage extends connect(store)(LitElement) {
                 .side}/${destLarge}/${index}.webp"
               alt="${image.t}"
               loading="lazy"
-              @load=${this.imageLoaded}
+              @load=${imageLoaded}
             />
             <p>${image.t}</p>
           </a>
@@ -117,15 +101,6 @@ export class XmasImage extends connect(store)(LitElement) {
       state.app!.index,
       this.xmasCardData![this.side].cardData.length
     );
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  imageLoaded(e: any /* HTMLImageElement */) {
-    const large = e.target.getAttribute('large');
-    if (large !== '') {
-      e.target.src = large;
-      e.target.setAttribute('large', '');
-    }
   }
 
   protected render() {

@@ -99,7 +99,7 @@ async function createTheScript(data: XmasCardData) {
   // const { year } = data!;
   let text = `del ${sizesFile}\n`;
   // Write header
-  text += `echo tag,width,height>>${sizesFile}\n`;
+  text += `echo side,tag,width,height>>${sizesFile}\n`;
   front.cardData.forEach((card, index) => {
     text += writeImage(card, index, 'front', frontPrefix, destDirFront);
   });
@@ -111,7 +111,7 @@ async function createTheScript(data: XmasCardData) {
   // Front
   text += processImage(
     'front',
-    'l',
+    'm',
     `../${year}/originals/${front.cardGrid.i}`,
     `${destDirFront}/${destLarge}.webp`,
     `${destDirFront}/${destSmall}.webp`,
@@ -120,7 +120,7 @@ async function createTheScript(data: XmasCardData) {
   // Back
   text += processImage(
     'back',
-    'l',
+    'm',
     `../${year}/originals/${back.cardGrid.i}`,
     `${destDirBack}/${destLarge}.webp`,
     `${destDirBack}/${destSmall}.webp`,
@@ -135,7 +135,7 @@ async function doTheWork() {
   await saveTheData('file.json', JSON.stringify(cardData));
   await createDirectories();
   await createTheScript(cardData);
-  // await processSizes(destDirFront, destDirBack);
+  await processSizes(destDirFront, destDirBack);
 }
 
 function main() {
