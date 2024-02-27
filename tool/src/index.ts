@@ -14,7 +14,7 @@ import { readCSV } from './readCSV';
 import { saveTheData } from './saveTheData';
 import { processSizes } from './readSizes';
 
-const year = '2023';
+const year = '2022';
 const frontPrefix = 'O-';
 const backPrefix = 'B-';
 const sizesFile = 'sizes.txt';
@@ -134,7 +134,7 @@ async function doTheWork() {
   const cardData = await readCSV(`../${year}/xmas-${year}.csv`);
   await createDirectories();
   await createTheScript(cardData);
-  await processSizes(year, sizesFile, destDirFront, destDirBack);
+  await processSizes(cardData, year, sizesFile, destDirFront, destDirBack);
 }
 
 function main() {

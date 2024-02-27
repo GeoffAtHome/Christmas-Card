@@ -2,11 +2,9 @@ import fs from 'fs';
 import Papa from 'papaparse';
 import { Buffer } from 'buffer';
 import { saveTheData } from './saveTheData';
-import { cardData } from './cardData';
 import {
-  CardData,
   CardSide,
-  destLarge,
+  XmasCardData,
   destVerySmall,
 } from '../../src/components/card-type';
 
@@ -16,9 +14,6 @@ interface CsvSizeData {
   width: number;
   height: number;
 }
-
-const { front } = cardData;
-const { back } = cardData;
 
 async function base64EncodeImage(filename: string) {
   const file = await fs.readFileSync(filename);
@@ -42,12 +37,15 @@ async function readSizes(filename: string) {
 }
 
 export async function processSizes(
+  cardData: XmasCardData,
   year: string,
   sizesFile: string,
   distDirFront: string,
   distDirBack: string
 ) {
   const sizes = await readSizes(`../tool/${sizesFile}`);
+  const { front } = cardData!;
+  const { back } = cardData!;
 
   for (const size of sizes) {
     if (size.side !== null) {
