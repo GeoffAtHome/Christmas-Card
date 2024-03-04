@@ -17,6 +17,7 @@ import { CardSide, Pages, XmasCardData } from '../components/card-type';
 import { readFile } from '../components/myUtils';
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
+export const RESIZE_IMAGE = 'RESIZE_IMAGE';
 export const POPUP_IMAGE = 'POPUP_IMAGE';
 export const POPUP_MOUSEMOVE = 'POPUP_MOUSEMOVE';
 export const SWITCH_SIDE = 'SWITCH_SIDE';
@@ -46,6 +47,11 @@ export interface AppActionFileLoadFulfilled
 export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
   offline: boolean;
 }
+export interface AppActionResizeImage extends Action<'RESIZE_IMAGE'> {
+  width: number;
+  height: number;
+}
+
 export interface AppActionPopupImage extends Action<'POPUP_IMAGE'> {
   image: string;
   data: string;
@@ -80,6 +86,7 @@ export type AppAction =
   | AppActionUpdatePage
   | AppActionFileLoad
   | AppActionFileLoadFulfilled
+  | AppActionResizeImage
   | AppActionPopupImage
   | AppActionPopupMouseMove
   | AppActionSwitchSide
@@ -117,6 +124,15 @@ export const fileLoad = createAsyncAction('FILE_LOAD', async year => {
   return {
     year,
   };
+});
+
+export const resizeImage: ActionCreator<AppActionResizeImage> = (
+  width: number,
+  height: number
+) => ({
+  type: RESIZE_IMAGE,
+  width,
+  height,
 });
 
 export const popupImage: ActionCreator<AppActionPopupImage> = (

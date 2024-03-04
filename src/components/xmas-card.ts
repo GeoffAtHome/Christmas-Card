@@ -8,10 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css, TemplateResult } from 'lit';
+import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 
 // eslint-disable-next-line import/extensions
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
@@ -23,7 +23,7 @@ import {
   destLarge,
   destSmall,
 } from './card-type';
-import { popupImage, popupMouseMove } from '../actions/app';
+import { popupImage, popupMouseMove, resizeImage } from '../actions/app';
 import { RootState, store } from '../store';
 
 import './popup-image';
@@ -31,6 +31,9 @@ import { imageLoaded } from './data-image';
 
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
+  @query('#image')
+  private image: any;
+
   @property({ type: Object })
   public xmasCardData!: XmasCardData;
 
@@ -40,17 +43,31 @@ export class XmasCard extends connect(store)(LitElement) {
   @property({ type: String })
   private side: CardSide = 'front';
 
-  // src="data:image/webp;base64,${this.xmasCardData[this.side].cardGrid.d}"
-  // src="${this.xmasCardData.images}/${this.xmasCardData[this.side].cardGrid.i}"
+  @property({ type: Number })
+  private scaleWidth = 1.0;
+
+  @property({ type: Number })
+  private scaleHeight = 1.0;
+
+  private resizeObserver = new ResizeObserver(this._resize);
+
+  protected firstUpdated(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    this.resizeObserver.observe(this.image);
+  }
+
   protected render() {
     if (this.xmasCardData !== undefined)
       return html`
         <map id="imageMap" name="imageMap">
           ${this.xmasCardData![this.side].cardData.map(
-            (item: CardItem, index: number) => this.addArea(item, index)
+            (item: CardItem, index: number) =>
+              this.addArea(item, index, this.scaleWidth, this.scaleHeight)
           )}
         </map>
         <img
+          id="image"
           style="display:block; width:${this.xmasCardData[this.side].cardGrid
             .m}px;height:${this.xmasCardData[this.side].cardGrid.n}px;"
           large="${this.xmasCardData.images}/${this.side}/${destLarge}.webp"
@@ -64,7 +81,12 @@ export class XmasCard extends connect(store)(LitElement) {
     return html``;
   }
 
-  addArea(entry: CardItem, index: number): TemplateResult {
+  addArea(
+    entry: CardItem,
+    index: number,
+    scaleWidth: number,
+    scaleHeight: number
+  ): TemplateResult {
     let xPos = entry.x;
     let yPos = entry.y;
     let width = xPos + entry.w;
@@ -79,16 +101,18 @@ export class XmasCard extends connect(store)(LitElement) {
         this.xmasCardData![this.side].cardGrid.y;
       xPos = entry.x * factorX;
       yPos = entry.y * factorY;
-      width = xPos + factorX * entry.w;
-      height = yPos + factorY * entry.h;
+      width = (entry.x + entry.w) * factorX;
+      height = (entry.y + entry.h) * factorY;
     }
+
     return html`<area
       shape="rect"
       index=${index}
       @mouseenter=${this._ShowImage}
       @mouseleave=${this._HideImage}
       @mousemove=${this._moveMouse}
-      coords="${xPos},${yPos},${width},${height}"
+      coords="${xPos * scaleWidth},${yPos * scaleHeight},${width *
+      scaleWidth},${height * scaleHeight}"
       href="#${this.year}#image#${this.side}#${index}"
     />`;
   }
@@ -97,6 +121,10 @@ export class XmasCard extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
+    this.scaleWidth =
+      state.app!.scaleWidth / this.xmasCardData![this.side].cardGrid.m;
+    this.scaleHeight =
+      state.app!.scaleHeight / this.xmasCardData![this.side].cardGrid.n;
   }
 
   _ShowImage(event: MouseEvent) {
@@ -130,6 +158,12 @@ export class XmasCard extends connect(store)(LitElement) {
   // eslint-disable-next-line class-methods-use-this
   private _HideImage(_event: MouseEvent) {
     store.dispatch(popupImage('', '', '', 0, 0));
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private _resize(resize: Array<ResizeObserverEntry>) {
+    const { width, height } = resize[0].contentRect;
+    store.dispatch(resizeImage(width, height));
   }
 
   static get styles() {

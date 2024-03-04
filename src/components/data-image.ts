@@ -14,6 +14,6 @@ export function imageLoaded(e: any /* HTMLImageElement */) {
     e.target.src = large;
     e.target.removeAttribute('large');
   } else {
-    e.target.removeAttribute('style');
+    // e.target.removeAttribute('style');
   }
 }

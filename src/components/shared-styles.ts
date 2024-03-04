@@ -31,6 +31,10 @@ export const SharedStyles = css`
     background: var(--app-section-even-color);
   }
 
+  img {
+    object-fit: contain;
+  }
+
   h2 {
     font-size: 24px;
     text-align: center;
