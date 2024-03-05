@@ -29,6 +29,17 @@ import { RootState, store } from '../store';
 import './popup-image';
 import { imageLoaded } from './data-image';
 
+function getContainedSize(img: HTMLImageElement) {
+  const ratio = img.naturalWidth / img.naturalHeight;
+  let width = img.height * ratio;
+  let { height } = img;
+  if (width > img.width) {
+    width = img.width;
+    height = img.width / ratio;
+  }
+  return [width, height];
+}
+
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
   @query('#image')
@@ -49,6 +60,15 @@ export class XmasCard extends connect(store)(LitElement) {
   @property({ type: Number })
   private scaleHeight = 1.0;
 
+  @property({ type: Number })
+  private offsetW = 0;
+
+  @property({ type: Number })
+  private offsetH = 0;
+
+  @property({ type: Array })
+  private imageSize: Array<number> = [];
+
   private resizeObserver = new ResizeObserver(this._resize);
 
   protected firstUpdated(
@@ -60,12 +80,6 @@ export class XmasCard extends connect(store)(LitElement) {
   protected render() {
     if (this.xmasCardData !== undefined)
       return html`
-        <map id="imageMap" name="imageMap">
-          ${this.xmasCardData![this.side].cardData.map(
-            (item: CardItem, index: number) =>
-              this.addArea(item, index, this.scaleWidth, this.scaleHeight)
-          )}
-        </map>
         <img
           id="image"
           style="display:block; width:${this.xmasCardData[this.side].cardGrid
@@ -77,6 +91,12 @@ export class XmasCard extends connect(store)(LitElement) {
           usemap="#imageMap"
           @load=${imageLoaded}
         />
+        <map id="imageMap" name="imageMap">
+          ${this.xmasCardData![this.side].cardData.map(
+            (item: CardItem, index: number) =>
+              this.addArea(item, index, this.scaleWidth, this.scaleHeight)
+          )}
+        </map>
       `;
     return html``;
   }
@@ -111,8 +131,9 @@ export class XmasCard extends connect(store)(LitElement) {
       @mouseenter=${this._ShowImage}
       @mouseleave=${this._HideImage}
       @mousemove=${this._moveMouse}
-      coords="${xPos * scaleWidth},${yPos * scaleHeight},${width *
-      scaleWidth},${height * scaleHeight}"
+      coords="${this.offsetW + xPos * scaleWidth},${this.offsetH +
+      yPos * scaleHeight},${this.offsetW + width * scaleWidth},${this.offsetH +
+      height * scaleHeight}"
       href="#${this.year}#image#${this.side}#${index}"
     />`;
   }
@@ -121,10 +142,11 @@ export class XmasCard extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
-    this.scaleWidth =
-      state.app!.scaleWidth / this.xmasCardData![this.side].cardGrid.m;
-    this.scaleHeight =
-      state.app!.scaleHeight / this.xmasCardData![this.side].cardGrid.n;
+    const [width, height] = getContainedSize(this.image);
+    this.offsetW = (state.app!.scaleWidth - width) / 2;
+    this.offsetH = (state.app!.scaleHeight - height) / 2;
+    this.scaleWidth = width / this.xmasCardData![this.side].cardGrid.m;
+    this.scaleHeight = height / this.xmasCardData![this.side].cardGrid.n;
   }
 
   _ShowImage(event: MouseEvent) {
