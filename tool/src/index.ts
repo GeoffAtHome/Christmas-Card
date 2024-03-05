@@ -14,13 +14,13 @@ import { readCSV } from './readCSV';
 import { saveTheData } from './saveTheData';
 import { processSizes } from './readSizes';
 
-const year = '2022';
+const year = '2023';
 const frontPrefix = 'O-';
 const backPrefix = 'B-';
 const sizesFile = 'sizes.txt';
 const lSize = '1024x1024';
 const sSize = '320x320';
-const wSize = '80@';
+const wSize = '400@';
 const destDirRoot = `../${year}/images`;
 const destDirFront = `${destDirRoot}/front`;
 const destDirBack = `${destDirRoot}/back`;
