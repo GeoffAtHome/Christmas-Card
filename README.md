@@ -13,7 +13,7 @@ Christmas card display
 7. Run `script.cmd` that was created
 8. Uncomment out line 137 `await processSizes(cardData, year, sizesFile, destDirFront, destDirBack);`
 9. Copy `year.json` and images folder to web server
-10. Update `src/components/main-app.ts` line 286 `const years = [2023, 2022];` to include new year
+10. Update `years.ts` to include new year
 11. Run update to copy changes to server.
 
 # TODO

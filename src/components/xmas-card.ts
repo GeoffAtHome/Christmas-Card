@@ -25,6 +25,7 @@ import {
 } from './card-type';
 import { popupImage, popupMouseMove, resizeImage } from '../actions/app';
 import { RootState, store } from '../store';
+import { thisYear } from '../years';
 
 import './popup-image';
 import { imageLoaded } from './data-image';
@@ -33,7 +34,10 @@ function getContainedSize(img: HTMLImageElement) {
   const ratio = img.naturalWidth / img.naturalHeight;
   let width = img.height * ratio;
   let { height } = img;
-  if (width > img.width) {
+  if (Number.isNaN(ratio)) {
+    width = img.width;
+    height = img.height;
+  } else if (width > img.width) {
     width = img.width;
     height = img.width / ratio;
   }
@@ -49,7 +53,7 @@ export class XmasCard extends connect(store)(LitElement) {
   public xmasCardData!: XmasCardData;
 
   @property({ type: String })
-  private year = '2024';
+  private year: string = thisYear.toString();
 
   @property({ type: String })
   private side: CardSide = 'front';
@@ -65,9 +69,6 @@ export class XmasCard extends connect(store)(LitElement) {
 
   @property({ type: Number })
   private offsetH = 0;
-
-  @property({ type: Array })
-  private imageSize: Array<number> = [];
 
   private resizeObserver = new ResizeObserver(this._resize);
 
@@ -142,7 +143,11 @@ export class XmasCard extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
-    if (this.image !== null) {
+    if (
+      this.image !== null &&
+      !Number.isNaN(state.app!.scaleWidth) &&
+      !Number.isNaN(state.app!.scaleHeight)
+    ) {
       const [width, height] = getContainedSize(this.image);
       this.offsetW = (state.app!.scaleWidth - width) / 2;
       this.offsetH = (state.app!.scaleHeight - height) / 2;
@@ -187,7 +192,8 @@ export class XmasCard extends connect(store)(LitElement) {
   // eslint-disable-next-line class-methods-use-this
   private _resize(resize: Array<ResizeObserverEntry>) {
     const { width, height } = resize[0].contentRect;
-    store.dispatch(resizeImage(width, height));
+    if (!Number.isNaN(width) && !Number.isNaN(height))
+      store.dispatch(resizeImage(width, height));
   }
 
   static get styles() {

@@ -39,8 +39,7 @@ import '@pwabuilder/pwaupdate';
 import './xmas-main';
 import { CardSide, Pages, XmasCardData } from './card-type';
 import { arrowBackIcon, menuIcon, plusIcon } from './my-icons';
-
-const theYears = [2024, 2023, 2022];
+import { theYears } from '../years';
 
 function _BackButtonClicked() {
   window.history.back();
