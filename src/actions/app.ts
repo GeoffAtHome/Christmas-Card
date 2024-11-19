@@ -213,7 +213,7 @@ export const navigate: ActionCreator<ThunkResult> =
     const year = parts.length <= 1 ? '2024' : parts[1];
     const page: Pages = parts.length <= 2 ? 'card' : (parts[2] as Pages);
     const side: CardSide = parts.length <= 3 ? 'front' : (parts[3] as CardSide);
-    const index = parts.length <= 4 ? -1 : Number(parts[4]);
+    const index = parts.length <= 4 ? 0 : Number(parts[4]);
 
     // Any other info you might want to extract from the path (like page type),
     // you can do here
