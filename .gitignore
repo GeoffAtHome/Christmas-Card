@@ -15,10 +15,9 @@
 ## temp folders
 /.tmp/
 /tool/outDir/
+/2024/images/
 /2023/images/
-/2023/originals/
 /2022/images/
-/2022/originals/
 
 ## temp files
 /tool/script.cmd

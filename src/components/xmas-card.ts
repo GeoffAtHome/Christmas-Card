@@ -49,7 +49,7 @@ export class XmasCard extends connect(store)(LitElement) {
   public xmasCardData!: XmasCardData;
 
   @property({ type: String })
-  private year = '2023';
+  private year = '2024';
 
   @property({ type: String })
   private side: CardSide = 'front';
@@ -142,11 +142,13 @@ export class XmasCard extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
-    const [width, height] = getContainedSize(this.image);
-    this.offsetW = (state.app!.scaleWidth - width) / 2;
-    this.offsetH = (state.app!.scaleHeight - height) / 2;
-    this.scaleWidth = width / this.xmasCardData![this.side].cardGrid.m;
-    this.scaleHeight = height / this.xmasCardData![this.side].cardGrid.n;
+    if (this.image !== null) {
+      const [width, height] = getContainedSize(this.image);
+      this.offsetW = (state.app!.scaleWidth - width) / 2;
+      this.offsetH = (state.app!.scaleHeight - height) / 2;
+      this.scaleWidth = width / this.xmasCardData![this.side].cardGrid.m;
+      this.scaleHeight = height / this.xmasCardData![this.side].cardGrid.n;
+    }
   }
 
   _ShowImage(event: MouseEvent) {

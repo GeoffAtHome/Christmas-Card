@@ -40,6 +40,8 @@ import './xmas-main';
 import { CardSide, Pages, XmasCardData } from './card-type';
 import { arrowBackIcon, menuIcon, plusIcon } from './my-icons';
 
+const theYears = [2024, 2023, 2022];
+
 function _BackButtonClicked() {
   window.history.back();
 }
@@ -283,9 +285,7 @@ export class MainApp extends connect(store)(LitElement) {
   }
 
   private getYears() {
-    const years = [2023, 2022];
-
-    return years.map(
+    return theYears.map(
       year =>
         html`<a ?selected="${Number(this._year) === year}" href="/#${year}#card"
           >${year}</a
