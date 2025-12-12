@@ -77,8 +77,8 @@ export interface AppActionUpdateDrawerState
   extends Action<'UPDATE_DRAWER_STATE'> {
   opened: boolean;
 }
-export interface AppActionOpenSnackbar extends Action<'OPEN_SNACKBAR'> {}
-export interface AppActionCloseSnackbar extends Action<'CLOSE_SNACKBAR'> {}
+export interface AppActionOpenSnackbar extends Action<'OPEN_SNACKBAR'> { }
+export interface AppActionCloseSnackbar extends Action<'CLOSE_SNACKBAR'> { }
 export interface AppActionNotifyMessages extends Action<'NOTIFY_MESSAGE'> {
   message: string;
 }

@@ -1,2 +1,2 @@
-export const thisYear = 2024;
-export const theYears = [2024, 2023, 2022];
+export const thisYear = 2025;
+export const theYears = [2025, 2024, 2023, 2022];

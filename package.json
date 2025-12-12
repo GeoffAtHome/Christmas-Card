@@ -11,11 +11,9 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "storybook": "tsc && npm run analyze -- --exclude dist && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds -c .storybook/server.mjs\"",
     "storybook:build": "tsc && npm run analyze -- --exclude dist && build-storybook",
-    "buildx": "rimraf dist && tsc && rollup -c rollup.config.js",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
-    "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
-    "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
+    "clean": "vite clean",
+    "build": "vite build",
+    "dev": "vite --host"
   },
   "dependencies": {
     "@lit/context": "^1.1.0",
@@ -23,8 +21,6 @@
     "@material/mwc-drawer": "^0.27.0",
     "@material/mwc-top-app-bar": "^0.27.0",
     "@polymer/polymer": "^3.5.1",
-    "@pwabuilder/pwainstall": "^1.6.7",
-    "@pwabuilder/pwaupdate": "^0.2.1",
     "import": "^0.0.6",
     "lit": "^3.0.0",
     "material-components-web": "^14.0.0",
@@ -37,72 +33,8 @@
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.16.4",
-    "@custom-elements-manifest/analyzer": "^0.4.17",
-    "@open-wc/building-rollup": "^2.0.2",
-    "@open-wc/eslint-config": "^8.0.2",
-    "@open-wc/testing": "^3.1.6",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "@rollup/plugin-terser": "^0.1.0",
-    "@types/node-fetch": "^2.6.2",
-    "@typescript-eslint/eslint-plugin": "^6.17.0",
-    "@typescript-eslint/parser": "^6.17.0",
-    "@web/dev-server": "^0.1.34",
-    "@web/dev-server-storybook": "^0.0.2",
-    "@web/rollup-plugin-html": "^1.11.0",
-    "@web/rollup-plugin-import-meta-assets": "^1.0.7",
-    "@web/test-runner": "^0.14.0",
-    "babel-plugin-template-html-minifier": "^4.1.0",
-    "concurrently": "^5.3.0",
-    "deepmerge": "^4.2.2",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.79.1",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-workbox": "^8.1.0",
-    "typescript": "^5.3.3"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "no-unused-vars": "off",
-      "import/no-unresolved": "off",
-      "import/extensions": [
-        "warn",
-        "never",
-        {
-          "ignorePackages": true
-        }
-      ]
-    }
-  },
-  "prettier": {
-    "singleQuote": true,
-    "arrowParens": "avoid"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
-  "customElements": "custom-elements.json"
+    "typescript": "~5.7.2",
+    "vite": "^6.3.1",
+    "vite-plugin-pwa": "^1.0.2"
+  }
 }

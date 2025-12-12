@@ -14,7 +14,7 @@ import { readCSV } from './readCSV';
 import { saveTheData } from './saveTheData';
 import { processSizes } from './readSizes';
 
-const year = '2024';
+const year = '2025';
 const frontPrefix = 'O-';
 const backPrefix = 'B-';
 const sizesFile = 'sizes.txt';

@@ -34,8 +34,6 @@ import {
 import '@material/mwc-top-app-bar';
 import '@material/mwc-drawer';
 import '@material/mwc-button';
-import '@pwabuilder/pwainstall';
-import '@pwabuilder/pwaupdate';
 import './xmas-main';
 import { CardSide, Pages, XmasCardData } from './card-type';
 import { arrowBackIcon, menuIcon, plusIcon } from './my-icons';
@@ -170,8 +168,8 @@ export class MainApp extends connect(store)(LitElement) {
           <mwc-top-app-bar ?active="${this._page !== 'card'}" centerTitle>
             <div slot="title">
               ${this._xMasCardData !== undefined
-                ? this._xMasCardData[this._side].cardGrid.t
-                : 'Loading...'}
+        ? this._xMasCardData[this._side].cardGrid.t
+        : 'Loading...'}
             </div>
             <mwc-button
               title="Menu"
@@ -200,9 +198,6 @@ export class MainApp extends connect(store)(LitElement) {
           </div>
         </div>
       </mwc-drawer>
-
-      <pwa-install></pwa-install>
-      <pwa-update offlineToastDuration="0" swpath="sw.js"></pwa-update>
     `;
   }
 
