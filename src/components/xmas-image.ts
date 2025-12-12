@@ -54,7 +54,7 @@ export class XmasImage extends connect(store)(LitElement) {
         .initialSlide=${this.index}
         slides-per-view="auto"
         centered-slides
-        effect="cube"
+        effect="coverflow"
         keyboard
         navigation
         pagination
