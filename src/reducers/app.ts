@@ -13,8 +13,6 @@ import { Reducer } from 'redux';
 import {
   UPDATE_PAGE,
   UPDATE_OFFLINE,
-  OPEN_SNACKBAR,
-  CLOSE_SNACKBAR,
   UPDATE_DRAWER_STATE,
   NOTIFY_MESSAGE,
   POPUP_IMAGE,
@@ -33,7 +31,6 @@ export interface AppState {
   offline: boolean;
   message: string;
   drawerOpened: boolean;
-  snackbarOpened: boolean;
   title: string;
   side: CardSide;
   index: number;
@@ -55,7 +52,6 @@ const INITIAL_STATE: AppState = {
   offline: false,
   message: '',
   drawerOpened: false,
-  snackbarOpened: false,
   title: '',
   side: 'front',
   index: -1,
@@ -145,16 +141,6 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         drawerOpened: action.opened,
-      };
-    case OPEN_SNACKBAR:
-      return {
-        ...state,
-        snackbarOpened: true,
-      };
-    case CLOSE_SNACKBAR:
-      return {
-        ...state,
-        snackbarOpened: false,
       };
     default:
       return state;

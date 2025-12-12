@@ -24,7 +24,6 @@ import { store, RootState } from '../store';
 // These are the actions needed by this element.
 import {
   navigate,
-  updateOffline,
   updateDrawerState,
   fileLoad,
   switchSide,
@@ -45,9 +44,6 @@ function _BackButtonClicked() {
 
 @customElement('main-app')
 export class MainApp extends connect(store)(LitElement) {
-  @query('#track')
-  private track: any;
-
   @property({ type: Boolean })
   private _drawerOpened = false;
 
@@ -189,7 +185,7 @@ export class MainApp extends connect(store)(LitElement) {
             >
           </mwc-top-app-bar>
           <div>
-            <main id="track" role="main">
+            <main role="main">
               <xmas-main
                 .xmasCardData=${this._xMasCardData}
                 ._page=${this._page}
@@ -212,7 +208,6 @@ export class MainApp extends connect(store)(LitElement) {
     installRouter(location =>
       store.dispatch(navigate(decodeURIComponent(location.href)))
     );
-    installOfflineWatcher(offline => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`, () =>
       store.dispatch(updateDrawerState(false))
     );

@@ -17,7 +17,6 @@ import { customElement, property } from 'lit/decorators.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { CardSide, XmasCardData, destLarge } from './card-type';
-import './snack-bar';
 import { store, RootState } from '../store';
 
 @customElement('xmas-large-image')
@@ -31,9 +30,6 @@ export class XmasLargeImage extends connect(store)(LitElement) {
   @property({ type: String })
   private side: CardSide = 'front';
 
-  @property({ type: Boolean })
-  private _snackbarOpened = false;
-
   @property({ type: Number })
   private index = 0;
 
@@ -42,7 +38,6 @@ export class XmasLargeImage extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
-    this._snackbarOpened = state.app!.snackbarOpened;
   }
 
   protected render() {
@@ -50,15 +45,10 @@ export class XmasLargeImage extends connect(store)(LitElement) {
       <a href="#${this.year}#card#${this.side}">
         <img
           src="${this.xmasCardData!.images}/${this.side}/${destLarge}/${this
-            .index}.webp"
+        .index}.webp"
           alt="${this.xmasCardData![this.side].cardData[this.index].t}"
         />
       </a>
-      <snack-bar ?active="${this._snackbarOpened}">
-        ${this.xmasCardData !== undefined
-          ? this.xmasCardData[this.side].cardData[this.index].t
-          : ''}
-      </snack-bar>
     `;
   }
 

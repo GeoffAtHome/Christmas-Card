@@ -26,8 +26,6 @@ export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const FILE_LOAD = 'FILE_LOAD';
 export const FILE_LOAD_FULFILLED = 'FILE_LOAD_FULFILLED';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
-export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 export const NOTIFY_MESSAGE = 'NOTIFY_MESSAGE';
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
   year: string;
@@ -77,8 +75,6 @@ export interface AppActionUpdateDrawerState
   extends Action<'UPDATE_DRAWER_STATE'> {
   opened: boolean;
 }
-export interface AppActionOpenSnackbar extends Action<'OPEN_SNACKBAR'> { }
-export interface AppActionCloseSnackbar extends Action<'CLOSE_SNACKBAR'> { }
 export interface AppActionNotifyMessages extends Action<'NOTIFY_MESSAGE'> {
   message: string;
 }
@@ -93,8 +89,6 @@ export type AppAction =
   | AppActionUpdateIndex
   | AppActionUpdateOffline
   | AppActionUpdateDrawerState
-  | AppActionOpenSnackbar
-  | AppActionCloseSnackbar
   | AppActionNotifyMessages;
 
 type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>;
@@ -225,38 +219,3 @@ export const navigate: ActionCreator<ThunkResult> =
     }
   };
 
-let snackbarTimer: number;
-
-export const showSnackbar: ActionCreator<ThunkResult> = () => dispatch => {
-  dispatch({
-    type: OPEN_SNACKBAR,
-  });
-  window.clearTimeout(snackbarTimer);
-  snackbarTimer = window.setTimeout(
-    () => dispatch({ type: CLOSE_SNACKBAR }),
-    3000
-  );
-};
-
-export const notifyMessage: ActionCreator<ThunkResult> =
-  (message: string) => dispatch => {
-    dispatch(showSnackbar());
-    dispatch({
-      type: NOTIFY_MESSAGE,
-      message,
-    });
-  };
-
-export const updateOffline: ActionCreator<ThunkResult> =
-  (offline: boolean) => (dispatch, getState) => {
-    // Show the snackbar only if offline status changes.
-    if (offline !== getState().app!.offline) {
-      dispatch(showSnackbar());
-    }
-    const message: string = `You are now ${offline ? 'offline' : 'online'}`;
-
-    dispatch({
-      type: NOTIFY_MESSAGE,
-      message,
-    });
-  };
