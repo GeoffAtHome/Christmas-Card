@@ -75,13 +75,13 @@ export class XmasImage extends connect(store)(LitElement) {
         <swiper-slide>
           <a href="#${this.year}#large#${this.side}#${index}">
             <img
-              style="display:block; width:${this.xmasCardData![this.side]
-                .cardData[index].m}px ;height:${this.xmasCardData![this.side]
-                .cardData[index].n}px;"
+              style="display:block;width:${this.xmasCardData![this.side]
+          .cardData[index].m}px;height:${this.xmasCardData![this.side]
+            .cardData[index].n}px;"
               src="data:image/webp;base64,${this.xmasCardData![this.side]
-                .cardData[index].d}"
+          .cardData[index].d}"
               large="${this.xmasCardData!.images}/${this
-                .side}/${destLarge}/${index}.webp"
+          .side}/${destLarge}/${index}.webp"
               alt="${image.t}"
               loading="lazy"
               @load=${imageLoaded}

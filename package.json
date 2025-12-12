@@ -16,25 +16,25 @@
     "dev": "vite --host"
   },
   "dependencies": {
-    "@lit/context": "^1.1.0",
+    "@lit/context": "^1.1.6",
     "@material/mwc-button": "^0.27.0",
     "@material/mwc-drawer": "^0.27.0",
     "@material/mwc-top-app-bar": "^0.27.0",
-    "@polymer/polymer": "^3.5.1",
+    "@polymer/polymer": "^3.5.2",
     "import": "^0.0.6",
-    "lit": "^3.0.0",
+    "lit": "^3.3.1",
     "material-components-web": "^14.0.0",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.2.0",
     "redux-promise-middleware": "^6.2.0",
     "redux-promise-middleware-actions": "^3.1.0",
     "redux-thunk": "^2.4.2",
-    "swiper": "^11.0.5",
-    "unfetch": "^4.2.0"
+    "swiper": "^12.0.3",
+    "unfetch": "^5.0.0"
   },
   "devDependencies": {
-    "typescript": "~5.7.2",
-    "vite": "^6.3.1",
-    "vite-plugin-pwa": "^1.0.2"
+    "typescript": "~5.9.3",
+    "vite": "^7.2.7",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
