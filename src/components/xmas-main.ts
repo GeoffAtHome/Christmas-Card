@@ -4,8 +4,10 @@ import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 
 import { store } from '../store';
-import { popupImage, showSnackbar } from '../actions/app';
-import { CardSide, Pages, XmasCardData } from './card-type';
+import { popupImage } from '../actions/app';
+import { Pages, XmasCardData } from './card-type';
+
+import './popup-image';
 
 @customElement('xmas-main')
 export class xmasMain extends LitElement {
@@ -51,7 +53,7 @@ export class xmasMain extends LitElement {
     }
 
     .app-footer {
-      font-size: calc(12px + 0.5v min);
+      font-size: calc(12px + 0.5vmin);
       align-items: center;
     }
 
@@ -63,7 +65,7 @@ export class xmasMain extends LitElement {
   render() {
     switch (this._page) {
       case 'image':
-        store.dispatch(popupImage('', ''));
+        store.dispatch(popupImage('', '', 0, 0, ''));
         return html` <xmas-image></xmas-image>`;
 
       case 'large':

@@ -18,6 +18,7 @@ import {
   POPUP_IMAGE,
   POPUP_MOUSEMOVE,
   FILE_LOAD_FULFILLED,
+  FILE_LOAD_REJECTED,
   SWITCH_SIDE,
   UPDATE_INDEX,
   RESIZE_IMAGE,
@@ -43,7 +44,7 @@ export interface AppState {
   currentImageWidth: number;
   currentImageHeight: number;
   currentTitle: string;
-  xmasCardData: XmasCardData;
+  xmasCardData?: XmasCardData;
 }
 
 const INITIAL_STATE: AppState = {
@@ -83,10 +84,18 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       if (!action.payload)
         return {
           ...state,
+          xmasCardData: undefined,
         };
       return {
         ...state,
         xmasCardData: action.payload,
+      };
+
+    case FILE_LOAD_REJECTED:
+      return {
+        ...state,
+        xmasCardData: undefined,
+        message: action.error,
       };
 
     case RESIZE_IMAGE:

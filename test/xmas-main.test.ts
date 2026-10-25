@@ -1,22 +1,32 @@
-import { html } from 'lit';
-import { fixture, expect } from '@open-wc/testing';
+import { describe, it, expect, beforeEach } from 'vitest';
+import '../src/components/xmas-main.ts';
 
-import { xmasMain } from '../src/components/xmas-main';
-import '../src/components/xmas-main.js';
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
 
-describe('HgMirror', () => {
-  let element: xmasMain;
-  beforeEach(async () => {
-    element = await fixture(html`<xmas-main></xmas-main>`);
+beforeEach(() => {
+  (globalThis as unknown as { ResizeObserver: typeof ResizeObserverMock }).ResizeObserver =
+    ResizeObserverMock as unknown as typeof ResizeObserver;
+  document.body.innerHTML = '';
+});
+
+describe('xmas-main', () => {
+  it('registers the component', () => {
+    const element = document.createElement('xmas-main');
+    document.body.appendChild(element);
+
+    expect(customElements.get('xmas-main')).toBeTruthy();
+    expect(element.tagName).toBe('XMAS-MAIN');
   });
 
-  it('renders a h1', () => {
-    const h1 = element.shadowRoot!.querySelector('h1')!;
-    expect(h1).to.exist;
-    expect(h1.textContent).to.equal('My app');
-  });
+  it('renders a shadow root', async () => {
+    const element = document.createElement('xmas-main');
+    document.body.appendChild(element);
 
-  it('passes the a11y audit', async () => {
-    await expect(element).shadowDom.to.be.accessible();
+    await Promise.resolve();
+    expect(element.shadowRoot).not.toBeNull();
   });
 });

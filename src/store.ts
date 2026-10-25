@@ -51,7 +51,7 @@ const devCompose: <Ext0, Ext1, StateExt0, StateExt1>(
 // section of the wiki for more details:
 // https://github.com/Polymer/pwa-starter-kit/wiki/4.-Redux-and-state-management
 export const store = createStore(
-  state => state as Reducer<RootState, RootAction>,
+  (state: RootState | undefined, _action: RootAction) => state ?? ({} as RootState),
   devCompose(
     lazyReducerEnhancer(combineReducers),
     applyMiddleware(thunk as ThunkMiddleware<RootState, RootAction>)
@@ -60,5 +60,5 @@ export const store = createStore(
 
 // Initially loaded reducers.
 store.addReducers({
-  app,
+  app: app as Reducer<any, any>,
 });

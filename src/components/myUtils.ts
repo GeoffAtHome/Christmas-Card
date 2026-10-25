@@ -1,11 +1,24 @@
 import { XmasCardData } from './card-type';
 
-// Define an async function to read the file
-export async function readFile(year: string) {
-  const filename = `${year}/${year}.json`;
-  const x = await fetch(filename);
-  if (!x.ok) return {};
+export async function readFile(year: string): Promise<XmasCardData> {
+  const filename = `${encodeURIComponent(year)}/${encodeURIComponent(year)}.json`;
 
-  const y = await x.text();
-  return JSON.parse(y) as XmasCardData;
+  try {
+    const response = await fetch(filename, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`Failed to load Christmas data for ${year}: ${response.status}`);
+    }
+
+    const text = await response.text();
+    const parsed = JSON.parse(text) as XmasCardData;
+
+    if (!parsed || typeof parsed !== 'object') {
+      throw new Error(`Invalid Christmas data format for ${year}`);
+    }
+
+    return parsed;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Unable to read data for ${year}: ${message}`);
+  }
 }

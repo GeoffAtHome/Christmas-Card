@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from 'lit';
 // eslint-disable-next-line import/extensions
-import { property, customElement, query } from 'lit/decorators.js';
+import { property, customElement } from 'lit/decorators.js';
 
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
 import { connect } from 'pwa-helpers/connect-mixin';
@@ -25,6 +25,7 @@ import { store, RootState } from '../store';
 import {
   navigate,
   updateDrawerState,
+  updateOffline,
   fileLoad,
   switchSide,
 } from '../actions/app';
@@ -211,6 +212,7 @@ export class MainApp extends connect(store)(LitElement) {
     installMediaQueryWatcher(`(min-width: 460px)`, () =>
       store.dispatch(updateDrawerState(false))
     );
+    installOfflineWatcher(offline => store.dispatch(updateOffline(offline)));
     this.addEventListener('touchstart', this.handleStart, false);
     this.addEventListener('touchend', this.handleEnd, false);
   }

@@ -11,8 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* eslint-disable import/extensions */
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { createAsyncAction } from 'redux-promise-middleware-actions';
-import { RootState, store } from '../store';
+import { RootState } from '../store';
 import { CardSide, Pages, XmasCardData } from '../components/card-type';
 import { readFile } from '../components/myUtils';
 
@@ -25,6 +24,7 @@ export const UPDATE_INDEX = 'UPDATE_INDEX';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const FILE_LOAD = 'FILE_LOAD';
 export const FILE_LOAD_FULFILLED = 'FILE_LOAD_FULFILLED';
+export const FILE_LOAD_REJECTED = 'FILE_LOAD_REJECTED';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const NOTIFY_MESSAGE = 'NOTIFY_MESSAGE';
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
@@ -40,6 +40,12 @@ export interface AppActionFileLoad extends Action<'FILE_LOAD'> {
 export interface AppActionFileLoadFulfilled
   extends Action<'FILE_LOAD_FULFILLED'> {
   payload: XmasCardData;
+}
+
+export interface AppActionFileLoadRejected
+  extends Action<'FILE_LOAD_REJECTED'> {
+  year: string;
+  error: string;
 }
 
 export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
@@ -82,6 +88,7 @@ export type AppAction =
   | AppActionUpdatePage
   | AppActionFileLoad
   | AppActionFileLoadFulfilled
+  | AppActionFileLoadRejected
   | AppActionResizeImage
   | AppActionPopupImage
   | AppActionPopupMouseMove
@@ -112,13 +119,21 @@ const fileLoadFulfilled: ActionCreator<
   AppActionFileLoadFulfilled
 > = payload => ({ type: FILE_LOAD_FULFILLED, payload });
 
-export const fileLoad = createAsyncAction('FILE_LOAD', async year => {
-  xmasData = (await readFile(year)) as XmasCardData;
-  store.dispatch(fileLoadFulfilled(xmasData));
-  return {
-    year,
-  };
-});
+const fileLoadRejected: ActionCreator<AppActionFileLoadRejected> = (
+  year: string,
+  error: string
+) => ({ type: FILE_LOAD_REJECTED, year, error });
+
+export const fileLoad = (year: string): ThunkResult => async dispatch => {
+  dispatch({ type: FILE_LOAD, year } satisfies AppActionFileLoad);
+
+  try {
+    xmasData = (await readFile(year)) as XmasCardData;
+    dispatch(fileLoadFulfilled(xmasData));
+  } catch (error) {
+    dispatch(fileLoadRejected(year, error instanceof Error ? error.message : String(error)));
+  }
+};
 
 export const resizeImage: ActionCreator<AppActionResizeImage> = (
   width: number,
@@ -174,28 +189,32 @@ export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (
   opened,
 });
 
+export const updateOffline: ActionCreator<AppActionUpdateOffline> = (
+  offline: boolean
+) => ({
+  type: UPDATE_OFFLINE,
+  offline,
+});
+
 const loadPage: ActionCreator<ThunkResult> =
   (year: string, page: Pages, side: string, index: number) => dispatch => {
     switch (page) {
       case 'card':
-        import('../components/xmas-card').then(() => {
-          // Put code in here that you want to run every time when
-          // navigating to view1 after my-view1 is loaded.
-        });
+        void import('../components/xmas-card');
         break;
 
       case 'image':
-        import('../components/xmas-image');
+        void import('../components/xmas-image');
         break;
 
       case 'large':
-        import('../components/xmas-large-image');
+        void import('../components/xmas-large-image');
         break;
 
       default:
         // eslint-disable-next-line no-param-reassign
         page = 'view404';
-        import('../components/my-view404');
+        void import('../components/my-view404');
     }
 
     dispatch(updatePage(year, page, side, index));

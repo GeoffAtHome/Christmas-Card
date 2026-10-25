@@ -70,12 +70,21 @@ export class XmasCard extends connect(store)(LitElement) {
   @property({ type: Number })
   private offsetH = 0;
 
-  private resizeObserver = new ResizeObserver(this._resize);
+  private resizeObserver?: ResizeObserver;
+
+  constructor() {
+    super();
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(this._resize);
+    }
+  }
 
   protected firstUpdated(
     _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
-    this.resizeObserver.observe(this.image);
+    if (this.resizeObserver && this.image) {
+      this.resizeObserver.observe(this.image);
+    }
   }
 
   protected render() {
@@ -186,7 +195,7 @@ export class XmasCard extends connect(store)(LitElement) {
 
   // eslint-disable-next-line class-methods-use-this
   private _HideImage(_event: MouseEvent) {
-    store.dispatch(popupImage('', '', '', 0, 0));
+    store.dispatch(popupImage('', '', 0, 0, ''));
   }
 
   // eslint-disable-next-line class-methods-use-this
