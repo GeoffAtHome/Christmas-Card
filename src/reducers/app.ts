@@ -21,7 +21,6 @@ import {
   FILE_LOAD_REJECTED,
   SWITCH_SIDE,
   UPDATE_INDEX,
-  RESIZE_IMAGE,
 } from '../actions/app';
 import { RootAction } from '../store';
 import { CardSide, Pages, XmasCardData } from '../components/card-type';
@@ -37,8 +36,6 @@ export interface AppState {
   index: number;
   xPos: number;
   yPos: number;
-  scaleWidth: number;
-  scaleHeight: number;
   currentImage: string;
   currentImageData: string;
   currentImageWidth: number;
@@ -58,8 +55,6 @@ const INITIAL_STATE: AppState = {
   index: -1,
   xPos: 0,
   yPos: 0,
-  scaleWidth: 1.0,
-  scaleHeight: 1.0,
   currentImage: '',
   currentImageData: '',
   currentImageWidth: 0,
@@ -96,13 +91,6 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
         ...state,
         xmasCardData: undefined,
         message: action.error,
-      };
-
-    case RESIZE_IMAGE:
-      return {
-        ...state,
-        scaleWidth: action.width,
-        scaleHeight: action.height,
       };
 
     case POPUP_IMAGE:

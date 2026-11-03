@@ -8,10 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 
 // eslint-disable-next-line import/extensions
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { connect } from 'pwa-helpers';
 
 // These are the shared styles needed by this element.
@@ -23,32 +23,15 @@ import {
   destLarge,
   destSmall,
 } from './card-type';
-import { popupImage, popupMouseMove, resizeImage } from '../actions/app';
+import { popupImage, popupMouseMove } from '../actions/app';
 import { RootState, store } from '../store';
 import { thisYear } from '../years';
 
 import './popup-image';
 import { imageLoaded } from './data-image';
 
-function getContainedSize(img: HTMLImageElement) {
-  const ratio = img.naturalWidth / img.naturalHeight;
-  let width = img.height * ratio;
-  let { height } = img;
-  if (Number.isNaN(ratio)) {
-    width = img.width;
-    height = img.height;
-  } else if (width > img.width) {
-    width = img.width;
-    height = img.width / ratio;
-  }
-  return [width, height];
-}
-
 @customElement('xmas-card')
 export class XmasCard extends connect(store)(LitElement) {
-  @query('#image')
-  private image: any;
-
   @property({ type: Object })
   public xmasCardData!: XmasCardData;
 
@@ -57,35 +40,6 @@ export class XmasCard extends connect(store)(LitElement) {
 
   @property({ type: String })
   private side: CardSide = 'front';
-
-  @property({ type: Number })
-  private scaleWidth = 1.0;
-
-  @property({ type: Number })
-  private scaleHeight = 1.0;
-
-  @property({ type: Number })
-  private offsetW = 0;
-
-  @property({ type: Number })
-  private offsetH = 0;
-
-  private resizeObserver?: ResizeObserver;
-
-  constructor() {
-    super();
-    if (typeof ResizeObserver !== 'undefined') {
-      this.resizeObserver = new ResizeObserver(this._resize);
-    }
-  }
-
-  protected firstUpdated(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
-  ): void {
-    if (this.resizeObserver && this.image) {
-      this.resizeObserver.observe(this.image);
-    }
-  }
 
   protected render() {
     if (this.xmasCardData !== undefined)
@@ -104,7 +58,7 @@ export class XmasCard extends connect(store)(LitElement) {
         <map id="imageMap" name="imageMap">
           ${this.xmasCardData![this.side].cardData.map(
             (item: CardItem, index: number) =>
-              this.addArea(item, index, this.scaleWidth, this.scaleHeight)
+              this.addArea(item, index)
           )}
         </map>
       `;
@@ -113,9 +67,7 @@ export class XmasCard extends connect(store)(LitElement) {
 
   addArea(
     entry: CardItem,
-    index: number,
-    scaleWidth: number,
-    scaleHeight: number
+    index: number
   ): TemplateResult {
     let xPos = entry.x;
     let yPos = entry.y;
@@ -141,9 +93,7 @@ export class XmasCard extends connect(store)(LitElement) {
       @mouseenter=${this._ShowImage}
       @mouseleave=${this._HideImage}
       @mousemove=${this._moveMouse}
-      coords="${this.offsetW + xPos * scaleWidth},${this.offsetH +
-      yPos * scaleHeight},${this.offsetW + width * scaleWidth},${this.offsetH +
-      height * scaleHeight}"
+      coords="${xPos},${yPos},${width},${height}"
       href="#${this.year}#image#${this.side}#${index}"
     />`;
   }
@@ -152,17 +102,6 @@ export class XmasCard extends connect(store)(LitElement) {
     this.xmasCardData = state.app!.xmasCardData;
     this.year = state.app!.year;
     this.side = state.app!.side;
-    if (
-      this.image !== null &&
-      !Number.isNaN(state.app!.scaleWidth) &&
-      !Number.isNaN(state.app!.scaleHeight)
-    ) {
-      const [width, height] = getContainedSize(this.image);
-      this.offsetW = (state.app!.scaleWidth - width) / 2;
-      this.offsetH = (state.app!.scaleHeight - height) / 2;
-      this.scaleWidth = width / this.xmasCardData![this.side].cardGrid.m;
-      this.scaleHeight = height / this.xmasCardData![this.side].cardGrid.n;
-    }
   }
 
   _ShowImage(event: MouseEvent) {
@@ -196,13 +135,6 @@ export class XmasCard extends connect(store)(LitElement) {
   // eslint-disable-next-line class-methods-use-this
   private _HideImage(_event: MouseEvent) {
     store.dispatch(popupImage('', '', 0, 0, ''));
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private _resize(resize: Array<ResizeObserverEntry>) {
-    const { width, height } = resize[0].contentRect;
-    if (!Number.isNaN(width) && !Number.isNaN(height))
-      store.dispatch(resizeImage(width, height));
   }
 
   static get styles() {

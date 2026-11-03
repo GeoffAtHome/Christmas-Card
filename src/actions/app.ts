@@ -16,7 +16,6 @@ import { CardSide, Pages, XmasCardData } from '../components/card-type';
 import { readFile } from '../components/myUtils';
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const RESIZE_IMAGE = 'RESIZE_IMAGE';
 export const POPUP_IMAGE = 'POPUP_IMAGE';
 export const POPUP_MOUSEMOVE = 'POPUP_MOUSEMOVE';
 export const SWITCH_SIDE = 'SWITCH_SIDE';
@@ -51,11 +50,6 @@ export interface AppActionFileLoadRejected
 export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
   offline: boolean;
 }
-export interface AppActionResizeImage extends Action<'RESIZE_IMAGE'> {
-  width: number;
-  height: number;
-}
-
 export interface AppActionPopupImage extends Action<'POPUP_IMAGE'> {
   image: string;
   data: string;
@@ -89,7 +83,6 @@ export type AppAction =
   | AppActionFileLoad
   | AppActionFileLoadFulfilled
   | AppActionFileLoadRejected
-  | AppActionResizeImage
   | AppActionPopupImage
   | AppActionPopupMouseMove
   | AppActionSwitchSide
@@ -134,15 +127,6 @@ export const fileLoad = (year: string): ThunkResult => async dispatch => {
     dispatch(fileLoadRejected(year, error instanceof Error ? error.message : String(error)));
   }
 };
-
-export const resizeImage: ActionCreator<AppActionResizeImage> = (
-  width: number,
-  height: number
-) => ({
-  type: RESIZE_IMAGE,
-  width,
-  height,
-});
 
 export const popupImage: ActionCreator<AppActionPopupImage> = (
   image: string,
@@ -237,4 +221,3 @@ export const navigate: ActionCreator<ThunkResult> =
       dispatch(updateDrawerState(false));
     }
   };
-
