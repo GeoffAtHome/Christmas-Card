@@ -8,24 +8,24 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, LitElement } from 'lit';
-import { connect } from 'pwa-helpers';
+import { html, css, LitElement } from "lit";
+import { connect } from "pwa-helpers";
 
 // eslint-disable-next-line import/extensions
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property } from "lit/decorators.js";
 
 // These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles';
-import { RootState, store } from '../store';
-import { imageLoaded } from './data-image';
+import { SharedStyles } from "./shared-styles";
+import { RootState, store } from "../store";
+import { imageLoaded } from "./data-image";
 
-@customElement('popup-image')
+@customElement("popup-image")
 export class PopupImage extends connect(store)(LitElement) {
   @property({ type: String })
-  private image = '';
+  private image = "";
 
   @property({ type: String })
-  private data = '';
+  private data = "";
 
   @property({ type: Number })
   width = 0;
@@ -34,7 +34,7 @@ export class PopupImage extends connect(store)(LitElement) {
   height = 0;
 
   @property({ type: String })
-  private text = '';
+  private text = "";
 
   @property({ type: Number })
   xPos = 0;
@@ -52,6 +52,7 @@ export class PopupImage extends connect(store)(LitElement) {
         alt="${this.text}"
         width="280px"
         loading="eager"
+        z-index="1000"
         @load=${imageLoaded}
       />
       <p>${this.text}</p>
@@ -64,7 +65,7 @@ export class PopupImage extends connect(store)(LitElement) {
     this.width = state.app!.currentImageWidth * 0.27;
     this.height = state.app!.currentImageHeight * 0.27;
     this.text = state.app!.currentTitle;
-    this.style.display = this.image === '' ? 'none' : 'block';
+    this.style.display = this.image === "" ? "none" : "block";
 
     const { height } = this.getBoundingClientRect();
     const wh = window.innerHeight - 5;
@@ -72,14 +73,14 @@ export class PopupImage extends connect(store)(LitElement) {
 
     this.style.top = `${Math.min(
       Math.max(100, state.app!.yPos - this.clientHeight * 0.5),
-      wh - height
+      wh - height,
     )}px`;
 
     if (state.app!.xPos < ww / 2) {
       this.style.left = `${state.app!.xPos + 5}px`;
-      this.style.right = '';
+      this.style.right = "";
     } else {
-      this.style.left = '';
+      this.style.left = "";
       this.style.right = `${ww - state.app!.xPos + 5}px`;
     }
   }
