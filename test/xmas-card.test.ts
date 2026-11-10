@@ -2,9 +2,10 @@ import { describe, it, expect } from "vitest";
 import { render } from "lit";
 import { XmasCard } from "../src/components/xmas-card";
 import { CardData, CardGrid, CardItem } from "../src/components/card-type";
+import { thisYear } from "../src/years";
 
 describe("xmas-card image map", () => {
-  it("keeps area coordinates in the card image coordinate space", () => {
+  it("scales photo hit areas with the displayed card image", () => {
     const item: CardItem = {
       i: 18,
       x: 6,
@@ -41,8 +42,12 @@ describe("xmas-card image map", () => {
     const container = document.createElement("div");
     render(card.addArea(item, 18), container);
 
-    expect(container.querySelector("area")?.getAttribute("coords")).toBe(
-      "768,547.5,1024,730",
+    const hitArea = container.querySelector("a.image-area");
+    expect(hitArea?.getAttribute("style")).toBe(
+      "left:75%;top:75%;width:25%;height:25%;",
+    );
+    expect(hitArea?.getAttribute("href")).toBe(
+      `#${thisYear}#image#front#18`,
     );
   });
 });

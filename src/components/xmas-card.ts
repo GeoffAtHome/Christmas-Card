@@ -42,26 +42,26 @@ export class XmasCard extends connect(store)(LitElement) {
   private side: CardSide = 'front';
 
   protected render() {
-    if (this.xmasCardData !== undefined)
+    if (this.xmasCardData !== undefined) {
+      const cardGrid = this.xmasCardData[this.side].cardGrid;
       return html`
-        <img
-          id="image"
-          style="display:block; width:${this.xmasCardData[this.side].cardGrid
-            .m}px;height:${this.xmasCardData[this.side].cardGrid.n}px;"
-          large="${this.xmasCardData.images}/${this.side}/${destLarge}.webp"
-          src="data:image/webp;base64,${this.xmasCardData[this.side].cardGrid
-            .d}"
-          alt="${this.xmasCardData[this.side].cardGrid.t}"
-          usemap="#imageMap"
-          @load=${imageLoaded}
-        />
-        <map id="imageMap" name="imageMap">
-          ${this.xmasCardData![this.side].cardData.map(
+        <div class="card-image-container">
+          <img
+            id="image"
+            width="${cardGrid.m}"
+            height="${cardGrid.n}"
+            large="${this.xmasCardData.images}/${this.side}/${destLarge}.webp"
+            src="data:image/webp;base64,${cardGrid.d}"
+            alt="${cardGrid.t}"
+            @load=${imageLoaded}
+          />
+          ${this.xmasCardData[this.side].cardData.map(
             (item: CardItem, index: number) =>
               this.addArea(item, index)
           )}
-        </map>
+        </div>
       `;
+    }
     return html``;
   }
 
@@ -87,15 +87,23 @@ export class XmasCard extends connect(store)(LitElement) {
       height = (entry.y + entry.h) * factorY;
     }
 
-    return html`<area
-      shape="rect"
+    const { w: imageWidth, h: imageHeight } =
+      this.xmasCardData![this.side].cardGrid;
+    const left = (xPos / imageWidth) * 100;
+    const top = (yPos / imageHeight) * 100;
+    const areaWidth = ((width - xPos) / imageWidth) * 100;
+    const areaHeight = ((height - yPos) / imageHeight) * 100;
+
+    return html`<a
+      class="image-area"
       index=${index}
       @mouseenter=${this._ShowImage}
       @mouseleave=${this._HideImage}
       @mousemove=${this._moveMouse}
-      coords="${xPos},${yPos},${width},${height}"
+      style="left:${left}%;top:${top}%;width:${areaWidth}%;height:${areaHeight}%;"
+      aria-label="${entry.t}"
       href="#${this.year}#image#${this.side}#${index}"
-    />`;
+    ></a>`;
   }
 
   stateChanged(state: RootState) {
@@ -152,10 +160,28 @@ export class XmasCard extends connect(store)(LitElement) {
           max-width: 100%;
         }
 
-        img {
+        .card-image-container {
+          position: relative;
+          display: inline-block;
+          line-height: 0;
           max-width: 99vw;
           max-height: calc(100vh - 64px);
         }
+
+        img {
+          display: block;
+          width: auto;
+          height: auto;
+          max-width: 99vw;
+          max-height: calc(100vh - 64px);
+        }
+
+        .image-area {
+          position: absolute;
+          display: block;
+          z-index: 1;
+        }
+
       `,
     ];
   }
